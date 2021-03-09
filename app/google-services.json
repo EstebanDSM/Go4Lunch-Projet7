@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "27230652092",
+    "firebase_url": "https://go4lunch-guzzler13-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "go4lunch-guzzler13",
+    "storage_bucket": "go4lunch-guzzler13.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:27230652092:android:4949e4c2b270d48cd2f2b9",
+        "android_client_info": {
+          "package_name": "com.guzzler.go4lunch_p7"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "27230652092-b8bkq21p072sqvs4i77enllmp5938dkg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeDkJzEZPE8x1bNFTF5TwQWjViSVlyICI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "27230652092-b8bkq21p072sqvs4i77enllmp5938dkg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
