@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         return (this.getCurrentUser() != null);
     }
 
-
     private void startSignInActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
