@@ -30,13 +30,11 @@ public class LoginActivity extends Activity {
     //FOR DATA
     // 1 - Identifier for Sign-In Activity
     private static final int RC_SIGN_IN = 123;
-
+    boolean doubleBackToExitPressedOnce = false;
     @BindView(R.id.log_activity_coordinator_layout)
 
     // Un CoordinatorLayout est une fonctionnalité super cool de Material Design qui aide à créer des mises en page attrayantes et harmonisées.
     private CoordinatorLayout coordinatorLayout;
-    boolean doubleBackToExitPressedOnce = false;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

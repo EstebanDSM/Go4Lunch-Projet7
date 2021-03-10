@@ -9,9 +9,10 @@
     <string name="error_unknown_error">Une erreur inconnue s\'est produite</string>
     <string name="error_no_internet">Pas de connexion internet ?</string>
     <string name="error_authentication_canceled">Authentification annulée</string>
-    <string name="toolbar_title_login_activity">Profil</string>
+    <string name="toolbar_title_login_activity">Login</string>
     <string name="connectWithSuccess">Connected</string>
     <string name="title_map">List View</string>
     <string name="title_list">Map View</string>
-    <string name="title_workmate">workmate</string>
+    <string name="title_workmate">Workmates</string>
+    <string name="activity_main_menu_search">Search</string>
 </resources>

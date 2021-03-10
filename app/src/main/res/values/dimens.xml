@@ -2,4 +2,5 @@
 <resources>
     <dimen name="default_large_margin">20dip</dimen>
     <dimen name="elevation_size">20dp</dimen>
+    <dimen name="padding_App_bar_height">55dp</dimen>
 </resources>
