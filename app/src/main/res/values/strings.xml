@@ -15,4 +15,13 @@
     <string name="title_list">List View</string>
     <string name="title_workmate">Workmates</string>
     <string name="activity_main_menu_search">Search</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="menu_logout">LOGOUT</string>
+    <string name="menu_settings">SETTINGS</string>
+    <string name="menu_lunch">YOUR LUNCH</string>
+    <string name="email_not_found">Email not found</string>
+    <string name="username_not_found">Username not found</string>
+    <string name="simple_app_name">Go4Lunch</string>
+    <string name="lunch">lunch with workmates</string>
 </resources>
