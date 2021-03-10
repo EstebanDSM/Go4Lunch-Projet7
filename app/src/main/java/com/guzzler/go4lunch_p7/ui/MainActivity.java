@@ -14,7 +14,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -22,8 +21,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.firebase.ui.auth.AuthUI;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,6 +33,7 @@ import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
 
     //FOR DESIGN
     Toolbar toolbar;
@@ -108,27 +106,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        //Gestion de la navigation au click sur la Navigation Drawer
-        int id = item.getItemId();
-        if (id == R.id.nav_logout) {
-            this.signOutFirebase();
-        }
-        this.drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
+        return false;
     }
-
-    private void signOutFirebase() {
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnSuccessListener(this, this.updateUI_AfterSucces());
-    }
-
-    private OnSuccessListener<Void> updateUI_AfterSucces() {
-        return aVoid -> {
-            startSignInActivity();
-        };
-    }
-
 
     private void configureToolBar() {
         this.toolbar = findViewById(R.id.activity_main_toolbar);
