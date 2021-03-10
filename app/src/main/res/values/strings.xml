@@ -11,8 +11,8 @@
     <string name="error_authentication_canceled">Authentification annulée</string>
     <string name="toolbar_title_login_activity">Login</string>
     <string name="connectWithSuccess">Connected</string>
-    <string name="title_map">List View</string>
-    <string name="title_list">Map View</string>
+    <string name="title_map">Map View</string>
+    <string name="title_list">List View</string>
     <string name="title_workmate">Workmates</string>
     <string name="activity_main_menu_search">Search</string>
 </resources>

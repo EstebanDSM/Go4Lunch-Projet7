@@ -18,8 +18,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.guzzler.go4lunch_p7.R;
+import com.guzzler.go4lunch_p7.api.UserHelper;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -93,14 +95,14 @@ public class LoginActivity extends Activity {
         IdpResponse response = IdpResponse.fromResultIntent(data);
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) { // SUCCESS
-
+                this.createWorkmate();
                 this.finish();
             } else { // ERRORS
 
                 // Show Snack Bar with a message
                 if (response == null) {
                     showSnackBar(this.coordinatorLayout, getString(R.string.error_authentication_canceled));
-                } else if (response.getError().getErrorCode() == ErrorCodes.NO_NETWORK) {
+                } else if (Objects.requireNonNull(response.getError()).getErrorCode() == ErrorCodes.NO_NETWORK) {
                     showSnackBar(this.coordinatorLayout, getString(R.string.error_no_internet));
                 } else if (response.getError().getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
                     showSnackBar(this.coordinatorLayout, getString(R.string.error_unknown_error));
@@ -122,6 +124,15 @@ public class LoginActivity extends Activity {
         Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT).show();
     }
 
+    // Méthode utilisée pour créer l'utilisateur qui s'est connecté avec succès
+    private void createWorkmate() {
+        if (this.getCurrentUser() != null) {
+            String urlPicture = (this.getCurrentUser().getPhotoUrl() != null) ? this.getCurrentUser().getPhotoUrl().toString() : null;
+            String name = this.getCurrentUser().getDisplayName();
+            String uid = this.getCurrentUser().getUid();
+            UserHelper.createWorkmate(uid, urlPicture, name).addOnFailureListener(this.onFailureListener());
+        }
+    }
 }
 
 
