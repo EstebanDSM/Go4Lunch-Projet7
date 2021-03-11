@@ -4,9 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class getTodayDate {
+public class GetTodayDate {
 
-    protected String getTodayDate() {
+    public static String getTodayDate() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sfDate = new SimpleDateFormat("d MMM yyyy",
                 Locale.getDefault());

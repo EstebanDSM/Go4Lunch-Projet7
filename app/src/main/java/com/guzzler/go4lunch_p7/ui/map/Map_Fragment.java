@@ -7,7 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.guzzler.go4lunch_p7.ui.BaseFragment;
 
-public class MapFragment extends BaseFragment {
+public class Map_Fragment extends BaseFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

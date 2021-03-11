@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
 
@@ -120,10 +121,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void signOutFirebase() {
         AuthUI.getInstance()
                 .signOut(this)
-                .addOnSuccessListener(this, this.updateUI_AfterSucces());
+                .addOnSuccessListener(this, this.startLogin_AfterSignOut());
     }
 
-    private OnSuccessListener<Void> updateUI_AfterSucces() {
+    private OnSuccessListener<Void> startLogin_AfterSignOut() {
         return aVoid -> {
             startSignInActivity();
         };

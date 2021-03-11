@@ -22,16 +22,16 @@ public class UserHelper {
         if (urlPicture == null)
             urlPicture = "https://unc.nc/wp-content/uploads/2020/07/Portrait_Placeholder-1.png";
         Workmate workmateToCreate = new Workmate(uid, urlPicture, name);
-        return com.guzzler.go4lunch_p7.api.UserHelper.getWorkmatesCollection().document(uid).set(workmateToCreate);
+        return UserHelper.getWorkmatesCollection().document(uid).set(workmateToCreate);
     }
 
     // --- GET ---
     public static Task<DocumentSnapshot> getWorkmate(String uid) {
-        return com.guzzler.go4lunch_p7.api.UserHelper.getWorkmatesCollection().document(uid).get();
+        return UserHelper.getWorkmatesCollection().document(uid).get();
     }
 
     // --- UPDATE ---
     public static Task<Void> updateUserSettings(String userId, boolean notification) {
-        return com.guzzler.go4lunch_p7.api.UserHelper.getWorkmatesCollection().document(userId).update("notification", notification);
+        return UserHelper.getWorkmatesCollection().document(userId).update("notification", notification);
     }
 }

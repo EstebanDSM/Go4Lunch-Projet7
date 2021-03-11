@@ -10,6 +10,10 @@ public class Workmate {
     private boolean notification;
 
 
+    // Pour essayer de corriger le bug sur la recyclerView des workmates.... mais non ça suffit pas.
+    public Workmate() {
+    }
+
     public Workmate(String uid, @Nullable String urlPicture, String name) {
         this.uid = uid;
         this.urlPicture = urlPicture;

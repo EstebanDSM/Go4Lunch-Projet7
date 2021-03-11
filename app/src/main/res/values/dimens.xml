@@ -4,4 +4,6 @@
     <dimen name="elevation_size">20dp</dimen>
     <dimen name="padding_App_bar_height">55dp</dimen>
     <dimen name="drawer_nav_header_height">160dp</dimen>
+    <dimen name="nav_header_vertical_space">8dp</dimen>
+    <dimen name="padding">20dp</dimen>
 </resources>
