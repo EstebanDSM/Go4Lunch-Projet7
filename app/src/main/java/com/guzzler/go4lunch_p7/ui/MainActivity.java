@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         //Gestion de la navigation au click sur la Navigation Drawer
         int id = item.getItemId();
+
         if (id == R.id.nav_logout) {
             this.signOutFirebase();
         }
@@ -127,12 +128,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
     }
 
-
+    // On récupère la toolbar
     private void configureToolBar() {
         this.toolbar = findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
     }
 
+    //On récupère le DrawerLayout, avec lui et la toolbar on créé le menu hamburger
     private void configureDrawerLayout() {
         this.drawerLayout = findViewById(R.id.main_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
