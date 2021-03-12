@@ -26,4 +26,7 @@
     <string name="lunch">lunch with workmates</string>
     <string name="guzzler13">GUZZLER13</string>
     <string name="Avatar">avatar</string>
+    <string name="notification_text">Notifications</string>
+    <string name="save_text">Save</string>
+    <string name="save_ok">Settings Saved</string>
 </resources>

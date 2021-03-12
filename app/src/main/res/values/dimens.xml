@@ -6,4 +6,6 @@
     <dimen name="drawer_nav_header_height">160dp</dimen>
     <dimen name="nav_header_vertical_space">8dp</dimen>
     <dimen name="padding">20dp</dimen>
+    <dimen name="margin_to_parent">8dp</dimen>
+    <dimen name="padding_to_parent">8dp</dimen>
 </resources>

@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureNavigationView();
 
 
-        if (!isCurrentUserLogged()) {
+        if (this.getCurrentUser() != null) {
             startSignInActivity();
         }
 
@@ -98,9 +98,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return FirebaseAuth.getInstance().getCurrentUser();
     }
 
-    protected Boolean isCurrentUserLogged() {
-        return (this.getCurrentUser() != null);
-    }
 
     private void startSignInActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -151,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void updateView() {
         //Chargement infos user dans Navigation Drawer
-        if (isCurrentUserLogged()) {
+        if (this.getCurrentUser() != null) {
             Glide.with(this)
                     .load(Objects.requireNonNull(this.getCurrentUser()).getPhotoUrl())
                     .apply(RequestOptions.circleCropTransform())
