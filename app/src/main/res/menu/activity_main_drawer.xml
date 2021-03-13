@@ -5,7 +5,7 @@
 
     <item android:title="">
         <menu>
-            <group >
+            <group>
                 <item
                     android:id="@+id/nav_lunch"
                     android:icon="@drawable/ic_menu_restaurant_menu_black_24dp"

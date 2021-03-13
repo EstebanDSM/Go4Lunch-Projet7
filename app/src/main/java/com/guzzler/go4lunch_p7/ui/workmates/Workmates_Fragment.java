@@ -31,10 +31,6 @@ public class Workmates_Fragment extends BaseFragment {
     private WorkmatesRecyclerViewAdapter mViewAdapter;
     private RecyclerView mRecyclerView;
 
-    public static Workmates_Fragment newInstance() {
-        return new Workmates_Fragment();
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

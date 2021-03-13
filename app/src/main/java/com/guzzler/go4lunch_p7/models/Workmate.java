@@ -10,7 +10,7 @@ public class Workmate {
     private boolean notification;
 
 
-    // Pour essayer de corriger le bug sur la recyclerView des workmates.... mais non ça suffit pas.
+    // Constructeur vide pour la recyclerView
     public Workmate() {
     }
 

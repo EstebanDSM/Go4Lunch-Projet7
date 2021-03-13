@@ -40,6 +40,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:textColor="@color/colorWhite"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@+id/imageProfileView"
         app:layout_constraintTop_toTopOf="@id/imageProfileView" />
@@ -51,6 +52,8 @@
         android:layout_marginStart="7dp"
         android:layout_marginBottom="7dp"
         android:textColor="@color/colorWhite"
+
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@id/imageProfileView"
         app:layout_constraintLeft_toRightOf="@+id/imageProfileView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

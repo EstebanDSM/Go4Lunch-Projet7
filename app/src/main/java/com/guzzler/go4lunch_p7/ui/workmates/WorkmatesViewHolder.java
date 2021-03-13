@@ -39,7 +39,6 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         }
 
         mWorkmateName.setText(result.getName());
-
     }
 
 }

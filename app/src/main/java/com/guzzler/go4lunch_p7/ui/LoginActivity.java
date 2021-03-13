@@ -36,7 +36,7 @@ public class LoginActivity extends Activity {
     @BindView(R.id.log_activity_coordinator_layout)
 
     // Un CoordinatorLayout est une fonctionnalité super cool de Material Design qui aide à créer des mises en page attrayantes et harmonisées.
-    CoordinatorLayout coordinatorLayout;
+            CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

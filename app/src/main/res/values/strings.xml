@@ -29,4 +29,6 @@
     <string name="notification_text">Notifications</string>
     <string name="save_text">Save</string>
     <string name="save_ok">Settings Saved</string>
+    <string name="type">restaurant</string>
+    <string name="floating_button">floating button</string>
 </resources>
