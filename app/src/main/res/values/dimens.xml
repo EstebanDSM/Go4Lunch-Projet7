@@ -8,4 +8,7 @@
     <dimen name="padding">20dp</dimen>
     <dimen name="margin_to_parent">8dp</dimen>
     <dimen name="padding_to_parent">8dp</dimen>
+    <dimen name="picture_size">80dp</dimen>
+    <dimen name="workmate_picture_size">20dp</dimen>
+    <dimen name="spacing_words">4dp</dimen>
 </resources>

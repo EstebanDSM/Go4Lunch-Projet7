@@ -48,19 +48,17 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     private static final String TAG = Map_Fragment.class.getSimpleName();
     private static final int DEFAULT_ZOOM = 13;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    public static List<ResultSearch> mResultSearchList = new ArrayList<>();
+    public static String mLocation;
     // A default location (Sydney, Australia) and default zoom to use when location permission is
     // not granted.
     private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
-    public List<ResultSearch> mResultSearchList = new ArrayList<>();
     private GoogleMap map;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private boolean locationPermissionGranted;
-
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
     private Location lastKnownLocation;
-    private String mLocation;
-
 
     @Nullable
     @Override

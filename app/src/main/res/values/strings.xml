@@ -32,4 +32,14 @@
     <string name="type">restaurant</string>
     <string name="floating_button">floating button</string>
     <string name="no_restaurant">No restaurants found</string>
+    <string name="name_restaurant">NAME_RESTAURANT</string>
+    <string name="unit_distance">%1$sm</string>
+    <string name="restaurant_mates_number">(%1$d)</string>
+    <string name="restaurant_closed">Closed</string>
+    <string name="restaurant_opening_not_know">Opening hours are not known</string>
+    <string name="closing_soon">Closing soon (%1$s)</string>
+    <string name="open_until">Open until %1$s</string>
+    <string name="address">ADDRESS</string>
+    <string name="distance">DISTANCE</string>
+    <string name="opening_time">OPENING_TIME</string>
 </resources>
