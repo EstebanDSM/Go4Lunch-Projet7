@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,17 +24,26 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import com.guzzler.go4lunch_p7.R;
+import com.guzzler.go4lunch_p7.api.retrofit.googleplace_search.GooglePlaceSearchCalls;
+import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
 import com.guzzler.go4lunch_p7.ui.BaseFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, LocationSource.OnLocationChangedListener {
+public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, LocationSource.OnLocationChangedListener, GooglePlaceSearchCalls.Callbacks {
+
 
     private static final String TAG = Map_Fragment.class.getSimpleName();
     private static final int DEFAULT_ZOOM = 13;
@@ -41,6 +51,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     // A default location (Sydney, Australia) and default zoom to use when location permission is
     // not granted.
     private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
+    public List<ResultSearch> mResultSearchList = new ArrayList<>();
     private GoogleMap map;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private boolean locationPermissionGranted;
@@ -126,6 +137,10 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
                             map.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(lastKnownLocation.getLatitude(),
                                             lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+
+                            // RETROFIT
+                            GooglePlaceSearchCalls.fetchNearbyRestaurants(this, mLocation);
+
                             Log.e("TAG", "DeviceLocation " + mLocation);
                         }
                     } else {
@@ -215,5 +230,31 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     @Override
     public void onLocationChanged(Location location) {
         Log.e("test_LocationChanged", "onLocationChanged" + location);
+    }
+
+    @Override
+    public void onResponse(@Nullable List<ResultSearch> resultSearchList) {
+        map.clear();       //on reset la carte
+        mResultSearchList = resultSearchList;
+        if (mResultSearchList.size() > 0) {
+            for (int i = 0; i < mResultSearchList.size(); i++) {
+                Double lat = mResultSearchList.get(i).getGeometry().getLocation().getLat();
+                Double lng = mResultSearchList.get(i).getGeometry().getLocation().getLng();
+                String title = mResultSearchList.get(i).getName();
+
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
+                markerOptions.position(new LatLng(lat, lng));
+                markerOptions.title(title);
+                Marker marker = map.addMarker(markerOptions);
+                marker.setTag(mResultSearchList.get(i).getPlaceId());
+            }
+        } else {
+            Toast.makeText(getContext(), getResources().getString(R.string.no_restaurant), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onFailure() {
     }
 }

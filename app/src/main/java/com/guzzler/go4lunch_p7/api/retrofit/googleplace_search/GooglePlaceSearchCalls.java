@@ -13,7 +13,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//classe exécutant notre appel vers l'API googlePlaceSearchService en arrière plan.
+// classe exécutant notre appel vers l'API googlePlaceSearchService en arrière plan.
 
 public class GooglePlaceSearchCalls {
 
@@ -57,6 +57,8 @@ public class GooglePlaceSearchCalls {
 
     // 1 - Creating a callback
     public interface Callbacks {
+
+
         void onResponse(@Nullable List<ResultSearch> resultSearchList);
 
         void onFailure();

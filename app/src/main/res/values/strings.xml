@@ -31,4 +31,5 @@
     <string name="save_ok">Settings Saved</string>
     <string name="type">restaurant</string>
     <string name="floating_button">floating button</string>
+    <string name="no_restaurant">No restaurants found</string>
 </resources>
