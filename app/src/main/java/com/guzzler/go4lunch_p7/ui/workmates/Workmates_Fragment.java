@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.guzzler.go4lunch_p7.R;
-import com.guzzler.go4lunch_p7.api.UserHelper;
+import com.guzzler.go4lunch_p7.api.firebase.UserHelper;
 import com.guzzler.go4lunch_p7.models.Workmate;
 import com.guzzler.go4lunch_p7.ui.BaseFragment;
 

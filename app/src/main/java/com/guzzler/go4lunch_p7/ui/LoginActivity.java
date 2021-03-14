@@ -18,7 +18,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.guzzler.go4lunch_p7.R;
-import com.guzzler.go4lunch_p7.api.UserHelper;
+import com.guzzler.go4lunch_p7.api.firebase.UserHelper;
 
 import java.util.Arrays;
 import java.util.Objects;

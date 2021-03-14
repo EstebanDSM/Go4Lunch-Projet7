@@ -1,4 +1,4 @@
-package com.guzzler.go4lunch_p7.api;
+package com.guzzler.go4lunch_p7.api.firebase;
 
 import androidx.annotation.Nullable;
 
