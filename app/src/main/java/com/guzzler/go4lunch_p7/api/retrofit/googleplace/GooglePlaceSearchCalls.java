@@ -1,4 +1,4 @@
-package com.guzzler.go4lunch_p7.api.retrofit.googleplace_search;
+package com.guzzler.go4lunch_p7.api.retrofit.googleplace;
 
 import androidx.annotation.Nullable;
 
@@ -17,10 +17,6 @@ import retrofit2.Response;
 
 public class GooglePlaceSearchCalls {
 
-    static String apiKey = BuildConfig.api_key;
-    static String type = "restaurant";
-    static String distanceRanking = "distance";
-
     // 2 - Public method to start fetching nearby restaurants
     public static void fetchNearbyRestaurants(Callbacks callbacks, String location) {
 
@@ -31,7 +27,7 @@ public class GooglePlaceSearchCalls {
         GooglePlaceSearchService googlePlaceSearchService = GooglePlaceSearchService.retrofit.create(GooglePlaceSearchService.class);
 
         // 2.3 - Create the call on googlePlaceSearchService
-        Call<SearchPlace> call = googlePlaceSearchService.getNearbyRestaurants(location, distanceRanking, type, apiKey);
+        Call<SearchPlace> call = googlePlaceSearchService.getNearbyRestaurants(location, "distance", "restaurant", BuildConfig.api_key);
 
         // 2.4 - Start the call
         call.enqueue(new Callback<SearchPlace>() {
@@ -57,7 +53,6 @@ public class GooglePlaceSearchCalls {
 
     // 1 - Creating a callback
     public interface Callbacks {
-
 
         void onResponse(@Nullable List<ResultSearch> resultSearchList);
 

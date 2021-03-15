@@ -17,15 +17,12 @@ import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
 import com.guzzler.go4lunch_p7.ui.BaseFragment;
 import com.guzzler.go4lunch_p7.ui.map.Map_Fragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class ListRestaurants_Fragment extends BaseFragment {
+    List<ResultSearch> resultSearchList = Map_Fragment.mResultSearchList;
     private RecyclerView mRecyclerView;
-    private ListRestaurantsRecyclerViewAdapter mViewAdapter;
-    private List<ResultSearch> mResult = new ArrayList<>();
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,13 +39,8 @@ public class ListRestaurants_Fragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         setHasOptionsMenu(true);
-        initList();
         configureRecyclerView();
         return view;
-    }
-
-    private void initList() {
-        mResult = Map_Fragment.mResultSearchList;
     }
 
     @Override
@@ -57,10 +49,8 @@ public class ListRestaurants_Fragment extends BaseFragment {
     }
 
     private void configureRecyclerView() {
-        this.mViewAdapter = new ListRestaurantsRecyclerViewAdapter(this.mResult, Map_Fragment.mLocation);
-        this.mRecyclerView.setAdapter(this.mViewAdapter);
+        ListRestaurantsRecyclerViewAdapter mViewAdapter = new ListRestaurantsRecyclerViewAdapter(this.resultSearchList, Map_Fragment.mLocation);
+        this.mRecyclerView.setAdapter(mViewAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
-
-
 }

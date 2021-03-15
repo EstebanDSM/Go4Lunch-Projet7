@@ -31,7 +31,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import com.guzzler.go4lunch_p7.R;
-import com.guzzler.go4lunch_p7.api.retrofit.googleplace_search.GooglePlaceSearchCalls;
+import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceSearchCalls;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
 import com.guzzler.go4lunch_p7.ui.BaseFragment;
 
@@ -52,7 +52,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     public static String mLocation;
     // A default location (Sydney, Australia) and default zoom to use when location permission is
     // not granted.
-    private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
+    private final LatLng defaultLocation = new LatLng(44.8333, -0.5667);
     private GoogleMap map;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private boolean locationPermissionGranted;
@@ -232,7 +232,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
 
     @Override
     public void onResponse(@Nullable List<ResultSearch> resultSearchList) {
-        map.clear();       //on reset la carte
+        map.clear();       //on reset la carte pour effacer marqueur ?
         mResultSearchList = resultSearchList;
         if (mResultSearchList.size() > 0) {
             for (int i = 0; i < mResultSearchList.size(); i++) {

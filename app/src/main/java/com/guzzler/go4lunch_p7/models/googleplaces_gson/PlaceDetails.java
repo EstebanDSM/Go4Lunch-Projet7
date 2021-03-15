@@ -4,15 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-
-public class SearchPlace {
+public class PlaceDetails {
     @SerializedName("html_attributions")
     private List<Object> mHtmlAttributions;
-    @SerializedName("results")
-    private List<ResultSearch> mResultSearches;
+    @SerializedName("result")
+    private ResultDetails mResultDetails;
     @SerializedName("status")
     private String mStatus;
-
 
     public List<Object> getHtmlAttributions() {
         return mHtmlAttributions;
@@ -22,12 +20,12 @@ public class SearchPlace {
         mHtmlAttributions = htmlAttributions;
     }
 
-    public List<ResultSearch> getResultSearches() {
-        return mResultSearches;
+    public ResultDetails getResultDetails() {
+        return mResultDetails;
     }
 
-    public void setResultSearches(List<ResultSearch> resultSearches) {
-        mResultSearches = resultSearches;
+    public void setResultDetails(ResultDetails resultDetails) {
+        mResultDetails = resultDetails;
     }
 
     public String getStatus() {
@@ -37,6 +35,4 @@ public class SearchPlace {
     public void setStatus(String status) {
         mStatus = status;
     }
-
-
 }

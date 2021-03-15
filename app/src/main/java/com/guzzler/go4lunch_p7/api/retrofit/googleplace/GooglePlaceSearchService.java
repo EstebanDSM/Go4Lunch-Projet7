@@ -1,4 +1,4 @@
-package com.guzzler.go4lunch_p7.api.retrofit.googleplace_search;
+package com.guzzler.go4lunch_p7.api.retrofit.googleplace;
 
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.SearchPlace;
 
