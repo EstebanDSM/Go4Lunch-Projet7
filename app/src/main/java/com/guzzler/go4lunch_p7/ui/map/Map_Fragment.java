@@ -122,6 +122,10 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
          * Get the best and most recent location of the device, which may be null in rare
          * cases when a location is not available.
          */
+
+        // TODO : la premiere fois qu'on lance l'appli on est pas géolocalisé, si on recharge le fragment map en naviguant dans les onglets c'est bon  >>> à corriger
+        // TODO : si pas de GPS erreur >>>> à corriger
+
         try {
             if (locationPermissionGranted) {
                 Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
