@@ -22,7 +22,8 @@
             android:background="@color/colorPrimaryDark"
             android:elevation="@dimen/elevation_size"
             app:layout_constraintTop_toTopOf="parent"
-            app:theme="@style/ToolBarStyle" />
+            app:theme="@style/ToolBarStyle"
+            />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/nav_view"

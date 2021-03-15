@@ -42,4 +42,6 @@
     <string name="address">ADDRESS</string>
     <string name="distance">DISTANCE</string>
     <string name="opening_time">OPENING_TIME</string>
+    <string name="Titre_Toolbar_hungry">I\'m Hungry</string>
+    <string name="Titre_Toolbar_workmates">Available workmates</string>
 </resources>

@@ -40,6 +40,7 @@ public class ListRestaurants_Fragment extends BaseFragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         setHasOptionsMenu(true);
         configureRecyclerView();
+        getActivity().setTitle(getString(R.string.Titre_Toolbar_hungry));
         return view;
     }
 

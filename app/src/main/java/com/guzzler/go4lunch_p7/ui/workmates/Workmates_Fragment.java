@@ -52,6 +52,7 @@ public class Workmates_Fragment extends BaseFragment {
 
         this.mViewAdapter = new WorkmatesRecyclerViewAdapter(this.mWorkmates);
         this.mRecyclerView.setAdapter(this.mViewAdapter);
+        getActivity().setTitle(getString(R.string.Titre_Toolbar_workmates));
         return view;
     }
 

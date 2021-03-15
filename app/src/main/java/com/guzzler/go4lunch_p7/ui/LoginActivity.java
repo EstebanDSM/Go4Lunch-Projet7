@@ -2,6 +2,7 @@ package com.guzzler.go4lunch_p7.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -42,6 +43,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_login);
+
         ButterKnife.bind(this);
 
         // 3 - Launch Sign-In Activity
@@ -63,8 +65,10 @@ public class LoginActivity extends Activity {
                                 new AuthUI.IdpConfig.GoogleBuilder().build(), // SUPPORT GOOGLE
                                 new AuthUI.IdpConfig.FacebookBuilder().build())) // SUPPORT FACEBOOK
                         .setIsSmartLockEnabled(false, true)
+
                         .build(),
                 RC_SIGN_IN);
+
     }
 
     @Override

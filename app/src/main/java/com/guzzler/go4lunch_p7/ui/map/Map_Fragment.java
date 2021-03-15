@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +39,7 @@ import com.guzzler.go4lunch_p7.ui.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -60,6 +62,8 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     // location retrieved by the Fused Location Provider.
     private Location lastKnownLocation;
 
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -68,6 +72,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         ButterKnife.bind(this, view);
+
         return view;
     }
 
@@ -75,6 +80,8 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
 
@@ -88,7 +95,11 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         SupportMapFragment mMapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
+        // TODO METTRE LES TITRES DE LA TOOLBAR EN RESSOURCE ET LE CHANGER POUR CHAQUE FRAGMENT
+        getActivity().setTitle(getString(R.string.Titre_Toolbar_hungry));
         getDeviceLocation();
+
+
     }
 
 
