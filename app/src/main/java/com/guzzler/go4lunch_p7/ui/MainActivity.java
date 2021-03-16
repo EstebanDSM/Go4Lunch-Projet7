@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,10 +40,12 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.guzzler.go4lunch_p7.R;
+import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceDetailsCalls;
 import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceSearchCalls;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,8 +53,11 @@ import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GooglePlaceSearchCalls.Callbacks, LocationListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GooglePlaceSearchCalls.Callbacks, GooglePlaceDetailsCalls.Callbacks, LocationListener {
     private static final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+    public List<ResultDetails> mResultDetailsList = new ArrayList<>();
+
+
     //VIEWMODEL
     public SharedViewModel mShareViewModel;
 
@@ -202,19 +208,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onResponse(@Nullable List<ResultSearch> resultSearchList) {
+        mResultDetailsList.clear();
+        for (int i = 0; i < resultSearchList.size(); i++) {
+            GooglePlaceDetailsCalls.fetchPlaceDetails(this, resultSearchList.get(i).getPlaceId());
+        }
+    }
 
+    @Override
+    public void onResponse(@Nullable ResultDetails resultDetails) {
+        if (resultDetails.getTypes().contains("restaurant")) {
+            mResultDetailsList.add(resultDetails);
+            mLiveData.setValue(mResultDetailsList);
+        }
     }
 
     @Override
     public void onFailure() {
-
+        Toast.makeText(this.getApplicationContext(), getResources().getString(R.string.no_restaurant_found), Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * @param location
+     */
     @Override
     public void onLocationChanged(@NonNull Location location) {
-
+        double currentLatitude = location.getLatitude();
+        double currentLongitude = location.getLongitude();
+        mShareViewModel.updateCurrentUserPosition(new LatLng(currentLatitude, currentLongitude));
     }
 
+    /**
+     * @return boolean
+     */
     public boolean checkLocationPermission() {
         return EasyPermissions.hasPermissions(getApplicationContext(), permissions);
     }

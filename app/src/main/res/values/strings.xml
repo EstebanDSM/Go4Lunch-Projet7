@@ -44,4 +44,5 @@
     <string name="opening_time">OPENING_TIME</string>
     <string name="Titre_Toolbar_hungry">I\'m Hungry</string>
     <string name="Titre_Toolbar_workmates">Available workmates</string>
+    <string name="no_restaurant_found">No restautant found</string>
 </resources>
