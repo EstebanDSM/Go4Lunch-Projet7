@@ -2,7 +2,6 @@ package com.guzzler.go4lunch_p7.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;

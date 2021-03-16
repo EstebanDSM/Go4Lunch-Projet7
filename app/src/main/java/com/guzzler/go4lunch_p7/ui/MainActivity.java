@@ -2,7 +2,6 @@ package com.guzzler.go4lunch_p7.ui;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.MutableLiveData;
@@ -64,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //LIVEDATA
     public MutableLiveData<List<ResultDetails>> mLiveData = new MutableLiveData<>();
 
-
     //FOR DESIGN
     Toolbar toolbar;
     NavigationView navigationView;
@@ -108,12 +105,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureDrawerLayout();
         this.configureNavigationView();
 
-        if (this.getCurrentUser() != null) {
+        if (!UserLogged()) {
             startSignInActivity();
+        } else {
+            this.updateView();
         }
-
-        this.updateView();
     }
+
+    protected Boolean UserLogged() {
+        return (this.getCurrentUser() != null);
+    }
+
 
     @Override
     protected void onResume() {
@@ -227,9 +229,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toast.makeText(this.getApplicationContext(), getResources().getString(R.string.no_restaurant_found), Toast.LENGTH_SHORT).show();
     }
 
-    /**
-     * @param location
-     */
+
     @Override
     public void onLocationChanged(@NonNull Location location) {
         double currentLatitude = location.getLatitude();
