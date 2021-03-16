@@ -48,9 +48,10 @@ import java.util.Objects;
 
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GooglePlaceSearchCalls.Callbacks, LocationListener {
-
+    private static final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     //VIEWMODEL
     public SharedViewModel mShareViewModel;
 
@@ -78,18 +79,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
+        checkLocationPermission();
+
         FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.getApplicationContext());
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
-                if (location != null) {
-                    double currentLatitude = location.getLatitude();
-                    double currentLongitude = location.getLongitude();
-                    mShareViewModel.updateCurrentUserPosition(new LatLng(currentLatitude, currentLongitude));
-                    GooglePlaceSearchCalls.fetchNearbyRestaurants(this, mShareViewModel.getCurrentUserPositionFormatted());
-                }
-            });
-            return;
-        }
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
+            if (location != null) {
+                double currentLatitude = location.getLatitude();
+                double currentLongitude = location.getLongitude();
+                mShareViewModel.updateCurrentUserPosition(new LatLng(currentLatitude, currentLongitude));
+                GooglePlaceSearchCalls.fetchNearbyRestaurants(this, mShareViewModel.getCurrentUserPositionFormatted());
+            }
+        });
+
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
@@ -212,5 +213,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onLocationChanged(@NonNull Location location) {
 
+    }
+
+    public boolean checkLocationPermission() {
+        return EasyPermissions.hasPermissions(getApplicationContext(), permissions);
     }
 }
