@@ -1,6 +1,9 @@
 package com.guzzler.go4lunch_p7.ui;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -14,8 +17,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -23,19 +29,34 @@ import androidx.navigation.ui.NavigationUI;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.guzzler.go4lunch_p7.R;
+import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceSearchCalls;
+import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
+import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
 
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GooglePlaceSearchCalls.Callbacks, LocationListener {
+
+    //VIEWMODEL
+    public SharedViewModel mShareViewModel;
+
+    //LIVEDATA
+    public MutableLiveData<List<ResultDetails>> mLiveData = new MutableLiveData<>();
+
 
     //FOR DESIGN
     Toolbar toolbar;
@@ -50,16 +71,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         ButterKnife.bind(this);
 
+        // VIEWMODEL
+        mShareViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
+        FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.getApplicationContext());
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
+                if (location != null) {
+                    double currentLatitude = location.getLatitude();
+                    double currentLongitude = location.getLongitude();
+                    mShareViewModel.updateCurrentUserPosition(new LatLng(currentLatitude, currentLongitude));
+                    GooglePlaceSearchCalls.fetchNearbyRestaurants(this, mShareViewModel.getCurrentUserPositionFormatted());
+                }
+            });
+            return;
+        }
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
-
 
         // Configure Toolbar
         this.configureToolBar();
@@ -67,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Configure Navigation Drawer
         this.configureDrawerLayout();
         this.configureNavigationView();
-
 
         if (this.getCurrentUser() != null) {
             startSignInActivity();
@@ -165,5 +197,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .apply(RequestOptions.bitmapTransform(new BlurTransformation(30)))
                     .into(backgroundView);
         }
+    }
+
+    @Override
+    public void onResponse(@Nullable List<ResultSearch> resultSearchList) {
+
+    }
+
+    @Override
+    public void onFailure() {
+
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
     }
 }

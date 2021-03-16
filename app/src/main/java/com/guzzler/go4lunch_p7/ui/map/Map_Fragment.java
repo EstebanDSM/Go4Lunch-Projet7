@@ -95,7 +95,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         SupportMapFragment mMapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mMapFragment.getMapAsync(this);
-        // TODO METTRE LES TITRES DE LA TOOLBAR EN RESSOURCE ET LE CHANGER POUR CHAQUE FRAGMENT
+
         getActivity().setTitle(getString(R.string.Titre_Toolbar_hungry));
         getDeviceLocation();
 
