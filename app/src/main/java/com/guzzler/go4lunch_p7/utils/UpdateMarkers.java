@@ -15,6 +15,7 @@ import static android.content.ContentValues.TAG;
 
 public class UpdateMarkers {
 
+
     /**
      * USE OF LIVEDATA
      */
@@ -34,10 +35,13 @@ public class UpdateMarkers {
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
                     Marker marker = map.addMarker(markerOptions);
                     marker.setTag(mMainActivity.mLiveData.getValue().get(i).getPlaceId());
+                    marker.showInfoWindow();
+
                 }
             } else {
                 Toast.makeText(mMainActivity.getApplicationContext(), mMainActivity.getResources().getString(R.string.no_restaurant), Toast.LENGTH_SHORT).show();
             }
         }
     }
+
 }

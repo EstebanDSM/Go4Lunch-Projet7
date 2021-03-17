@@ -243,4 +243,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean checkLocationPermission() {
         return EasyPermissions.hasPermissions(getApplicationContext(), permissions);
     }
+
+
 }

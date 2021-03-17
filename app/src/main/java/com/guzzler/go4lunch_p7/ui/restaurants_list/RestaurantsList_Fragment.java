@@ -55,4 +55,6 @@ public class RestaurantsList_Fragment extends BaseFragment {
         this.mRecyclerView.setAdapter(mViewAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
+
+
 }

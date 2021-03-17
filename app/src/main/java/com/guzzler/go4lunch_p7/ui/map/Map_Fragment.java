@@ -1,9 +1,12 @@
 package com.guzzler.go4lunch_p7.ui.map;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,10 +28,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.Task;
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.ui.BaseFragment;
 import com.guzzler.go4lunch_p7.ui.MainActivity;
+import com.guzzler.go4lunch_p7.ui.restaurant_details.Restaurant_Details;
 
 import java.util.Objects;
 
@@ -43,6 +48,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     private final String TAG = Map_Fragment.class.getSimpleName();
     private final int DEFAULT_ZOOM = 13;
     private final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    boolean doubleBackToExitPressedOnce = false;
     // A default location (Bordeaux, France) and default zoom to use when location permission is
     // not granted.
     private LatLng defaultLocation = new LatLng(44.8333, -0.5667);
@@ -60,11 +66,11 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     // TODO : les marqueurs ne sont visibles que lorsqu'on clique sur un autre onglet et qu'on revient sur la carte
     // TODO : si pas de GPS on a une erreur */
 
-
     @OnClick(R.id.fragment_map_floating_action_btn)
     public void displayLocation() {
         getDeviceLocation();
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -139,7 +145,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
                             lastKnownLocation = task.getResult();
 
                             mLocation = lastKnownLocation.getLatitude() + "," + lastKnownLocation.getLongitude();
-                            updateMarkers(map, mMainActivity);
+
                             Log.e("TAG", "DeviceLocation " + mLocation);
 
                             map.moveCamera(CameraUpdateFactory.newLatLngZoom(
@@ -169,7 +175,21 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         }
     }
 
+    private boolean onClickMarker(Marker marker) {
+        if (marker.getTag() != null) {
+            Log.e(TAG, "onClickMarker: " + marker.getTag());
+            Intent intent = new Intent(getActivity(), Restaurant_Details.class);
+            intent.putExtra("PlaceDetailResult", marker.getTag().toString());
+            startActivity(intent);
+            return true;
+        } else {
+            Log.e(TAG, "onClickMarker: ERROR NO TAG");
+            return false;
+        }
+    }
 
+
+    @SuppressLint("PotentialBehaviorOverride")
     private void updateLocationUI() {
         if (map == null) {
             return;
@@ -180,11 +200,15 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
                 map.getUiSettings().setMyLocationButtonEnabled(false);
                 map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireActivity().getApplicationContext(), R.raw.style_json));
                 map.getUiSettings().setMapToolbarEnabled(false);
+                updateMarkers(map, mMainActivity);
+                map.setOnMarkerClickListener(this::onClickMarker);
+
             } else {
                 map.setMyLocationEnabled(false);
                 map.getUiSettings().setMyLocationButtonEnabled(false);
                 lastKnownLocation = null;
                 getLocationPermission();
+
             }
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
@@ -205,6 +229,24 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
                     locationPermissionGranted = true;
                 }
             }
+        }
+    }
+
+    public void onMarkerClick(Marker marker) {
+        if (doubleBackToExitPressedOnce) {
+            Intent intent = new Intent(getActivity(), Restaurant_Details.class);
+            intent.putExtra("PlaceDetailResult", Objects.requireNonNull(marker.getTag()).toString());
+            startActivity(intent);
+
+        } else {
+            this.doubleBackToExitPressedOnce = true;
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
         }
     }
 
@@ -234,6 +276,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         getDeviceLocation();
         updateLocationUI();
         Log.e("test_onMapReady", "onMapReady");
+
     }
 
 
