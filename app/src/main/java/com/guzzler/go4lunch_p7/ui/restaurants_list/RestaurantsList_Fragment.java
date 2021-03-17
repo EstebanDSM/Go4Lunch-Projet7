@@ -32,6 +32,8 @@ public class RestaurantsList_Fragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_restaurants, container, false);
         Context context = view.getContext();
+
+        // LIVEDATA
         mMainActivity.mLiveData.observe(getViewLifecycleOwner(), resultDetails -> configureRecyclerView());
 
         mRecyclerView = (RecyclerView) view;

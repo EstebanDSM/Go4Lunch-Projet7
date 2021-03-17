@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         checkLocationPermission();
 
-        FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this.getApplicationContext());
+        FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
             if (location != null) {
                 double currentLatitude = location.getLatitude();
@@ -107,13 +107,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (!UserLogged()) {
             startSignInActivity();
-        } else {
-            this.updateView();
         }
+        this.updateView();
+
     }
 
     protected Boolean UserLogged() {
-        return (this.getCurrentUser() != null);
+        return (getCurrentUser() != null);
     }
 
 
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
-            this.signOutFirebase();
+            signOutFirebase();
         }
         this.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void signOutFirebase() {
         AuthUI.getInstance()
                 .signOut(this)
-                .addOnSuccessListener(this, this.startLogin_AfterSignOut());
+                .addOnSuccessListener(this, startLogin_AfterSignOut());
     }
 
     private OnSuccessListener<Void> startLogin_AfterSignOut() {
@@ -190,15 +190,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void updateView() {
         //Chargement infos user dans Navigation Drawer
-        if (this.getCurrentUser() != null) {
+        if (getCurrentUser() != null) {
             Glide.with(this)
-                    .load(Objects.requireNonNull(this.getCurrentUser()).getPhotoUrl())
+                    .load(Objects.requireNonNull(getCurrentUser()).getPhotoUrl())
                     .apply(RequestOptions.circleCropTransform())
                     .into(imageProfileView);
-            String email = TextUtils.isEmpty(this.getCurrentUser().getEmail()) ? getString(R.string.email_not_found) : this.getCurrentUser().getEmail();
-            String username = TextUtils.isEmpty(this.getCurrentUser().getDisplayName()) ? getString(R.string.username_not_found) : this.getCurrentUser().getDisplayName();
-            this.nameUser.setText(username);
-            this.emailUser.setText(email);
+            String email = TextUtils.isEmpty(getCurrentUser().getEmail()) ? getString(R.string.email_not_found) : getCurrentUser().getEmail();
+            String username = TextUtils.isEmpty(getCurrentUser().getDisplayName()) ? getString(R.string.username_not_found) : getCurrentUser().getDisplayName();
+            nameUser.setText(username);
+            emailUser.setText(email);
 
             //Chargement fond d'écran en haut navigation drawer
             Glide.with(this)

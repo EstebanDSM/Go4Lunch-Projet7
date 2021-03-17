@@ -49,6 +49,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+
+    // FOR DISTANCE BETWEEN...
     implementation 'com.google.maps.android:android-maps-utils:2.2.0'
 
 

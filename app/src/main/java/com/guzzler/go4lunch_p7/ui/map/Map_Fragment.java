@@ -30,6 +30,8 @@ import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.ui.BaseFragment;
 import com.guzzler.go4lunch_p7.ui.MainActivity;
 
+import java.util.Objects;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -43,7 +45,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     private final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     // A default location (Bordeaux, France) and default zoom to use when location permission is
     // not granted.
-    private final LatLng defaultLocation = new LatLng(44.8333, -0.5667);
+    private LatLng defaultLocation = new LatLng(44.8333, -0.5667);
     private String mLocation;
     private GoogleMap map;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -79,7 +81,10 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         ButterKnife.bind(this, view);
+
+        // LIVADATA
         mMainActivity.mLiveData.observe(getViewLifecycleOwner(), resultDetails -> getDeviceLocation());
+
         return view;
     }
 
@@ -88,14 +93,15 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         // Construct a FusedLocationProviderClient.
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
         // Build the map.
         SupportMapFragment mMapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mMapFragment != null;
         mMapFragment.getMapAsync(this);
 
-        getActivity().setTitle(getString(R.string.Titre_Toolbar_hungry));
+        requireActivity().setTitle(getString(R.string.Titre_Toolbar_hungry));
     }
 
 
@@ -126,17 +132,28 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         try {
             if (locationPermissionGranted) {
                 Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
-                locationResult.addOnCompleteListener(getActivity(), task -> {
+                locationResult.addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
-                        // Set the map's camera position to the current location of the device.
-                        lastKnownLocation = task.getResult();
-                        mLocation = lastKnownLocation.getLatitude() + "," + lastKnownLocation.getLongitude();
-                        Log.e("TAG", "DeviceLocation " + mLocation);
                         if (lastKnownLocation != null) {
+                            // Set the map's camera position to the current location of the device.
+                            lastKnownLocation = task.getResult();
+
+                            mLocation = lastKnownLocation.getLatitude() + "," + lastKnownLocation.getLongitude();
+                            updateMarkers(map, mMainActivity);
+                            Log.e("TAG", "DeviceLocation " + mLocation);
+
                             map.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                     new LatLng(lastKnownLocation.getLatitude(),
                                             lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                             Log.e("TAG", "DeviceLocation " + mLocation);
+                        } else {
+                            defaultLocation = mMainActivity.mShareViewModel.getCurrentUserPosition();
+                            Log.e(TAG, "LastLocation is null. Using current from mShareViewmodel.");
+                            Log.e(TAG, "Exception: %s", task.getException());
+                            map.moveCamera(CameraUpdateFactory
+                                    .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
+                            map.getUiSettings().setMyLocationButtonEnabled(false);
+                            updateMarkers(map, mMainActivity);
                         }
                     } else {
                         Log.d(TAG, "Current location is null. Using defaults.");
@@ -161,7 +178,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
             if (locationPermissionGranted) {
                 map.setMyLocationEnabled(true);
                 map.getUiSettings().setMyLocationButtonEnabled(false);
-                map.setMapStyle(MapStyleOptions.loadRawResourceStyle(getActivity().getApplicationContext(), R.raw.style_json));
+                map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireActivity().getApplicationContext(), R.raw.style_json));
                 map.getUiSettings().setMapToolbarEnabled(false);
             } else {
                 map.setMyLocationEnabled(false);
@@ -198,12 +215,12 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
 //         * device. The result of the permission request is handled by a callback,
 //         * onRequestPermissionsResult.
 
-        if (ContextCompat.checkSelfPermission(getActivity(),
+        if (ContextCompat.checkSelfPermission(requireActivity(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             locationPermissionGranted = true;
         } else {
-            ActivityCompat.requestPermissions(getActivity(),
+            ActivityCompat.requestPermissions(requireActivity(),
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
@@ -216,7 +233,6 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         getLocationPermission();
         getDeviceLocation();
         updateLocationUI();
-        updateMarkers(map, mMainActivity);
         Log.e("test_onMapReady", "onMapReady");
     }
 
