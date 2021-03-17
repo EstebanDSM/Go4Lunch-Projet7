@@ -1,4 +1,4 @@
-package com.guzzler.go4lunch_p7.ui.list_restaurants;
+package com.guzzler.go4lunch_p7.ui.restaurants_list;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,20 +13,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.guzzler.go4lunch_p7.R;
-import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
 import com.guzzler.go4lunch_p7.ui.BaseFragment;
-import com.guzzler.go4lunch_p7.ui.map.Map_Fragment;
-
-import java.util.List;
+import com.guzzler.go4lunch_p7.ui.MainActivity;
 
 
 public class ListRestaurants_Fragment extends BaseFragment {
-    List<ResultSearch> resultSearchList = Map_Fragment.mResultSearchList;
     private RecyclerView mRecyclerView;
+    private MainActivity mMainActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mMainActivity = (MainActivity) getActivity();
     }
 
     @Override
@@ -34,6 +32,7 @@ public class ListRestaurants_Fragment extends BaseFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_restaurants, container, false);
         Context context = view.getContext();
+        mMainActivity.mLiveData.observe(getViewLifecycleOwner(), resultDetails -> configureRecyclerView());
 
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -50,7 +49,7 @@ public class ListRestaurants_Fragment extends BaseFragment {
     }
 
     private void configureRecyclerView() {
-        ListRestaurantsRecyclerViewAdapter mViewAdapter = new ListRestaurantsRecyclerViewAdapter(this.resultSearchList, Map_Fragment.mLocation);
+        ListRestaurantsRecyclerViewAdapter mViewAdapter = new ListRestaurantsRecyclerViewAdapter(mMainActivity.mLiveData.getValue(), mMainActivity.mShareViewModel.getCurrentUserPositionFormatted());
         this.mRecyclerView.setAdapter(mViewAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

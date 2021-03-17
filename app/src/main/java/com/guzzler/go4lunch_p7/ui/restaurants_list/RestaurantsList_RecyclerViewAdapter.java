@@ -1,4 +1,4 @@
-package com.guzzler.go4lunch_p7.ui.list_restaurants;
+package com.guzzler.go4lunch_p7.ui.restaurants_list;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,20 +8,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.guzzler.go4lunch_p7.R;
-import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
+import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 
 public class ListRestaurantsRecyclerViewAdapter extends RecyclerView.Adapter<ListRestaurantsViewHolder> {
-    private List<ResultSearch> mResultSearch;
-    private String mLocation;
+    private final List<ResultDetails> mResultDetails;
+    private final String mLocation;
 
-    public ListRestaurantsRecyclerViewAdapter(List<ResultSearch> items, String location) {
-        mResultSearch = items;
+    public ListRestaurantsRecyclerViewAdapter(List<ResultDetails> items, String location) {
+        mResultDetails = items;
         mLocation = location;
     }
 
+    @NotNull
     @Override
     public ListRestaurantsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -31,13 +34,13 @@ public class ListRestaurantsRecyclerViewAdapter extends RecyclerView.Adapter<Lis
 
     @Override
     public void onBindViewHolder(@NonNull ListRestaurantsViewHolder holder, int position) {
-        holder.updateWithData(this.mResultSearch.get(position), this.mLocation);
+        holder.updateWithData(this.mResultDetails.get(position), this.mLocation);
     }
 
     @Override
     public int getItemCount() {
         int itemCount = 0;
-        if (mResultSearch != null) itemCount = mResultSearch.size();
+        if (mResultDetails != null) itemCount = mResultDetails.size();
         return itemCount;
     }
 }

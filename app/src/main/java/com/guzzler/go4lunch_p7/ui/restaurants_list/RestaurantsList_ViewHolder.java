@@ -1,4 +1,4 @@
-package com.guzzler.go4lunch_p7.ui.list_restaurants;
+package com.guzzler.go4lunch_p7.ui.restaurants_list;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -12,7 +12,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.guzzler.go4lunch_p7.BuildConfig;
 import com.guzzler.go4lunch_p7.R;
-import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
+import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,18 +36,18 @@ public class ListRestaurantsViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void updateWithData(ResultSearch resultSearch, String location) {
+    public void updateWithData(ResultDetails resultDetails, String location) {
         RequestManager glide = Glide.with(itemView);
 
-        this.mNameRestaurant.setText(resultSearch.getName());
-        this.mAdressRestaurant.setText(resultSearch.getVicinity());
+        this.mNameRestaurant.setText(resultDetails.getName());
+        this.mAdressRestaurant.setText(resultDetails.getVicinity());
 
         //Chargement de la photo dans la liste des restaus
-        if (!(resultSearch.getPhotos() == null)) {
-            if (!(resultSearch.getPhotos().isEmpty())) {
-                glide.load(BASE_URL + "?maxwidth=" + MAX_WIDTH + "&maxheight=" + MAX_HEIGHT + "&photoreference=" + resultSearch.getPhotos().get(0).getPhotoReference() + "&key=" + BuildConfig.api_key).apply(RequestOptions.centerCropTransform()).into(mAvatarRestaurant);
-//                Glide.with(mAvatarRestaurant).load(BASE_URL + "?maxwidth=" + MAX_WIDTH + "&maxheight=" + MAX_HEIGHT + "&photoreference=" + resultSearch.getPhotos().get(0).getPhotoReference() + "&key=" + BuildConfig.api_key)
-//                        .into(mAvatarRestaurant);
+        if (!(resultDetails.getPhotos() == null)) {
+            if (!(resultDetails.getPhotos().isEmpty())) {
+                glide.load(BASE_URL + "?maxwidth=" + MAX_WIDTH + "&maxheight=" + MAX_HEIGHT + "&photoreference=" + resultDetails.getPhotos().get(0)
+                        .getPhotoReference() + "&key=" + BuildConfig.api_key)
+                        .apply(RequestOptions.centerCropTransform()).into(mAvatarRestaurant);
             }
         } else {
             glide.load(R.drawable.ic_no_image_available).apply(RequestOptions.centerCropTransform()).into(mAvatarRestaurant);

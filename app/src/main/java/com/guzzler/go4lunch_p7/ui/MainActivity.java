@@ -119,8 +119,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onResume() {
-        this.updateView();
         super.onResume();
+        this.updateView();
     }
 
     private void configureNavigationView() {
