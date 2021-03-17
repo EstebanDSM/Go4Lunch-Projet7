@@ -15,25 +15,25 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 
-public class ListRestaurantsRecyclerViewAdapter extends RecyclerView.Adapter<ListRestaurantsViewHolder> {
+public class RestaurantsList_RecyclerViewAdapter extends RecyclerView.Adapter<RestaurantsList_ViewHolder> {
     private final List<ResultDetails> mResultDetails;
     private final String mLocation;
 
-    public ListRestaurantsRecyclerViewAdapter(List<ResultDetails> items, String location) {
+    public RestaurantsList_RecyclerViewAdapter(List<ResultDetails> items, String location) {
         mResultDetails = items;
         mLocation = location;
     }
 
     @NotNull
     @Override
-    public ListRestaurantsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RestaurantsList_ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_restaurant_item, parent, false);
-        return new ListRestaurantsViewHolder(view);
+        return new RestaurantsList_ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ListRestaurantsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RestaurantsList_ViewHolder holder, int position) {
         holder.updateWithData(this.mResultDetails.get(position), this.mLocation);
     }
 

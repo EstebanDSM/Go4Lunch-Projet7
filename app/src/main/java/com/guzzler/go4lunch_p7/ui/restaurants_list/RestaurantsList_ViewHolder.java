@@ -18,10 +18,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class ListRestaurantsViewHolder extends RecyclerView.ViewHolder {
-    public static final String BASE_URL = "https://maps.googleapis.com/maps/api/place/photo";
-    public static final int MAX_WIDTH = 200;
-    public static final int MAX_HEIGHT = 200;
+public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
+    public final String BASE_URL = "https://maps.googleapis.com/maps/api/place/photo";
+    public final int MAX_WIDTH = 200;
+    public final int MAX_HEIGHT = 200;
 
     @BindView(R.id.name_restaurant)
     public TextView mNameRestaurant;
@@ -31,7 +31,7 @@ public class ListRestaurantsViewHolder extends RecyclerView.ViewHolder {
     public ImageView mAvatarRestaurant;
 
 
-    public ListRestaurantsViewHolder(@NonNull View itemView) {
+    public RestaurantsList_ViewHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }

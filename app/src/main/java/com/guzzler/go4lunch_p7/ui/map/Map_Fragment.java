@@ -27,12 +27,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.tasks.Task;
 import com.guzzler.go4lunch_p7.R;
-import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
 import com.guzzler.go4lunch_p7.ui.BaseFragment;
 import com.guzzler.go4lunch_p7.ui.MainActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,14 +38,13 @@ import static com.guzzler.go4lunch_p7.utils.UpdateMarkers.updateMarkers;
 
 public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, LocationListener {
 
-    private static final String TAG = Map_Fragment.class.getSimpleName();
-    private static final int DEFAULT_ZOOM = 13;
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    public static List<ResultSearch> mResultSearchList = new ArrayList<>();
-    public static String mLocation;
+    private final String TAG = Map_Fragment.class.getSimpleName();
+    private final int DEFAULT_ZOOM = 13;
+    private final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     // A default location (Bordeaux, France) and default zoom to use when location permission is
     // not granted.
     private final LatLng defaultLocation = new LatLng(44.8333, -0.5667);
+    private String mLocation;
     private GoogleMap map;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private boolean locationPermissionGranted;

@@ -17,7 +17,7 @@ import com.guzzler.go4lunch_p7.ui.BaseFragment;
 import com.guzzler.go4lunch_p7.ui.MainActivity;
 
 
-public class ListRestaurants_Fragment extends BaseFragment {
+public class RestaurantsList_Fragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private MainActivity mMainActivity;
 
@@ -49,7 +49,7 @@ public class ListRestaurants_Fragment extends BaseFragment {
     }
 
     private void configureRecyclerView() {
-        ListRestaurantsRecyclerViewAdapter mViewAdapter = new ListRestaurantsRecyclerViewAdapter(mMainActivity.mLiveData.getValue(), mMainActivity.mShareViewModel.getCurrentUserPositionFormatted());
+        RestaurantsList_RecyclerViewAdapter mViewAdapter = new RestaurantsList_RecyclerViewAdapter(mMainActivity.mLiveData.getValue(), mMainActivity.mShareViewModel.getCurrentUserPositionFormatted());
         this.mRecyclerView.setAdapter(mViewAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

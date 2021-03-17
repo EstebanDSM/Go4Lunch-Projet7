@@ -19,11 +19,9 @@ public class UpdateMarkers {
      * USE OF LIVEDATA
      */
     public static void updateMarkers(GoogleMap map, MainActivity mMainActivity) {
-
-
         if (mMainActivity.mLiveData.getValue() != null) {
             map.clear();
-            Log.e(TAG, "updateUI: " + mMainActivity.mLiveData.getValue().size());
+            Log.e(TAG, "number of markers : " + mMainActivity.mLiveData.getValue().size());
             if (mMainActivity.mLiveData.getValue().size() > 0) {
                 for (int i = 0; i < mMainActivity.mLiveData.getValue().size(); i++) {
                     int CurrentObject = i;
@@ -42,5 +40,4 @@ public class UpdateMarkers {
             }
         }
     }
-
 }

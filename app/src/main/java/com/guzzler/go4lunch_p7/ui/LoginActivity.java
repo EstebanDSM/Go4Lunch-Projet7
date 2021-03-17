@@ -31,7 +31,7 @@ public class LoginActivity extends Activity {
 
     //FOR DATA
     // 1 - Identifier for Sign-In Activity
-    private static final int RC_SIGN_IN = 123;
+    private final int RC_SIGN_IN = 123;
     boolean doubleBackToExitPressedOnce = false;
     @BindView(R.id.log_activity_coordinator_layout)
 
