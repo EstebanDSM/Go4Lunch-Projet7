@@ -37,18 +37,15 @@ public class SettingsActivity extends AppCompatActivity {
         this.retrieveUserSettings();
         this.setListenerAndFilters();
         this.setTitle(getString(R.string.settings_toolbar));
+
         mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // do something, the isChecked will be
-            // true if the switch is in the On position
-            UserHelper.updateUserSettings(getCurrentUser().getUid(), mSwitch.isChecked()).addOnSuccessListener(
-                    updateTask -> {
-                        Log.e("settingActivity", "settings Saved on firebase");
-                        if (mSwitch.isChecked()) {
-                            Toast.makeText(this, "NOTIFICATIONS ON", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(this, "NOTIFICATIONS OFF", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            if (buttonView.isChecked()) {
+                UserHelper.updateUserSettings(getCurrentUser().getUid(), true);
+                Toast.makeText(getApplication(), "NOTIFICATIONS ON", Toast.LENGTH_SHORT).show();
+            } else {
+                UserHelper.updateUserSettings(getCurrentUser().getUid(), false);
+                Toast.makeText(getApplication(), "NOTIFICATIONS OFF", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -94,6 +91,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected FirebaseUser getCurrentUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
+
 
 }
 
