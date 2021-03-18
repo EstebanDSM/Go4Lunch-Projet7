@@ -1,5 +1,6 @@
 package com.guzzler.go4lunch_p7.ui.workmates;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,8 +17,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.item_list_avatar)
     public ImageView mWorkmateAvatar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.item_list_name)
     public TextView mWorkmateName;
 

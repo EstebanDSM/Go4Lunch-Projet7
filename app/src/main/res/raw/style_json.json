@@ -1,0 +1,11 @@
+[
+  {
+    "featureType": "poi.business",
+    "elementType": "All",
+    "stylers": [
+      {
+        "color": "#6a6798"
+      }
+    ]
+  }
+]

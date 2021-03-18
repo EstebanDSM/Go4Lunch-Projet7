@@ -2,11 +2,11 @@ package com.guzzler.go4lunch_p7.ui;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -24,7 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.activity_main_toolbar)
     Toolbar mToolbar;
     @BindView(R.id.settings_switch)
-    Switch mSwitch;
+    SwitchCompat mSwitch;
 
 
     @Override

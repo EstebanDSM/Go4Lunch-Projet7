@@ -31,7 +31,7 @@ public class UpdateMarkers {
                     String title = mMainActivity.mLiveData.getValue().get(i).getName();
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(new LatLng(lat, lng));
-                    markerOptions.title(title);
+//                    markerOptions.title(title);
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
                     Marker marker = map.addMarker(markerOptions);
                     marker.setTag(mMainActivity.mLiveData.getValue().get(i).getPlaceId());
