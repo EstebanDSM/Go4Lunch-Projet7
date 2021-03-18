@@ -59,4 +59,7 @@
     <string name="rest_like">LIKED</string>
     <string name="rest_dislike">DISLIKED</string>
     <string name="Image_restaurant">Image of restaurant selected</string>
+    <string name="cancel_booking">You cancelled the booking for this place</string>
+    <string name="modify_booking">You have chosen a new place for lunch</string>
+    <string name="new_booking">You have chosen this place for lunch</string>
 </resources>

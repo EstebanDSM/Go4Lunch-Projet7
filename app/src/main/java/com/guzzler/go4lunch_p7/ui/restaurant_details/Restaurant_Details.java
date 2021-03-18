@@ -1,6 +1,9 @@
 package com.guzzler.go4lunch_p7.ui.restaurant_details;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,9 +16,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
@@ -24,19 +27,19 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.guzzler.go4lunch_p7.BuildConfig;
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.api.firebase.RestaurantsHelper;
 import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceDetailsCalls;
-import com.guzzler.go4lunch_p7.models.Workmate;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.guzzler.go4lunch_p7.utils.DisplayRating.displayRating;
+import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
 
 
 public class Restaurant_Details extends AppCompatActivity implements View.OnClickListener, GooglePlaceDetailsCalls.Callbacks {
@@ -67,7 +70,6 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     RatingBar mRatingBar;
 
     private ResultDetails requestResult;
-    private List<Workmate> mWorkmates = new ArrayList<>();
 
 
     @Override
@@ -76,15 +78,84 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_restaurant_details);
         ButterKnife.bind(this);
 
-
-        this.configureButtonClickListener();
-        this.requestRetrofit();
+        configureButtonClickListener();
+        requestRetrofit();
+        setFloatingListener();
     }
 
-    private void checkIfUserLikeThisRestaurant() {
+    private void setFloatingListener() {
+        mFloatingActionButton.setOnClickListener(view -> bookThisRestaurant());
+    }
+
+    @Nullable
+    public FirebaseUser getCurrentUser() {
+        return FirebaseAuth.getInstance().getCurrentUser();
+    }
+
+    private void bookThisRestaurant() {
+        String userId = getCurrentUser().getUid();
+        String restaurantId = requestResult.getPlaceId();
+        String restaurantName = requestResult.getName();
+        checkBooked(userId, restaurantId, restaurantName, true);
+    }
+
+    private void checkBooked(String userId, String restaurantId, String restaurantName, Boolean tryingToBook) {
+        RestaurantsHelper.getBooking(userId, getTodayDate()).addOnCompleteListener(restaurantTask -> {
+            if (restaurantTask.isSuccessful()) {
+                if (restaurantTask.getResult().size() == 1) {
+                    for (QueryDocumentSnapshot restaurant : restaurantTask.getResult()) {
+                        if (restaurant.getData().get("restaurantName").equals(restaurantName)) {
+                            displayFloating((R.drawable.ic_clear_black_24dp), getResources().getColor(R.color.colorError));
+                            if (tryingToBook) {
+                                Booking_Firebase(userId, restaurantId, restaurantName, restaurant.getId(), false, false, true);
+                                Toast.makeText(this, getResources().getString(R.string.cancel_booking), Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            displayFloating((R.drawable.ic_check_circle_black_24dp), getResources().getColor(R.color.colorGreen));
+                            if (tryingToBook) {
+                                Booking_Firebase(userId, restaurantId, restaurantName, restaurant.getId(), false, true, false);
+                                Toast.makeText(this, getResources().getString(R.string.modify_booking), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                } else {
+                    displayFloating((R.drawable.ic_check_circle_black_24dp), getResources().getColor(R.color.colorGreen));
+                    if (tryingToBook) {
+                        Booking_Firebase(userId, restaurantId, restaurantName, null, true, false, false);
+                        Toast.makeText(this, getResources().getString(R.string.new_booking), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+    }
+
+    private void displayFloating(int icon, int color) {
+        Drawable mDrawable = ContextCompat.getDrawable(getBaseContext(), icon).mutate();
+        mDrawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+        mFloatingActionButton.setImageDrawable(mDrawable);
+    }
+
+    private void Booking_Firebase(String userId, String restaurantId, String restaurantName, @Nullable String bookingId, boolean toCreate, boolean toUpdate, boolean toDelete) {
+        if (!toUpdate) {
+            if (toCreate) {
+                RestaurantsHelper.createBooking(getTodayDate(), userId, restaurantId, restaurantName).addOnFailureListener(onFailureListener());
+                displayFloating((R.drawable.ic_clear_black_24dp), getResources().getColor(R.color.colorError));
+            } else if (toDelete) {
+                RestaurantsHelper.deleteBooking(bookingId);
+                displayFloating((R.drawable.ic_check_circle_black_24dp), getResources().getColor(R.color.colorGreen));
+            }
+        } else {
+            RestaurantsHelper.deleteBooking(bookingId);
+            RestaurantsHelper.createBooking(getTodayDate(), userId, restaurantId, restaurantName).addOnFailureListener(onFailureListener());
+            displayFloating((R.drawable.ic_clear_black_24dp), getResources().getColor(R.color.colorError));
+        }
+    }
+
+
+    private void checkLiked() {
         RestaurantsHelper.getAllLikeByUserId(getCurrentUser().getUid()).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Log.e("TAG", "checkIfUserLikeThisRestaurant: " + task.getResult().getDocuments());
+                Log.e("TAG", "checkIfLiked: " + task.getResult().getDocuments());
                 if (task.getResult().isEmpty()) {
                     mButtonLike.setText(getResources().getString(R.string.like));
                 } else {
@@ -115,9 +186,9 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.restaurant_item_like:
                 if (mButtonLike.getText().equals(getResources().getString(R.string.like))) {
-                    this.likeRestaurant();
+                    likeRestaurant();
                 } else {
-                    this.dislikeRestaurant();
+                    dislikeRestaurant();
                 }
                 break;
         }
@@ -138,27 +209,16 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     }
 
 
-    private void displayRating(ResultDetails results) {
-        if (results.getRating() != null) {
-            double googleRating = results.getRating();
-            double MAX_RATING = 5;
-            double MAX_STAR = 3;
-            double rating = googleRating / MAX_RATING * MAX_STAR;
-            this.mRatingBar.setRating((float) rating);
-            this.mRatingBar.setVisibility(View.VISIBLE);
-        } else {
-            this.mRatingBar.setVisibility(View.GONE);
-        }
-    }
-
     private void updateUI(ResultDetails resultDetails) {
-        RequestManager glide = Glide.with(this);
+//        RequestManager glide = Glide.with(this);
 
         if (getCurrentUser() != null) {
-            this.checkIfUserLikeThisRestaurant();
+            checkBooked(getCurrentUser().getUid(), requestResult.getPlaceId(), requestResult.getName(), false);
+            checkLiked();
         } else {
             mButtonLike.setText(R.string.like);
             Toast.makeText(this, getResources().getString(R.string.restaurant_error), Toast.LENGTH_LONG).show();
+            displayFloating((R.drawable.ic_check_circle_black_24dp), getResources().getColor(R.color.colorGreen));
         }
 
         // Chargement de la photo dans le détail des restaus
@@ -186,7 +246,8 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
 
         mRestaurantName.setText(resultDetails.getName());
         mRestaurantAddress.setText(resultDetails.getVicinity());
-        this.displayRating(resultDetails);
+        displayRating(resultDetails, mRatingBar);
+
     }
 
 
@@ -213,25 +274,18 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
         }
     }
 
-
     protected OnFailureListener onFailureListener() {
         return e -> Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show();
     }
 
-    @Nullable
-    public FirebaseUser getCurrentUser() {
-        return FirebaseAuth.getInstance().getCurrentUser();
-    }
-
     @Override
     public void onResponse(@Nullable ResultDetails resultDetails) {
-        this.requestResult = resultDetails;
+        requestResult = resultDetails;
         updateUI(resultDetails);
     }
 
     @Override
     public void onFailure() {
+        Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show();
     }
-
-
 }

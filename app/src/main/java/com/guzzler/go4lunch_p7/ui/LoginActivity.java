@@ -124,9 +124,6 @@ public class LoginActivity extends Activity {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
 
-    private void showSnackBar(CoordinatorLayout coordinatorLayout, String message) {
-        Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT).show();
-    }
 
     // Méthode utilisée pour créer l'utilisateur qui s'est connecté avec succès
     private void createWorkmate() {
@@ -136,6 +133,11 @@ public class LoginActivity extends Activity {
             String uid = this.getCurrentUser().getUid();
             UserHelper.createWorkmate(uid, urlPicture, name).addOnFailureListener(this.onFailureListener());
         }
+    }
+
+
+    private void showSnackBar(CoordinatorLayout coordinatorLayout, String message) {
+        Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT).show();
     }
 }
 
