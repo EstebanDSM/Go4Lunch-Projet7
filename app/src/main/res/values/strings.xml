@@ -48,4 +48,14 @@
     <string name="settings_notification">Notifications</string>
     <string name="settings_saved">Save</string>
     <string name="settings_toolbar">Settings</string>
+    <string name="call">CALL</string>
+    <string name="like">LIKE</string>
+    <string name="likE">LIKE</string>
+    <string name="website">WEBSITE</string>
+    <string name="todo">TODO</string>
+    <string name="unlike">UNLIKE</string>
+    <string name="no_phone">No phone number</string>
+    <string name="restaurant_error">Unable to retrieve information</string>
+    <string name="rest_like">LIKED</string>
+    <string name="rest_dislike">DISLIKED</string>
 </resources>
