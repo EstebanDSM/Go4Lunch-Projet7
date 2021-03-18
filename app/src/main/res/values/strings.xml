@@ -58,4 +58,5 @@
     <string name="restaurant_error">Unable to retrieve information</string>
     <string name="rest_like">LIKED</string>
     <string name="rest_dislike">DISLIKED</string>
+    <string name="Image_restaurant">Image of restaurant selected</string>
 </resources>
