@@ -73,7 +73,7 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurant_profile);
+        setContentView(R.layout.activity_restaurant_details);
         ButterKnife.bind(this);
 
 

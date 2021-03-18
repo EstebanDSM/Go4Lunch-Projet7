@@ -39,22 +39,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_to_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
             android:ellipsize="end"
-            android:maxWidth="200dp"
+            android:maxWidth="300dp"
+            android:paddingStart="8dp"
             android:textColor="@color/colorWhite"
+            android:textSize="25sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <RatingBar
             android:id="@+id/item_ratingBar"
-            style="?android:attr/ratingBarStyleSmall"
+            style="?android:attr/ratingBarStyleIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_to_parent"
+            android:layout_marginStart="232dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
             android:numStars="3"
             android:theme="@style/RatingBar"
-            app:layout_constraintStart_toEndOf="@id/restaurant_name"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0" />
 
         <TextView
             android:id="@+id/restaurant_address"
@@ -63,6 +70,8 @@
             android:layout_margin="@dimen/margin_to_parent"
             android:ellipsize="end"
             android:maxWidth="200dp"
+
+            android:paddingStart="8dp"
             android:textColor="@color/colorWhite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -108,6 +117,7 @@
             android:paddingTop="8dp"
             android:paddingRight="16dp"
             android:paddingBottom="5dp"
+            android:text="@string/like"
             android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
