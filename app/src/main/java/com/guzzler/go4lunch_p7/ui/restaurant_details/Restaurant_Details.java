@@ -1,9 +1,6 @@
 package com.guzzler.go4lunch_p7.ui.restaurant_details;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +13,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -34,6 +30,7 @@ import com.guzzler.go4lunch_p7.api.firebase.RestaurantsHelper;
 import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceDetailsCalls;
 import com.guzzler.go4lunch_p7.models.Workmate;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,11 +164,14 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
         // Chargement de la photo dans le détail des restaus
         if (resultDetails.getPhotos() != null) {
             String BASE_URL = "https://maps.googleapis.com/maps/api/place/photo";
-            int MAX_WIDTH = 200;
-            int MAX_HEIGHT = 200;
-            glide.load(BASE_URL + "?maxwidth=" + MAX_WIDTH + "&maxheight=" + MAX_HEIGHT + "&photoreference=" + resultDetails.getPhotos().get(0)
-                    .getPhotoReference() + "&key=" + BuildConfig.api_key)
-                    .apply(RequestOptions.centerCropTransform()).into(mImageView);
+            int MAX_WIDTH = 400;
+            int MAX_HEIGHT = 400;
+//            glide.load(BASE_URL + "?maxwidth=" + MAX_WIDTH + "&maxheight=" + MAX_HEIGHT + "&photoreference=" + resultDetails.getPhotos().get(0)
+//                    .getPhotoReference() + "&key=" + BuildConfig.api_key)
+//                    .apply(RequestOptions.centerCropTransform()).into(mImageView);
+
+            Picasso.get().load(BASE_URL + "?maxwidth=" + MAX_WIDTH + "&maxheight=" + MAX_HEIGHT + "&photoreference=" + resultDetails.getPhotos().get(0)
+                    .getPhotoReference() + "&key=" + BuildConfig.api_key).into(mImageView);
 
 
         } else {

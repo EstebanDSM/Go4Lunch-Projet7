@@ -28,10 +28,10 @@ public class UpdateMarkers {
                 for (int i = 0; i < mMainActivity.mLiveData.getValue().size(); i++) {
                     Double lat = mMainActivity.mLiveData.getValue().get(i).getGeometry().getLocation().getLat();
                     Double lng = mMainActivity.mLiveData.getValue().get(i).getGeometry().getLocation().getLng();
-                    String title = mMainActivity.mLiveData.getValue().get(i).getName();
+                    // String title = mMainActivity.mLiveData.getValue().get(i).getName();
+                    // markerOptions.title(title);
                     MarkerOptions markerOptions = new MarkerOptions();
                     markerOptions.position(new LatLng(lat, lng));
-//                    markerOptions.title(title);
                     markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
                     Marker marker = map.addMarker(markerOptions);
                     marker.setTag(mMainActivity.mLiveData.getValue().get(i).getPlaceId());
