@@ -56,19 +56,12 @@ public class ResultDetails {
 
     private int mDistance;
 
-    /* boolean pour liste triée ou non) */
-    private boolean isFilterList;
-
     public int getDistance() {
         return mDistance;
     }
 
     public void setDistance(int distance) {
         mDistance = distance;
-    }
-
-    public boolean isFilterList() {
-        return isFilterList;
     }
 
 

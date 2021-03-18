@@ -39,10 +39,10 @@ public class SettingsActivity extends AppCompatActivity {
         this.setTitle(getString(R.string.settings_toolbar));
 
         mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (buttonView.isChecked()) {
+            if (buttonView.isPressed() && buttonView.isChecked()) {
                 UserHelper.updateUserSettings(getCurrentUser().getUid(), true);
                 Toast.makeText(getApplication(), "NOTIFICATIONS ON", Toast.LENGTH_SHORT).show();
-            } else {
+            } else if (!buttonView.isChecked()) {
                 UserHelper.updateUserSettings(getCurrentUser().getUid(), false);
                 Toast.makeText(getApplication(), "NOTIFICATIONS OFF", Toast.LENGTH_SHORT).show();
             }

@@ -52,7 +52,7 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void updateWithData(ResultDetails resultDetails, String location) {
+    public void updateWithData(ResultDetails resultDetails, String mLocation) {
         RequestManager glide = Glide.with(itemView);
 
         // NAME
@@ -112,7 +112,7 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
         if (minOfDay < 10) {
             minOfDay = '0' + minOfDay;
         }
-        String currentHourString = hourOfDay + Integer.toString(minOfDay);
+        String currentHourString = hourOfDay + String.valueOf(minOfDay);
         int currentHour = Integer.parseInt(currentHourString);
 
         for (int i = 0; i < resultDetails.getOpeningHours().getPeriods().size(); i++) {
@@ -155,4 +155,6 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
                 break;
         }
     }
+
+
 }

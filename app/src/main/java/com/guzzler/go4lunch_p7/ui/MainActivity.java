@@ -254,12 +254,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mShareViewModel.updateCurrentUserPosition(new LatLng(currentLatitude, currentLongitude));
     }
 
-    /**
-     * @return boolean
-     */
-    public boolean checkLocationPermission() {
-        return EasyPermissions.hasPermissions(getApplicationContext(), permissions);
+
+    public void checkLocationPermission() {
+        EasyPermissions.hasPermissions(getApplicationContext(), permissions);
     }
-
-
 }

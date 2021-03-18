@@ -31,7 +31,7 @@ public class UserHelper {
     }
 
     // --- UPDATE ---
-    public static Task<Void> updateUserSettings(String userId, boolean notification) {
-        return UserHelper.getWorkmatesCollection().document(userId).update("notification", notification);
+    public static void updateUserSettings(String userId, boolean notification) {
+        UserHelper.getWorkmatesCollection().document(userId).update("notification", notification);
     }
 }
