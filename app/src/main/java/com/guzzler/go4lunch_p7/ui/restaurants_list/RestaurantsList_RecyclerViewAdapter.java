@@ -39,7 +39,8 @@ public class RestaurantsList_RecyclerViewAdapter extends RecyclerView.Adapter<Re
     @Override
     public void onBindViewHolder(@NonNull RestaurantsList_ViewHolder holder, int position) {
         holder.updateWithData(this.mResultDetails.get(position), this.mLocation);
-        /* envoi de l'id et du booléen vers l'activité de détails */
+
+        /* envoi du placeID vers l'activité de détails du restaurant*/
         holder.itemView.setOnClickListener(view -> {
             ResultDetails result = this.getRestaurantDetails(position);
             Intent intent = new Intent(holder.itemView.getContext(), Restaurant_Details.class);

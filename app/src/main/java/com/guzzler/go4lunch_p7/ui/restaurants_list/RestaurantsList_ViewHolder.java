@@ -22,7 +22,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.guzzler.go4lunch_p7.utils.FormatTime.formatTime;
-import static com.guzzler.go4lunch_p7.utils.GetDistance.getDistance;
 
 
 public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
@@ -64,7 +63,7 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
 
         /* TODO : les distances ne sont pas triées dans la recyclerview */
         // DISTANCE
-        mDistance.setText(itemView.getResources().getString(R.string.unit_distance, getDistance(location, resultDetails.getGeometry().getLocation())));
+        mDistance.setText(itemView.getResources().getString(R.string.unit_distance, String.valueOf(resultDetails.getDistance())));
 
         // RATING
         displayRating(resultDetails);

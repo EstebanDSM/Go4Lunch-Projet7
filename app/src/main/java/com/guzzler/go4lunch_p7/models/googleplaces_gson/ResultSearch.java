@@ -27,6 +27,15 @@ public class ResultSearch {
     @SerializedName("vicinity")
     private String mVicinity;
 
+    private int mDistance;
+
+    public int getDistance() {
+        return mDistance;
+    }
+
+    public void setDistance(int distance) {
+        mDistance = distance;
+    }
 
     public Geometry getGeometry() {
         return mGeometry;

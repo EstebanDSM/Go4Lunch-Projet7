@@ -62,9 +62,10 @@ public class LoginActivity extends Activity {
                         .setLogo(R.drawable.logo_loggin)
                         .setAvailableProviders(Arrays.asList(
                                 new AuthUI.IdpConfig.GoogleBuilder().build(), // SUPPORT GOOGLE
+                                new AuthUI.IdpConfig.TwitterBuilder().build(), // SUPPORT TWITTER
                                 new AuthUI.IdpConfig.FacebookBuilder().build())) // SUPPORT FACEBOOK
-                        .setIsSmartLockEnabled(false, true)
 
+                        .setIsSmartLockEnabled(false, true)
                         .build(),
                 RC_SIGN_IN);
 

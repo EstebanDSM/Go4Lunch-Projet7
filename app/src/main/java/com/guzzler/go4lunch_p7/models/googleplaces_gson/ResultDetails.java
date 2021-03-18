@@ -54,6 +54,23 @@ public class ResultDetails {
     @SerializedName("website")
     private String mWebsite;
 
+    private int mDistance;
+
+    /* boolean pour liste triée ou non) */
+    private boolean isFilterList;
+
+    public int getDistance() {
+        return mDistance;
+    }
+
+    public void setDistance(int distance) {
+        mDistance = distance;
+    }
+
+    public boolean isFilterList() {
+        return isFilterList;
+    }
+
 
     public List<AddressComponent> getAddressComponents() {
         return mAddressComponents;
@@ -246,4 +263,6 @@ public class ResultDetails {
     public void setWebsite(String website) {
         mWebsite = website;
     }
+
+
 }

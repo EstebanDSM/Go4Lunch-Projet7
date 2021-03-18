@@ -1,10 +1,12 @@
 package com.guzzler.go4lunch_p7.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +44,7 @@ import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceDetailsCalls;
 import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceSearchCalls;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
+import com.guzzler.go4lunch_p7.utils.DistanceTo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +57,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GooglePlaceSearchCalls.Callbacks, GooglePlaceDetailsCalls.Callbacks, LocationListener {
     private final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     public List<ResultDetails> mResultDetailsList = new ArrayList<>();
-
 
     //VIEWMODEL
     public SharedViewModel mShareViewModel;
@@ -80,7 +82,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavigationUI.setupWithNavController(navView, navController);
+
 
         checkLocationPermission();
 
@@ -94,10 +100,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupWithNavController(navView, navController);
-
         // Configure Toolbar
         this.configureToolBar();
 
@@ -109,6 +111,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startSignInActivity();
         }
         this.updateView();
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
+        return super.onCreateView(name, context, attrs);
 
     }
 
@@ -218,10 +227,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onResponse(@Nullable ResultDetails resultDetails) {
-        if (resultDetails.getTypes().contains("restaurant")) {
-            mResultDetailsList.add(resultDetails);
-            mLiveData.setValue(mResultDetailsList);
-        }
+        int distance = (int) Math.round(DistanceTo.distanceTo(resultDetails, this));
+        resultDetails.setDistance(distance);
+        mResultDetailsList.add(resultDetails);
+        mLiveData.setValue(mResultDetailsList);
     }
 
     @Override
