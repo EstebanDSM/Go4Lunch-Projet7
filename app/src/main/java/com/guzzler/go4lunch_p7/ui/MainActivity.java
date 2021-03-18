@@ -155,12 +155,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         //Gestion de la navigation au click sur la Navigation Drawer
         int id = item.getItemId();
-
-        if (id == R.id.nav_logout) {
-            signOutFirebase();
+        switch (id) {
+            case R.id.nav_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_logout:
+                signOutFirebase();
+            default:
+                break;
         }
+
         this.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

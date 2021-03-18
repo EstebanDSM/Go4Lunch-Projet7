@@ -45,4 +45,7 @@
     <string name="Titre_Toolbar_hungry">I\'m Hungry</string>
     <string name="Titre_Toolbar_workmates">Available workmates</string>
     <string name="no_restaurant_found">No restautant found</string>
+    <string name="settings_notification">Notifications</string>
+    <string name="settings_saved">Save</string>
+    <string name="settings_toolbar">Settings</string>
 </resources>

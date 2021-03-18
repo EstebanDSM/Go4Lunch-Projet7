@@ -25,6 +25,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key" />
 
+        <activity android:name=".ui.SettingsActivity" />
+
         <activity
             android:name=".ui.MainActivity"
             android:screenOrientation="portrait">
@@ -36,7 +38,6 @@
 
         <activity
             android:name=".ui.LoginActivity"
-
             android:label="@string/toolbar_title_login_activity"
             android:parentActivityName=".ui.MainActivity" />
 
