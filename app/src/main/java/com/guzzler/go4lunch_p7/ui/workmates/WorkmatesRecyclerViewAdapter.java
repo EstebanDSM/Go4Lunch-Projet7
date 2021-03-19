@@ -42,4 +42,8 @@ public class WorkmatesRecyclerViewAdapter extends RecyclerView.Adapter<Workmates
         if (mWorkmates != null) itemCount = mWorkmates.size();
         return itemCount;
     }
+
+    public Workmate getWorkmates(int position) {
+        return this.mWorkmates.get(position);
+    }
 }

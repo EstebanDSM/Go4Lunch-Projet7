@@ -1,11 +1,13 @@
 package com.guzzler.go4lunch_p7.ui.workmates;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,18 +15,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.guzzler.go4lunch_p7.R;
+import com.guzzler.go4lunch_p7.api.firebase.RestaurantsHelper;
 import com.guzzler.go4lunch_p7.api.firebase.UserHelper;
 import com.guzzler.go4lunch_p7.models.Workmate;
 import com.guzzler.go4lunch_p7.ui.BaseFragment;
+import com.guzzler.go4lunch_p7.ui.restaurant_details.Restaurant_Details;
+import com.guzzler.go4lunch_p7.utils.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.ButterKnife;
 
 import static com.firebase.ui.auth.ui.email.EmailLinkFragment.TAG;
+import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
 
 public class Workmates_Fragment extends BaseFragment {
     private List<Workmate> mWorkmates = new ArrayList<>();
@@ -49,7 +56,7 @@ public class Workmates_Fragment extends BaseFragment {
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-
+        configureOnClickRecyclerView();
         this.mViewAdapter = new WorkmatesRecyclerViewAdapter(this.mWorkmates);
         this.mRecyclerView.setAdapter(this.mViewAdapter);
         getActivity().setTitle(getString(R.string.Titre_Toolbar_workmates));
@@ -76,5 +83,33 @@ public class Workmates_Fragment extends BaseFragment {
                     });
                     mRecyclerView.setAdapter(new WorkmatesRecyclerViewAdapter(mWorkmates));
                 });
+    }
+
+    private void configureOnClickRecyclerView() {
+        ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_workmates)
+                .setOnItemClickListener((recyclerView, position, v) -> {
+                    Workmate result = mViewAdapter.getWorkmates(position);
+                    checkIfWorkmateHasBooking(result);
+                });
+    }
+
+    private void startRestaurantDetails(String placeId) {
+        Intent intent = new Intent(getActivity(), Restaurant_Details.class);
+        intent.putExtra("PlaceDetailResult", placeId);
+        startActivity(intent);
+    }
+
+    private void checkIfWorkmateHasBooking(Workmate workmate) {
+        RestaurantsHelper.getBooking(workmate.getUid(), getTodayDate()).addOnCompleteListener(bookingTask -> {
+            if (bookingTask.isSuccessful()) {
+                if (!(Objects.requireNonNull(bookingTask.getResult()).isEmpty())) {
+                    for (QueryDocumentSnapshot booking : bookingTask.getResult()) {
+                        startRestaurantDetails(Objects.requireNonNull(booking.getData().get("restaurantId")).toString());
+                    }
+                } else {
+                    Toast.makeText(getContext(), getResources().getString(R.string.hasnt_decided, workmate.getName()), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
