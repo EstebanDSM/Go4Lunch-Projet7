@@ -48,7 +48,7 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
         }
         RestaurantsHelper.getBooking(result.getUid(), getTodayDate()).addOnCompleteListener(restaurantTask -> {
             if (restaurantTask.isSuccessful()) {
-                if (restaurantTask.getResult().size() == 1) {
+                if (restaurantTask.getResult().size() == 1) { // This user has made his (only) choice
                     for (QueryDocumentSnapshot restaurant : restaurantTask.getResult()) {
                         this.mWorkmateName.setText(itemView.getResources().getString(R.string.eating_at, result.getName(), restaurant.getData().get("restaurantName")));//
                         mWorkmateName.setTypeface(mWorkmateName.getTypeface(), Typeface.BOLD);
