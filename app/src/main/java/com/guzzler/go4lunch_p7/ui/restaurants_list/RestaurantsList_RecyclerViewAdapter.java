@@ -1,6 +1,5 @@
 package com.guzzler.go4lunch_p7.ui.restaurants_list;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
-import com.guzzler.go4lunch_p7.ui.restaurant_details.Restaurant_Details;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,14 +37,6 @@ public class RestaurantsList_RecyclerViewAdapter extends RecyclerView.Adapter<Re
     @Override
     public void onBindViewHolder(@NonNull RestaurantsList_ViewHolder holder, int position) {
         holder.updateWithData(this.mResultDetails.get(position), this.mLocation);
-
-        /* envoi du placeID vers l'activité de détails du restaurant*/
-        holder.itemView.setOnClickListener(view -> {
-            ResultDetails result = this.getRestaurantDetails(position);
-            Intent intent = new Intent(holder.itemView.getContext(), Restaurant_Details.class);
-            intent.putExtra("PlaceDetailResult", result.getPlaceId());
-            holder.itemView.getContext().startActivity(intent);
-        });
     }
 
     @Override
