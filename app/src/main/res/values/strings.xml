@@ -62,4 +62,6 @@
     <string name="cancel_booking">You cancelled the booking for this place</string>
     <string name="modify_booking">You have chosen a new place for lunch</string>
     <string name="new_booking">You have chosen this place for lunch</string>
+    <string name="eating_at">%1$s is eating at %2$s</string>
+    <string name="hasnt_decided">%1$s hasn\'t decided yet</string>
 </resources>

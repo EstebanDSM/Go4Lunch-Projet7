@@ -100,6 +100,8 @@ public class LoginActivity extends Activity {
             if (resultCode == RESULT_OK) { // SUCCESS
                 this.createWorkmate();
                 this.finish();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
             } else { // ERRORS
 
                 // Show Snack Bar with a message
@@ -141,5 +143,3 @@ public class LoginActivity extends Activity {
         Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT).show();
     }
 }
-
-

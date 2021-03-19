@@ -98,8 +98,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!UserLogged()) {
             startSignInActivity();
         }
-
-
         checkLocationPermission();
 
         FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
