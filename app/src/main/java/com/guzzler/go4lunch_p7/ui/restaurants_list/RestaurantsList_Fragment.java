@@ -13,8 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.guzzler.go4lunch_p7.R;
+import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.guzzler.go4lunch_p7.ui.BaseFragment;
 import com.guzzler.go4lunch_p7.ui.MainActivity;
+
+import java.util.Collections;
+import java.util.List;
 
 
 public class RestaurantsList_Fragment extends BaseFragment {
@@ -51,10 +55,10 @@ public class RestaurantsList_Fragment extends BaseFragment {
     }
 
     private void configureRecyclerView() {
-        RestaurantsList_RecyclerViewAdapter mViewAdapter = new RestaurantsList_RecyclerViewAdapter(mMainActivity.mLiveData.getValue(), mMainActivity.mShareViewModel.getCurrentUserPositionFormatted());
+        List<ResultDetails> mResult = mMainActivity.mLiveData.getValue();
+        Collections.sort(mResult);
+        RestaurantsList_RecyclerViewAdapter mViewAdapter = new RestaurantsList_RecyclerViewAdapter(mResult, mMainActivity.mShareViewModel.getCurrentUserPositionFormatted());
         this.mRecyclerView.setAdapter(mViewAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
-
-
 }

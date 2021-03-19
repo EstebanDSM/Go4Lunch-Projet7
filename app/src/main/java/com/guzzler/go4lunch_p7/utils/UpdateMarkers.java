@@ -23,7 +23,7 @@ public class UpdateMarkers {
     public static void updateMarkers(GoogleMap map, MainActivity mMainActivity) {
         if (mMainActivity.mLiveData.getValue() != null) {
             map.clear();
-            Log.e(TAG, "number of markers : " + mMainActivity.mLiveData.getValue().size());
+
             if (mMainActivity.mLiveData.getValue().size() > 0) {
                 for (int i = 0; i < mMainActivity.mLiveData.getValue().size(); i++) {
                     Double lat = mMainActivity.mLiveData.getValue().get(i).getGeometry().getLocation().getLat();
@@ -41,7 +41,9 @@ public class UpdateMarkers {
             } else {
                 Toast.makeText(mMainActivity.getApplicationContext(), mMainActivity.getResources().getString(R.string.no_restaurant), Toast.LENGTH_SHORT).show();
             }
+            Log.e(TAG, "number of markers : " + mMainActivity.mLiveData.getValue().size());
         }
+
     }
 
 }

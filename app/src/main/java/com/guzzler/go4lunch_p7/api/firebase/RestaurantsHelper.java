@@ -60,6 +60,7 @@ public class RestaurantsHelper {
     }
 
     // --- DELETE ---
+
     public static Task<Void> deleteBooking(String bookingId) {
         return RestaurantsHelper.getBookingCollection().document(bookingId).delete();
     }

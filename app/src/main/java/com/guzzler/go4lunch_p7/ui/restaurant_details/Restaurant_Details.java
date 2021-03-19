@@ -88,7 +88,7 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     }
 
     @Nullable
-    public FirebaseUser getCurrentUser() {
+    private FirebaseUser getCurrentUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
 
@@ -288,4 +288,6 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     public void onFailure() {
         Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show();
     }
+
+
 }

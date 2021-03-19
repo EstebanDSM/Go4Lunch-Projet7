@@ -19,8 +19,9 @@ public class UserHelper {
 
     // --- CREATE ---
     public static Task<Void> createWorkmate(String uid, @Nullable String urlPicture, String name) {
-        if (urlPicture == null)
+        if (urlPicture == null) {
             urlPicture = "https://unc.nc/wp-content/uploads/2020/07/Portrait_Placeholder-1.png";
+        }
         Workmate workmateToCreate = new Workmate(uid, urlPicture, name);
         return UserHelper.getWorkmatesCollection().document(uid).set(workmateToCreate);
     }

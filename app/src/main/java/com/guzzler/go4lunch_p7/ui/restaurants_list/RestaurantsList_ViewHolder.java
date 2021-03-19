@@ -61,7 +61,6 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
         // ADDRESS
         mAdressRestaurant.setText(resultDetails.getFormattedAddress());
 
-        /* TODO : les distances ne sont pas triées dans la recyclerview */
         // DISTANCE
         mDistance.setText(itemView.getResources().getString(R.string.unit_distance, String.valueOf(resultDetails.getDistance())));
 

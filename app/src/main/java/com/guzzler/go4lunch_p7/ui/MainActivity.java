@@ -88,6 +88,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationUI.setupWithNavController(navView, navController);
 
 
+        // Configure Toolbar
+        this.configureToolBar();
+
+        // Configure Navigation Drawer
+        this.configureDrawerLayout();
+        this.configureNavigationView();
+
+        if (!UserLogged()) {
+            startSignInActivity();
+        }
+
+
         checkLocationPermission();
 
         FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
@@ -99,17 +111,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 GooglePlaceSearchCalls.fetchNearbyRestaurants(this, mShareViewModel.getCurrentUserPositionFormatted());
             }
         });
-
-        // Configure Toolbar
-        this.configureToolBar();
-
-        // Configure Navigation Drawer
-        this.configureDrawerLayout();
-        this.configureNavigationView();
-
-        if (!UserLogged()) {
-            startSignInActivity();
-        }
         this.updateView();
 
     }
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Nullable
-    public FirebaseUser getCurrentUser() {
+    private FirebaseUser getCurrentUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
 
@@ -245,7 +246,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onFailure() {
         Toast.makeText(this.getApplicationContext(), getResources().getString(R.string.no_restaurant_found), Toast.LENGTH_SHORT).show();
     }
-
 
     @Override
     public void onLocationChanged(@NonNull Location location) {

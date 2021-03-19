@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ResultDetails {
+public class ResultDetails implements Comparable<ResultDetails> {
     @SerializedName("address_components")
     private List<AddressComponent> mAddressComponents;
     @SerializedName("adr_address")
@@ -257,5 +257,14 @@ public class ResultDetails {
         mWebsite = website;
     }
 
-
+    @Override
+    public int compareTo(ResultDetails o) {
+        return Integer.compare(mDistance, ((ResultDetails) o).getDistance());
+    }
+//
+//    @Override
+//    public int compareTo(Object o) {
+//        ResultDetails resultDetails = (ResultDetails) o;
+//        return Integer.compare(mDistance, resultDetails.getDistance());
+//    }
 }

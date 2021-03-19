@@ -26,7 +26,6 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 public class LoginActivity extends Activity {
 
     //FOR DATA
@@ -120,18 +119,20 @@ public class LoginActivity extends Activity {
     }
 
     @Nullable
-    public FirebaseUser getCurrentUser() {
+    private FirebaseUser getCurrentUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
 
 
-    // Méthode utilisée pour créer l'utilisateur qui s'est connecté avec succès
+    // Méthode utilisée pour créer l'utilisateur qui s'est connecté avec succès // TODO : et qui n'existe pas !!
     private void createWorkmate() {
-        if (this.getCurrentUser() != null) {
-            String urlPicture = (this.getCurrentUser().getPhotoUrl() != null) ? this.getCurrentUser().getPhotoUrl().toString() : null;
-            String name = this.getCurrentUser().getDisplayName();
-            String uid = this.getCurrentUser().getUid();
-            UserHelper.createWorkmate(uid, urlPicture, name).addOnFailureListener(this.onFailureListener());
+        if (getCurrentUser() != null) {
+
+            String urlPicture = (getCurrentUser().getPhotoUrl() != null) ? getCurrentUser().getPhotoUrl().toString() : null;
+            String name = getCurrentUser().getDisplayName();
+            String uid = getCurrentUser().getUid();
+
+            UserHelper.createWorkmate(uid, urlPicture, name).addOnFailureListener(onFailureListener());
         }
     }
 

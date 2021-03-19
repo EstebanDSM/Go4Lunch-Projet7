@@ -18,6 +18,8 @@ import com.guzzler.go4lunch_p7.api.firebase.UserHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+// TODO attention le boolean notification revient a false quand on se reconnecte avec l'appli (sur firebase)
+
 
 public class SettingsActivity extends AppCompatActivity {
     protected SharedViewModel mSharedViewModel;
@@ -88,7 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Nullable
-    protected FirebaseUser getCurrentUser() {
+    private FirebaseUser getCurrentUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
 
