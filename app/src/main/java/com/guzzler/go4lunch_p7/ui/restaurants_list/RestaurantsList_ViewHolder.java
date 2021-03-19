@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.guzzler.go4lunch_p7.BuildConfig;
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
+import com.guzzler.go4lunch_p7.utils.DisplayRating;
 
 import java.util.Calendar;
 
@@ -65,7 +66,7 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
         mDistance.setText(itemView.getResources().getString(R.string.unit_distance, String.valueOf(resultDetails.getDistance())));
 
         // RATING
-        displayRating(resultDetails);
+        DisplayRating.displayRating(resultDetails, mStar);
 
         // PHOTOS OF RESTAURANTS
         if (!(resultDetails.getPhotos() == null)) {
@@ -90,16 +91,6 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void displayRating(ResultDetails resultDetails) {
-        if (resultDetails.getRating() != null) {
-            double googleRating = resultDetails.getRating();
-            double rating = googleRating / 5 * 3;
-            this.mStar.setRating((float) rating);
-            this.mStar.setVisibility(View.VISIBLE);
-        } else {
-            this.mStar.setVisibility(View.GONE);
-        }
-    }
 
     private void getOpeningHoursInfo(ResultDetails resultDetails) {
         int[] daysArray = {0, 1, 2, 3, 4, 5, 6};
