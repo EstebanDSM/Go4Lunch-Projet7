@@ -64,4 +64,5 @@
     <string name="new_booking">You have chosen this place for lunch</string>
     <string name="eating_at">%1$s is eating at %2$s</string>
     <string name="hasnt_decided">%1$s hasn\'t decided yet</string>
+    <string name="no_website">No Website available</string>
 </resources>

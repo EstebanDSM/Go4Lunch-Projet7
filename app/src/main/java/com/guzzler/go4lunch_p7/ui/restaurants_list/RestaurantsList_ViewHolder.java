@@ -68,7 +68,7 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
         // RATING
         DisplayRating.displayRating(resultDetails, mStar);
 
-        // PHOTOS OF RESTAURANTS
+        // PHOTO RESTAURANT
         if (!(resultDetails.getPhotos() == null)) {
             if (!(resultDetails.getPhotos().isEmpty())) {
                 glide.load(BASE_URL + "?maxwidth=" + MAX_WIDTH + "&maxheight=" + MAX_HEIGHT + "&photoreference=" + resultDetails.getPhotos().get(0)
@@ -115,11 +115,12 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
                     } else {
                         displayOpeningHour(OPEN, resultDetails.getOpeningHours().getPeriods().get(i).getClose().getTime());
                     }
-                    break;
                 }
+                break;
             }
         }
     }
+
 
     private void displayOpeningHour(String type, String hour) {
         switch (type) {

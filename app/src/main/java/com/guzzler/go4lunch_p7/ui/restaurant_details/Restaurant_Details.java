@@ -191,6 +191,15 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
                     dislikeRestaurant();
                 }
                 break;
+            case R.id.restaurant_item_website:
+                if (requestResult.getWebsite() != null) {
+                    Intent intent = new Intent(this, WebView_Activity.class);
+                    intent.putExtra("Website", requestResult.getWebsite());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, getResources().getString(R.string.no_website), Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 
