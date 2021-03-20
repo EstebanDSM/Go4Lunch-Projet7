@@ -35,24 +35,33 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.guzzler.go4lunch_p7.R;
+import com.guzzler.go4lunch_p7.api.firebase.RestaurantsHelper;
 import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceDetailsCalls;
 import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceSearchCalls;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
+import com.guzzler.go4lunch_p7.ui.restaurant_details.Restaurant_Details;
 import com.guzzler.go4lunch_p7.utils.DistanceTo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import pub.devrel.easypermissions.EasyPermissions;
+
+import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GooglePlaceSearchCalls.Callbacks, GooglePlaceDetailsCalls.Callbacks, LocationListener {
     private final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -158,13 +167,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Gestion de la navigation au click sur la Navigation Drawer
         int id = item.getItemId();
         switch (id) {
-            case R.id.nav_settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                break;
             case R.id.nav_logout:
                 signOutFirebase();
             default:
+                break;
+            case R.id.nav_lunch:
+                RestaurantsHelper.getBooking(getCurrentUser().getUid(), getTodayDate()).addOnCompleteListener(this::onComplete);
+                break;
+            case R.id.nav_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
                 break;
         }
 
@@ -255,5 +267,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void checkLocationPermission() {
         EasyPermissions.hasPermissions(getApplicationContext(), permissions);
+    }
+
+    private void onComplete(Task<QuerySnapshot> bookingTask) {
+
+        if (!bookingTask.isSuccessful()) {
+            return;
+        }
+        if (!bookingTask.getResult().isEmpty()) {
+            Map<String, Object> extra = new HashMap<>();
+            for (QueryDocumentSnapshot booking : bookingTask.getResult()) {
+                extra.put("PlaceDetailResult", booking.getData().get("restaurantId"));
+            }
+            Intent intent = new Intent(this, Restaurant_Details.class);
+            for (String key : extra.keySet()) {
+                String value = (String) extra.get(key);
+                intent.putExtra(key, value);
+            }
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, getResources().getString(R.string.no_restaurant_booked), Toast.LENGTH_SHORT).show();
+        }
     }
 }
