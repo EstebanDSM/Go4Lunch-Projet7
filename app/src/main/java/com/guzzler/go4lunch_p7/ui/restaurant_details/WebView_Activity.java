@@ -46,9 +46,7 @@ public class WebView_Activity extends AppCompatActivity {
             mWebView.getSettings().setLoadsImagesAutomatically(true);
             mWebView.loadUrl(url);
             mWebView.setWebViewClient(new WebViewClient());
-            mSwipeRefreshLayout.setRefreshing(false);
-        } else {
-            mSwipeRefreshLayout.setRefreshing(false);
         }
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }

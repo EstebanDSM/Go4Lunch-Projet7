@@ -13,25 +13,25 @@ import com.guzzler.go4lunch_p7.models.Workmate;
 import java.util.List;
 
 
-public class WorkmatesRecyclerViewAdapter extends RecyclerView.Adapter<WorkmatesViewHolder> {
+public class Workmates_RecyclerViewAdapter extends RecyclerView.Adapter<Workmates_ViewHolder> {
     private List<Workmate> mWorkmates;
 
 
-    public WorkmatesRecyclerViewAdapter(List<Workmate> items) {
+    public Workmates_RecyclerViewAdapter(List<Workmate> items) {
         mWorkmates = items;
     }
 
 
     @Override
-    public WorkmatesViewHolder onCreateViewHolder(ViewGroup parent, int viewtype) {
+    public Workmates_ViewHolder onCreateViewHolder(ViewGroup parent, int viewtype) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_workmate_item, parent, false);
-        return new WorkmatesViewHolder(view);
+        return new Workmates_ViewHolder(view);
     }
 
 
     @Override
-    public void onBindViewHolder(@NonNull WorkmatesViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Workmates_ViewHolder holder, int position) {
         holder.updateWithData(this.mWorkmates.get(position));
     }
 

@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 
 import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
 
-public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
+public class Workmates_ViewHolder extends RecyclerView.ViewHolder {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.item_list_avatar)
     public ImageView mWorkmateAvatar;
@@ -31,7 +31,7 @@ public class WorkmatesViewHolder extends RecyclerView.ViewHolder {
     public TextView mWorkmateName;
 
 
-    public WorkmatesViewHolder(View itemview) {
+    public Workmates_ViewHolder(View itemview) {
         super(itemview);
 
         ButterKnife.bind(this, itemview);

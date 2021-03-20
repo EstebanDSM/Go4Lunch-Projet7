@@ -17,6 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
@@ -31,9 +33,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.guzzler.go4lunch_p7.BuildConfig;
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.api.firebase.RestaurantsHelper;
+import com.guzzler.go4lunch_p7.api.firebase.UserHelper;
 import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceDetailsCalls;
+import com.guzzler.go4lunch_p7.models.Workmate;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,8 +75,13 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     @Nullable
     @BindView(R.id.item_ratingBar)
     RatingBar mRatingBar;
+    @Nullable
+    @BindView(R.id.restaurantRecyclerView)
+    RecyclerView mRestaurantRecyclerView;
 
+    private List<Workmate> mWorkmates = new ArrayList<>();
     private ResultDetails requestResult;
+    private Restaurant_Details_RecyclerViewAdapter mAdapter;
 
 
     @Override
@@ -79,6 +91,7 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
         ButterKnife.bind(this);
 
         configureButtonClickListener();
+        configureRecyclerView();
         requestRetrofit();
         setFloatingListener();
     }
@@ -149,6 +162,7 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
             RestaurantsHelper.createBooking(getTodayDate(), userId, restaurantId, restaurantName).addOnFailureListener(onFailureListener());
             displayFloating((R.drawable.ic_clear_black_24dp), getResources().getColor(R.color.colorError));
         }
+        Update_Booking_RecyclerView(requestResult.getPlaceId());
     }
 
 
@@ -204,6 +218,13 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     }
 
 
+    private void configureRecyclerView() {
+        this.mAdapter = new Restaurant_Details_RecyclerViewAdapter(mWorkmates);
+        this.mRestaurantRecyclerView.setAdapter(mAdapter);
+        this.mRestaurantRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+
     private void requestRetrofit() {
         String result = getIntent().getStringExtra("PlaceDetailResult");
         Log.e("TAG", "retrieveObject: " + result);
@@ -255,10 +276,34 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
 
         mRestaurantName.setText(resultDetails.getName());
         mRestaurantAddress.setText(resultDetails.getVicinity());
+        Update_Booking_RecyclerView(requestResult.getPlaceId());
         displayRating(resultDetails, mRatingBar);
 
     }
 
+    private void Update_Booking_RecyclerView(String placeId) {
+        mWorkmates.clear();
+        RestaurantsHelper.getTodayBooking(placeId, getTodayDate()).addOnCompleteListener(restaurantTask -> {
+            if (restaurantTask.isSuccessful()) {
+                if (restaurantTask.getResult().isEmpty()) {
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    for (QueryDocumentSnapshot restaurant : restaurantTask.getResult()) {
+                        UserHelper.getWorkmate(restaurant.getData().get("userId").toString()).addOnCompleteListener(workmateTask -> {
+                            if (workmateTask.isSuccessful()) {
+                                String name = workmateTask.getResult().getData().get("name").toString();
+                                String uid = workmateTask.getResult().getData().get("uid").toString();
+                                String urlPicture = workmateTask.getResult().getData().get("urlPicture").toString();
+                                Workmate workmateToAdd = new Workmate(uid, urlPicture, name);
+                                mWorkmates.add(workmateToAdd);
+                            }
+                            mAdapter.notifyDataSetChanged();
+                        });
+                    }
+                }
+            }
+        });
+    }
 
     private void likeRestaurant() {
         if (requestResult != null && getCurrentUser() != null) {
@@ -297,6 +342,4 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     public void onFailure() {
         Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show();
     }
-
-
 }

@@ -35,7 +35,7 @@ import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
 
 public class Workmates_Fragment extends BaseFragment {
     private List<Workmate> mWorkmates = new ArrayList<>();
-    private WorkmatesRecyclerViewAdapter mViewAdapter;
+    private Workmates_RecyclerViewAdapter mViewAdapter;
     private RecyclerView mRecyclerView;
 
 
@@ -57,7 +57,7 @@ public class Workmates_Fragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         configureOnClickRecyclerView();
-        this.mViewAdapter = new WorkmatesRecyclerViewAdapter(this.mWorkmates);
+        this.mViewAdapter = new Workmates_RecyclerViewAdapter(this.mWorkmates);
         this.mRecyclerView.setAdapter(this.mViewAdapter);
         getActivity().setTitle(getString(R.string.Titre_Toolbar_workmates));
         return view;
@@ -81,7 +81,7 @@ public class Workmates_Fragment extends BaseFragment {
                             return obj1.getUid().compareToIgnoreCase(obj2.getUid());
                         }
                     });
-                    mRecyclerView.setAdapter(new WorkmatesRecyclerViewAdapter(mWorkmates));
+                    mRecyclerView.setAdapter(new Workmates_RecyclerViewAdapter(mWorkmates));
                 });
     }
 
