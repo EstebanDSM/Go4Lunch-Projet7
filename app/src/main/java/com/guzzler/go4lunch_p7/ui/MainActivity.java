@@ -7,6 +7,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -218,14 +219,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void updateView() {
         //Chargement infos user dans Navigation Drawer
         if (getCurrentUser() != null) {
-            Glide.with(this)
-                    .load(Objects.requireNonNull(getCurrentUser()).getPhotoUrl())
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(imageProfileView);
-            String email = TextUtils.isEmpty(getCurrentUser().getEmail()) ? getString(R.string.email_not_found) : getCurrentUser().getEmail();
-            String username = TextUtils.isEmpty(getCurrentUser().getDisplayName()) ? getString(R.string.username_not_found) : getCurrentUser().getDisplayName();
-            nameUser.setText(username);
-            emailUser.setText(email);
+            if (getCurrentUser().getPhotoUrl() != null) {
+                Glide.with(this)
+                        .load(Objects.requireNonNull(getCurrentUser()).getPhotoUrl())
+                        .apply(RequestOptions.circleCropTransform())
+                        .into(imageProfileView);
+            } else {
+                Glide.with(this).load(R.drawable.ic_anon_user_48dp).apply(RequestOptions.circleCropTransform()).into(imageProfileView);
+            }
+            if (getCurrentUser().getDisplayName() != null) {
+                nameUser.setText(getCurrentUser().getDisplayName());
+                String email = TextUtils.isEmpty(getCurrentUser().getEmail()) ? getString(R.string.email_not_found) : getCurrentUser().getEmail();
+                emailUser.setText(email);
+            } else {
+                nameUser.setText(getCurrentUser().getEmail());
+                nameUser.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                        getResources().getDimension(R.dimen.textsize_email_not_found));
+                emailUser.setVisibility(View.GONE);
+            }
+
 
             //Chargement fond d'écran en haut navigation drawer
             Glide.with(this)

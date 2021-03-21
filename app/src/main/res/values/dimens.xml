@@ -11,4 +11,5 @@
     <dimen name="picture_size">80dp</dimen>
     <dimen name="workmate_picture_size">20dp</dimen>
     <dimen name="spacing_words">4dp</dimen>
+    <dimen name="textsize_email_not_found">12sp</dimen>
 </resources>

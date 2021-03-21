@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
@@ -41,6 +43,8 @@ public class LoginActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_login);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
 
         ButterKnife.bind(this);
 
@@ -62,6 +66,7 @@ public class LoginActivity extends Activity {
                         .setAvailableProviders(Arrays.asList(
                                 new AuthUI.IdpConfig.GoogleBuilder().build(), // SUPPORT GOOGLE
                                 new AuthUI.IdpConfig.TwitterBuilder().build(), // SUPPORT TWITTER
+                                new AuthUI.IdpConfig.EmailBuilder().build(), // SUPPORT EMAIL
                                 new AuthUI.IdpConfig.FacebookBuilder().build())) // SUPPORT FACEBOOK
 
                         .setIsSmartLockEnabled(false, true)
