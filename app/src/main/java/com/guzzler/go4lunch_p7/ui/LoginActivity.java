@@ -126,15 +126,27 @@ public class LoginActivity extends Activity {
     }
 
 
-    // Méthode utilisée pour créer l'utilisateur qui s'est connecté avec succès // TODO : et qui n'existe pas !!
+    // Méthode utilisée pour créer l'utilisateur qui s'est connecté avec succès et sutout qui n'existe pas déjà
     private void createWorkmate() {
+//        if (getCurrentUser() != null) {
+//            String urlPicture = (getCurrentUser().getPhotoUrl() != null) ? getCurrentUser().getPhotoUrl().toString() : null;
+//            String name = getCurrentUser().getDisplayName();
+//            String uid = getCurrentUser().getUid();
+//            UserHelper.createWorkmate(uid, urlPicture, name).addOnFailureListener(onFailureListener());
+//        }
+
         if (getCurrentUser() != null) {
-
-            String urlPicture = (getCurrentUser().getPhotoUrl() != null) ? getCurrentUser().getPhotoUrl().toString() : null;
-            String name = getCurrentUser().getDisplayName();
-            String uid = getCurrentUser().getUid();
-
-            UserHelper.createWorkmate(uid, urlPicture, name).addOnFailureListener(onFailureListener());
+            UserHelper.getWorkmate(getCurrentUser().getUid()).addOnCompleteListener(UserTask -> {
+                        if (UserTask.isSuccessful()) {
+                            if (!UserTask.getResult().exists()) {
+                                String urlPicture = (getCurrentUser().getPhotoUrl() != null) ? getCurrentUser().getPhotoUrl().toString() : null;
+                                String name = getCurrentUser().getDisplayName();
+                                String uid = getCurrentUser().getUid();
+                                UserHelper.createWorkmate(uid, urlPicture, name).addOnFailureListener(onFailureListener());
+                            }
+                        }
+                    }
+            );
         }
     }
 

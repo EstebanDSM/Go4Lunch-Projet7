@@ -305,6 +305,7 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
         });
     }
 
+
     private void likeRestaurant() {
         if (requestResult != null && getCurrentUser() != null) {
             RestaurantsHelper.createLike(requestResult.getPlaceId(), getCurrentUser().getUid()).addOnCompleteListener(likeTask -> {

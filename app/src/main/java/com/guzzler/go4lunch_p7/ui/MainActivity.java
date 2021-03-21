@@ -119,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         this.updateView();
-
     }
 
     @Nullable
