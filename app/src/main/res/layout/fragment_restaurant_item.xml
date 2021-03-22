@@ -39,6 +39,7 @@
         android:layout_height="@dimen/picture_size"
         android:layout_marginTop="@dimen/margin_to_parent"
         android:layout_marginEnd="@dimen/margin_to_parent"
+        android:contentDescription="@string/photo_restaurant_item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -57,23 +58,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_restaurant" />
 
-    <ImageView
-        android:id="@+id/workmate_on_restaurant_image"
-        android:layout_width="@dimen/workmate_picture_size"
-        android:layout_height="@dimen/workmate_picture_size"
-        android:layout_marginEnd="@dimen/spacing_words"
-        app:layout_constraintBottom_toBottomOf="@id/adress_restaurant"
-        app:layout_constraintEnd_toStartOf="@id/workmate_on_restaurant"
-        app:layout_constraintTop_toTopOf="@id/adress_restaurant" />
-
-    <TextView
-        android:id="@+id/workmate_on_restaurant"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/margin_to_parent"
-        app:layout_constraintBottom_toBottomOf="@id/item_avatar_restaurant"
-        app:layout_constraintEnd_toStartOf="@id/item_avatar_restaurant"
-        app:layout_constraintTop_toTopOf="@id/item_avatar_restaurant" />
 
     <!-- THIRD LINE -->
 

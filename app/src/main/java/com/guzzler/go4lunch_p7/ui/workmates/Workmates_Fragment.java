@@ -48,7 +48,7 @@ public class Workmates_Fragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_workmates, container, false);
+        View view = inflater.inflate(R.layout.fragment_workmates_list, container, false);
         ButterKnife.bind(this, view);
         Context context = view.getContext();
         setHasOptionsMenu(true);
@@ -86,7 +86,7 @@ public class Workmates_Fragment extends BaseFragment {
     }
 
     private void configureOnClickRecyclerView() {
-        ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_workmates)
+        ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_workmates_list)
                 .setOnItemClickListener((recyclerView, position, v) -> {
                     Workmate result = mViewAdapter.getWorkmates(position);
                     checkIfWorkmateHasBooking(result);

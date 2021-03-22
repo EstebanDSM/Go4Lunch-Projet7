@@ -9,6 +9,7 @@
         android:layout_width="@dimen/picture_size"
         android:layout_height="@dimen/picture_size"
         android:layout_margin="@dimen/margin_to_parent"
+        android:contentDescription="@string/logo_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

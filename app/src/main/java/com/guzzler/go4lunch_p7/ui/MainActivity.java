@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 nameUser.setText(getCurrentUser().getEmail());
                 nameUser.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                        getResources().getDimension(R.dimen.textsize_email_not_found));
+                        getResources().getDimension(R.dimen.text_size_email_not_found));
                 emailUser.setVisibility(View.GONE);
             }
 

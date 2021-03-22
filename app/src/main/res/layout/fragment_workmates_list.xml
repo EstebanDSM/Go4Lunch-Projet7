@@ -6,8 +6,8 @@
     android:name="com.guzzler.go4lunch_p7.ui.WorkmatesFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".ui.MainActivity"
     tools:listitem="@layout/fragment_workmate_item" />
