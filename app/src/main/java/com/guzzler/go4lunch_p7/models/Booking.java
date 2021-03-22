@@ -7,9 +7,6 @@ public class Booking {
     private String restaurantId;
     private String restaurantName;
 
-    public Booking() {
-    }
-
     public Booking(String bookingDate, String workmateUid, String restaurantPlaceId, String restaurantName) {
         this.bookingDate = bookingDate;
         this.workmateUid = workmateUid;

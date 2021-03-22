@@ -14,15 +14,9 @@ public class Location {
         return mLat;
     }
 
-    public void setLat(Double lat) {
-        mLat = lat;
-    }
-
     public Double getLng() {
         return mLng;
     }
 
-    public void setLng(Double lng) {
-        mLng = lng;
-    }
+
 }

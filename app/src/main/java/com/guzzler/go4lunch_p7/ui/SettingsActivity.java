@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.api.firebase.UserHelper;
-import com.guzzler.go4lunch_p7.utils.notifications.MyNotificationManager;
+import com.guzzler.go4lunch_p7.utils.notifications.NotificationHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +27,8 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.settings_switch)
     SwitchCompat mSwitch;
 
+    private NotificationHelper mNotificationHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
         configureToolbar();
         retrieveUserSettings();
         setListenerAndFilters();
+        createNotificationHelper();
         setTitle(getString(R.string.settings_toolbar));
     }
 
@@ -61,8 +64,10 @@ public class SettingsActivity extends AppCompatActivity {
             if (documentSnapshot != null && documentSnapshot.exists()) {
                 Log.e("TAG", "Current data: " + documentSnapshot.getData());
                 mSwitch.setChecked(documentSnapshot.getData().get("notification").equals(true));
+                mNotificationHelper.scheduleRepeatingNotification();
             } else {
                 Log.e("TAG", "Current data: null");
+                mNotificationHelper.cancelAlarmRTC();
             }
         });
     }
@@ -72,17 +77,19 @@ public class SettingsActivity extends AppCompatActivity {
             if (buttonView.isPressed() && buttonView.isChecked()) {
                 UserHelper.updateUserSettings(getCurrentUser().getUid(), true);
                 Toast.makeText(getApplication(), "NOTIFICATIONS ON", Toast.LENGTH_SHORT).show();
-
-
-                // TODO : terminer la mise en place des notifications
-                MyNotificationManager.getInstance(this).displayNotification("TEST", "test notification");
+                mNotificationHelper.scheduleRepeatingNotification();
 
 
             } else if (!buttonView.isChecked()) {
                 UserHelper.updateUserSettings(getCurrentUser().getUid(), false);
                 Toast.makeText(getApplication(), "NOTIFICATIONS OFF", Toast.LENGTH_SHORT).show();
+                mNotificationHelper.cancelAlarmRTC();
             }
         });
+    }
+
+    private void createNotificationHelper() {
+        mNotificationHelper = new NotificationHelper(getBaseContext());
     }
 
     @Nullable

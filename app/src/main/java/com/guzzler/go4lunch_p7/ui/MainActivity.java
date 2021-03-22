@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureDrawerLayout();
         this.configureNavigationView();
 
+
         if (!UserLogged()) {
             startSignInActivity();
         }

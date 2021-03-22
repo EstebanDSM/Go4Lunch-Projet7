@@ -51,15 +51,11 @@
             android:name=".ui.restaurant_details.WebView_Activity"
             android:screenOrientation="portrait" />
 
-        <!-- NOTIFICATION SERVICE -->
-        <service
-            android:name=".utils.notifications.NotificationsService"
-            android:exported="false">
+        <receiver android:name=".utils.notifications.AlarmReceiver">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
-        </service>
-
+        </receiver>
 
     </application>
 

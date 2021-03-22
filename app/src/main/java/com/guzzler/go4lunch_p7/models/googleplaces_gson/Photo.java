@@ -2,14 +2,10 @@ package com.guzzler.go4lunch_p7.models.googleplaces_gson;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 
 public class Photo {
     @SerializedName("height")
     private Long mHeight;
-    @SerializedName("html_attributions")
-    private List<String> mHtmlAttributions;
     @SerializedName("photo_reference")
     private String mPhotoReference;
     @SerializedName("width")
@@ -23,20 +19,8 @@ public class Photo {
         mHeight = height;
     }
 
-    public List<String> getHtmlAttributions() {
-        return mHtmlAttributions;
-    }
-
-    public void setHtmlAttributions(List<String> htmlAttributions) {
-        mHtmlAttributions = htmlAttributions;
-    }
-
     public String getPhotoReference() {
         return mPhotoReference;
-    }
-
-    public void setPhotoReference(String photoReference) {
-        mPhotoReference = photoReference;
     }
 
     public Long getWidth() {

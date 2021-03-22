@@ -14,15 +14,10 @@ public class Period {
         return mClose;
     }
 
-    public void setClose(Close close) {
-        mClose = close;
-    }
 
     public Open getOpen() {
         return mOpen;
     }
 
-    public void setOpen(Open open) {
-        mOpen = open;
-    }
+
 }

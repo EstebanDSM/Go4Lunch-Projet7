@@ -136,9 +136,6 @@ public class LoginActivity extends Activity {
 
     // Méthode utilisée pour créer l'utilisateur qui s'est connecté avec succès et sutout qui n'existe pas déjà
     private void createWorkmate() {
-
-        // TODO : trouver regex pour ne garder que ce qu'il y a avant le @ dans une adresse mail
-
         if (getCurrentUser() != null) {
             UserHelper.getWorkmate(getCurrentUser().getUid()).addOnCompleteListener(UserTask -> {
                         if (UserTask.isSuccessful()) {
@@ -153,14 +150,12 @@ public class LoginActivity extends Activity {
                                     String uid = getCurrentUser().getUid();
                                     UserHelper.createWorkmate(uid, urlPicture, name).addOnFailureListener(onFailureListener());
                                 }
-
                             }
                         }
                     }
             );
         }
     }
-
 
     private void showSnackBar(CoordinatorLayout coordinatorLayout, String message) {
         Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT).show();

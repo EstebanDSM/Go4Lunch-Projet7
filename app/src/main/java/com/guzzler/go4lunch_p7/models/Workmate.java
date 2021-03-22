@@ -2,10 +2,6 @@ package com.guzzler.go4lunch_p7.models;
 
 import androidx.annotation.Nullable;
 
-import com.guzzler.go4lunch_p7.api.firebase.UserHelper;
-
-import java.util.concurrent.atomic.AtomicBoolean;
-
 
 public class Workmate {
     private String uid;
@@ -58,13 +54,4 @@ public class Workmate {
         this.notification = notification;
     }
 
-    public void checkIf_UID_Exist(String string_UID) {
-        AtomicBoolean exist = new AtomicBoolean(false);
-        UserHelper.getWorkmate(string_UID).addOnCompleteListener(UserTask -> {
-                    if (UserTask.isSuccessful()) {
-                        exist.set(UserTask.getResult().contains(string_UID));
-                    }
-                }
-        );
-    }
 }

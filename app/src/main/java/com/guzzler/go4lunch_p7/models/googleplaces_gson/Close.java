@@ -13,15 +13,9 @@ public class Close {
         return mDay;
     }
 
-    public void setDay(Long day) {
-        mDay = day;
-    }
-
     public String getTime() {
         return mTime;
     }
 
-    public void setTime(String time) {
-        mTime = time;
-    }
+
 }
