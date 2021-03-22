@@ -14,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.api.firebase.UserHelper;
+import com.guzzler.go4lunch_p7.utils.notifications.MyNotificationManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +72,12 @@ public class SettingsActivity extends AppCompatActivity {
             if (buttonView.isPressed() && buttonView.isChecked()) {
                 UserHelper.updateUserSettings(getCurrentUser().getUid(), true);
                 Toast.makeText(getApplication(), "NOTIFICATIONS ON", Toast.LENGTH_SHORT).show();
+
+
+                // TODO : terminer la mise en place des notifications
+                MyNotificationManager.getInstance(this).displayNotification("TEST", "test notification");
+
+
             } else if (!buttonView.isChecked()) {
                 UserHelper.updateUserSettings(getCurrentUser().getUid(), false);
                 Toast.makeText(getApplication(), "NOTIFICATIONS OFF", Toast.LENGTH_SHORT).show();
