@@ -1,5 +1,6 @@
 package com.guzzler.go4lunch_p7.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class LoginActivity extends Activity {
     // 1 - Identifier for Sign-In Activity
     private final int RC_SIGN_IN = 123;
     boolean doubleBackToExitPressedOnce = false;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.log_activity_coordinator_layout)
 
     // Un CoordinatorLayout est une fonctionnalité super cool de Material Design qui aide à créer des mises en page attrayantes et harmonisées.
@@ -65,6 +67,7 @@ public class LoginActivity extends Activity {
                         .setLogo(R.drawable.logo_loggin)
                         .setAvailableProviders(Arrays.asList(
                                 new AuthUI.IdpConfig.GoogleBuilder().build(), // SUPPORT GOOGLE
+                                new AuthUI.IdpConfig.GitHubBuilder().build(), // SUPPORT GITHUB
                                 new AuthUI.IdpConfig.TwitterBuilder().build(), // SUPPORT TWITTER
                                 new AuthUI.IdpConfig.EmailBuilder().build(), // SUPPORT EMAIL
                                 new AuthUI.IdpConfig.FacebookBuilder().build())) // SUPPORT FACEBOOK
@@ -133,21 +136,24 @@ public class LoginActivity extends Activity {
 
     // Méthode utilisée pour créer l'utilisateur qui s'est connecté avec succès et sutout qui n'existe pas déjà
     private void createWorkmate() {
-//        if (getCurrentUser() != null) {
-//            String urlPicture = (getCurrentUser().getPhotoUrl() != null) ? getCurrentUser().getPhotoUrl().toString() : null;
-//            String name = getCurrentUser().getDisplayName();
-//            String uid = getCurrentUser().getUid();
-//            UserHelper.createWorkmate(uid, urlPicture, name).addOnFailureListener(onFailureListener());
-//        }
+
+        // TODO : trouver regex pour ne garder que ce qu'il y a avant le @ dans une adresse mail
 
         if (getCurrentUser() != null) {
             UserHelper.getWorkmate(getCurrentUser().getUid()).addOnCompleteListener(UserTask -> {
                         if (UserTask.isSuccessful()) {
                             if (!UserTask.getResult().exists()) {
                                 String urlPicture = (getCurrentUser().getPhotoUrl() != null) ? getCurrentUser().getPhotoUrl().toString() : null;
-                                String name = getCurrentUser().getDisplayName();
-                                String uid = getCurrentUser().getUid();
-                                UserHelper.createWorkmate(uid, urlPicture, name).addOnFailureListener(onFailureListener());
+                                if (getCurrentUser().getDisplayName() != null) {
+                                    String name = getCurrentUser().getDisplayName();
+                                    String uid = getCurrentUser().getUid();
+                                    UserHelper.createWorkmate(uid, urlPicture, name).addOnFailureListener(onFailureListener());
+                                } else {
+                                    String name = getCurrentUser().getEmail();
+                                    String uid = getCurrentUser().getUid();
+                                    UserHelper.createWorkmate(uid, urlPicture, name).addOnFailureListener(onFailureListener());
+                                }
+
                             }
                         }
                     }

@@ -18,6 +18,7 @@
                     android:id="@+id/nav_logout"
                     android:icon="@drawable/ic_menu_power_settings_new_black_24dp"
                     android:title="@string/menu_logout" />
+
             </group>
         </menu>
     </item>

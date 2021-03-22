@@ -18,8 +18,6 @@ import com.guzzler.go4lunch_p7.api.firebase.UserHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-// TODO attention le boolean notification revient a false quand on se reconnecte avec l'appli (sur firebase)
-
 
 public class SettingsActivity extends AppCompatActivity {
     protected SharedViewModel mSharedViewModel;
@@ -28,27 +26,16 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.settings_switch)
     SwitchCompat mSwitch;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
         mSharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
-        this.configureToolbar();
-        this.retrieveUserSettings();
-        this.setListenerAndFilters();
-        this.setTitle(getString(R.string.settings_toolbar));
-
-        mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (buttonView.isPressed() && buttonView.isChecked()) {
-                UserHelper.updateUserSettings(getCurrentUser().getUid(), true);
-                Toast.makeText(getApplication(), "NOTIFICATIONS ON", Toast.LENGTH_SHORT).show();
-            } else if (!buttonView.isChecked()) {
-                UserHelper.updateUserSettings(getCurrentUser().getUid(), false);
-                Toast.makeText(getApplication(), "NOTIFICATIONS OFF", Toast.LENGTH_SHORT).show();
-            }
-        });
+        configureToolbar();
+        retrieveUserSettings();
+        setListenerAndFilters();
+        setTitle(getString(R.string.settings_toolbar));
     }
 
     private void configureToolbar() {
@@ -72,12 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
             if (documentSnapshot != null && documentSnapshot.exists()) {
                 Log.e("TAG", "Current data: " + documentSnapshot.getData());
-                if (documentSnapshot.getData().get("notification").equals(true)) {
-                    mSwitch.setChecked(true);
-                } else {
-                    mSwitch.setChecked(false);
-
-                }
+                mSwitch.setChecked(documentSnapshot.getData().get("notification").equals(true));
             } else {
                 Log.e("TAG", "Current data: null");
             }
@@ -86,6 +68,13 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setListenerAndFilters() {
         mSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (buttonView.isPressed() && buttonView.isChecked()) {
+                UserHelper.updateUserSettings(getCurrentUser().getUid(), true);
+                Toast.makeText(getApplication(), "NOTIFICATIONS ON", Toast.LENGTH_SHORT).show();
+            } else if (!buttonView.isChecked()) {
+                UserHelper.updateUserSettings(getCurrentUser().getUid(), false);
+                Toast.makeText(getApplication(), "NOTIFICATIONS OFF", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -93,7 +82,6 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseUser getCurrentUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
-
 
 }
 

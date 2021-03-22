@@ -83,7 +83,6 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     private ResultDetails requestResult;
     private Restaurant_Details_RecyclerViewAdapter mAdapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,8 +147,14 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
         mFloatingActionButton.setImageDrawable(mDrawable);
     }
 
+    // TODO : raffraichir le fragment workmates si modif de reservation dans detail resto et que l'on fait retour
     private void Booking_Firebase(String userId, String restaurantId, String restaurantName, @Nullable String bookingId, boolean toCreate, boolean toUpdate, boolean toDelete) {
-        if (!toUpdate) {
+        if (toUpdate) {
+            RestaurantsHelper.deleteBooking(bookingId);
+            RestaurantsHelper.createBooking(getTodayDate(), userId, restaurantId, restaurantName).addOnFailureListener(onFailureListener());
+            displayFloating((R.drawable.ic_clear_black_24dp), getResources().getColor(R.color.colorError));
+
+        } else {
             if (toCreate) {
                 RestaurantsHelper.createBooking(getTodayDate(), userId, restaurantId, restaurantName).addOnFailureListener(onFailureListener());
                 displayFloating((R.drawable.ic_clear_black_24dp), getResources().getColor(R.color.colorError));
@@ -157,10 +162,6 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
                 RestaurantsHelper.deleteBooking(bookingId);
                 displayFloating((R.drawable.ic_check_circle_black_24dp), getResources().getColor(R.color.colorGreen));
             }
-        } else {
-            RestaurantsHelper.deleteBooking(bookingId);
-            RestaurantsHelper.createBooking(getTodayDate(), userId, restaurantId, restaurantName).addOnFailureListener(onFailureListener());
-            displayFloating((R.drawable.ic_clear_black_24dp), getResources().getColor(R.color.colorError));
         }
         Update_Booking_RecyclerView(requestResult.getPlaceId());
     }
@@ -240,7 +241,6 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
 
 
     private void updateUI(ResultDetails resultDetails) {
-//        RequestManager glide = Glide.with(this);
 
         if (getCurrentUser() != null) {
             checkBooked(getCurrentUser().getUid(), requestResult.getPlaceId(), requestResult.getName(), false);
@@ -256,9 +256,6 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
             String BASE_URL = "https://maps.googleapis.com/maps/api/place/photo";
             int MAX_WIDTH = 400;
             int MAX_HEIGHT = 400;
-//            glide.load(BASE_URL + "?maxwidth=" + MAX_WIDTH + "&maxheight=" + MAX_HEIGHT + "&photoreference=" + resultDetails.getPhotos().get(0)
-//                    .getPhotoReference() + "&key=" + BuildConfig.api_key)
-//                    .apply(RequestOptions.centerCropTransform()).into(mImageView);
 
             Picasso.get().load(BASE_URL + "?maxwidth=" + MAX_WIDTH + "&maxheight=" + MAX_HEIGHT + "&photoreference=" + resultDetails.getPhotos().get(0)
                     .getPhotoReference() + "&key=" + BuildConfig.api_key).into(mImageView);

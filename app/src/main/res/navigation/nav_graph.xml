@@ -5,6 +5,7 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_map">
 
+
     <fragment
         android:id="@+id/navigation_map"
         android:name="com.guzzler.go4lunch_p7.ui.map.Map_Fragment"
@@ -22,4 +23,6 @@
         android:name="com.guzzler.go4lunch_p7.ui.workmates.Workmates_Fragment"
         android:label="@string/title_workmate"
         tools:layout="@layout/fragment_workmates" />
+
+
 </navigation>
