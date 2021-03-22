@@ -10,7 +10,7 @@ public class Workmate {
     private boolean notification;
 
 
-    // Constructeur vide pour la recyclerView
+    // Constructeur vide pour la recyclerView // TODO : pourquoi ?
     public Workmate() {
     }
 
