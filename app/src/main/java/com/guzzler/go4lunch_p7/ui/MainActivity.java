@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -71,11 +70,11 @@ import static com.guzzler.go4lunch_p7.utils.ShowToastSnack.showToast;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AutoCompleteCalls.Callbacks, GooglePlaceSearchCalls.Callbacks, GooglePlaceDetailsCalls.Callbacks, LocationListener {
 
     private final List<ResultDetails> mResultDetailsList = new ArrayList<>();
-    //VIEWMODEL
+    // VIEWMODEL
     public SharedViewModel mShareViewModel;
-    //LIVEDATA
+    // LIVEDATA
     public MutableLiveData<List<ResultDetails>> mLiveData = new MutableLiveData<>();
-    //FOR DESIGN
+    // FOR DESIGN
     private Toolbar toolbar;
     private ImageView imageProfileView;
     private TextView emailUser;
@@ -135,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -170,11 +168,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
     }
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        //Gestion de la navigation au click sur la Navigation Drawer
+        // Gestion de la navigation au click sur la Navigation Drawer
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_logout:
@@ -201,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
     }
 
-    //On récupère le DrawerLayout, avec lui et la toolbar on créé le menu hamburger
+    // On récupère le DrawerLayout, avec lui et la toolbar on créé le menu hamburger
     private void configureDrawerLayout() {
         this.drawerLayout = findViewById(R.id.main_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -237,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 emailUser.setVisibility(View.GONE);
             }
 
-            //Chargement fond d'écran en haut navigation drawer
+            // Chargement fond d'écran en haut navigation drawer
             Glide.with(this)
                     .load(R.drawable.background_nav_header)
                     .apply(RequestOptions.bitmapTransform(new BlurTransformation(30)))
@@ -275,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onFailure() {
-        Toast.makeText(this.getApplicationContext(), getResources().getString(R.string.no_restaurant_found), Toast.LENGTH_SHORT).show();
+        showToast(this.getApplicationContext(), getResources().getString(R.string.no_restaurant_found), 1);
     }
 
     @Override
@@ -309,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        //Handle back click to close menu
+        // Handle back click to close menu
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
