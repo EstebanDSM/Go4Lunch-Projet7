@@ -111,8 +111,8 @@ public class AlarmReceiver extends BroadcastReceiver implements GooglePlaceDetai
 
     @Override
     public void onResponse(@Nullable ResultDetails resultDetails) {
-        String restaurantName = resultDetails.getVicinity();
-        String restaurantAddress = resultDetails.getName();
+        String restaurantName = resultDetails.getName();
+
         if (workmatesList.size() > 0) {
             StringBuilder mStringBuilder = new StringBuilder();
             for (int i = 0; i < workmatesList.size(); i++) {
@@ -124,13 +124,11 @@ public class AlarmReceiver extends BroadcastReceiver implements GooglePlaceDetai
             sendNotification(mContext.getResources().getString(
                     R.string.notification_message,
                     restaurantName,
-                    restaurantAddress,
                     mStringBuilder));
         } else {
             sendNotification(mContext.getResources().getString(
                     R.string.notification_message,
                     restaurantName,
-                    restaurantAddress,
                     mContext.getResources().getString(R.string.notification_no_workmates)));
         }
     }

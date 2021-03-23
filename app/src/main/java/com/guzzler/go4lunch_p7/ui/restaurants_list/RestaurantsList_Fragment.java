@@ -38,7 +38,7 @@ public class RestaurantsList_Fragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_restaurants, container, false);
+        View view = inflater.inflate(R.layout.fragment_restaurants_list, container, false);
         Context context = view.getContext();
 
         // LIVEDATA

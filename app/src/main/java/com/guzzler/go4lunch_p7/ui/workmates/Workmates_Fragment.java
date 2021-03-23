@@ -63,6 +63,8 @@ public class Workmates_Fragment extends BaseFragment {
         return view;
     }
 
+
+    // TODO : pas d'update des booking quand je me connecte sur un nouvel appareil
     private void initList() {
         UserHelper.getWorkmatesCollection()
                 .get()

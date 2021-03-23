@@ -252,7 +252,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onResponse(@Nullable List<ResultSearch> resultSearchList) {
         mResultDetailsList.clear();
-        for (int i = 0; i < resultSearchList.size(); i++) {
+
+        // TODO : pour limiter les requêtes google place à un seul élément
+//        for (int i = 0; i < resultSearchList.size(); i++) {
+        for (int i = 0; i < 1; i++) {
+
             GooglePlaceDetailsCalls.fetchPlaceDetails(this, resultSearchList.get(i).getPlaceId());
         }
     }

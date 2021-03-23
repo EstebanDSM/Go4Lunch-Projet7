@@ -67,7 +67,7 @@
     <string name="restaurant_recyclerview">%1$s is joining !</string>
     <string name="no_restaurant_booked">No lunch today ?</string>
     <string name="notification_no_workmates">None</string>
-    <string name="notification_message">Here is a reminder of your choice for today : %1$s %2$s. Workmates participating : %3$s</string>
+    <string name="notification_message">Here is a reminder of your choice for today : %1$s. Workmates participating : %2$s</string>
     <string name="notification">Go4Lunch</string>
     <string name="searching">Loading…</string>
     <string name="logo">logo</string>

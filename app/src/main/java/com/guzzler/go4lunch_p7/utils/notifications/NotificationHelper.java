@@ -12,7 +12,7 @@ import static android.content.Context.ALARM_SERVICE;
 
 public class NotificationHelper {
     public static int ALARM_TYPE_RTC = 100;
-    private Context mContext;
+    private final Context mContext;
     private AlarmManager alarmManagerRTC;
     private PendingIntent alarmIntentRTC;
 
@@ -24,13 +24,13 @@ public class NotificationHelper {
     public void scheduleRepeatingNotification() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 14);
-        calendar.set(Calendar.MINUTE, 12);
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.set(Calendar.MINUTE, 30);
         Intent intent = new Intent(mContext, AlarmReceiver.class);
         alarmIntentRTC = PendingIntent.getBroadcast(mContext, ALARM_TYPE_RTC, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManagerRTC = (AlarmManager) mContext.getSystemService(ALARM_SERVICE);
-        alarmManagerRTC.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 5, AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntentRTC);
-        alarmManagerRTC.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntentRTC);
+        alarmManagerRTC.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * 2, AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntentRTC);
+//        alarmManagerRTC.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntentRTC);
     }
 
     public void cancelAlarmRTC() {
