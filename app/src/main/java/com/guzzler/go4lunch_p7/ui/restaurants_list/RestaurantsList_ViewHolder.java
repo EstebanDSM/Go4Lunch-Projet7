@@ -14,7 +14,6 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.guzzler.go4lunch_p7.BuildConfig;
 import com.guzzler.go4lunch_p7.R;
-import com.guzzler.go4lunch_p7.api.firebase.RestaurantsHelper;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.guzzler.go4lunch_p7.utils.DisplayRating;
 
@@ -24,7 +23,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.guzzler.go4lunch_p7.utils.FormatTime.formatTime;
-import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
 
 
 public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {

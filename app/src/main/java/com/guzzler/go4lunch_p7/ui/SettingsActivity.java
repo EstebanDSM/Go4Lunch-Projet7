@@ -42,6 +42,7 @@ public class SettingsActivity extends AppCompatActivity {
         setTitle(getString(R.string.settings_toolbar));
     }
 
+
     private void configureToolbar() {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -64,10 +65,8 @@ public class SettingsActivity extends AppCompatActivity {
             if (documentSnapshot != null && documentSnapshot.exists()) {
                 Log.e("TAG", "Current data: " + documentSnapshot.getData());
                 mSwitch.setChecked(documentSnapshot.getData().get("notification").equals(true));
-
             } else {
                 Log.e("TAG", "Current data: null");
-
             }
         });
     }
@@ -96,7 +95,4 @@ public class SettingsActivity extends AppCompatActivity {
     private FirebaseUser getCurrentUser() {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
-
 }
-
-

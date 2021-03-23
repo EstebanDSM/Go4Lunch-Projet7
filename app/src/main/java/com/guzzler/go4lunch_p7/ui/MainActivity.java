@@ -51,6 +51,8 @@ import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
 import com.guzzler.go4lunch_p7.ui.restaurant_details.Restaurant_Details;
 import com.guzzler.go4lunch_p7.utils.DistanceTo;
+import com.guzzler.go4lunch_p7.utils.notifications.NotificationHelper;
+import com.guzzler.go4lunch_p7.utils.notifications.UpdateNotificationsSettings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -96,6 +98,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // delete past booking
         RestaurantsHelper.deleteNotTodayBooking(getTodayDate());
 
+        // Update Notifications
+        UpdateNotificationsSettings.updateNotifications(getBaseContext(), new NotificationHelper(getBaseContext()));
+
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
@@ -109,9 +115,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureNavigationView();
 
 
-        if (!UserLogged()) {
-            startSignInActivity();
-        }
+//        if (!UserLogged()) {
+//            startSignInActivity();
+//        }
         checkLocationPermission();
 
         FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
@@ -159,15 +165,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return FirebaseAuth.getInstance().getCurrentUser();
     }
 
-
-    private void startSignInActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+    private void signOutFirebase() {
+        AuthUI.getInstance()
+                .signOut(this)
+                .addOnSuccessListener(this, startLogin_AfterSignOut());
     }
+
+    private OnSuccessListener<Void> startLogin_AfterSignOut() {
+        return aVoid -> {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        };
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
 
         //Gestion de la navigation au click sur la Navigation Drawer
         int id = item.getItemId();
@@ -189,17 +202,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private void signOutFirebase() {
-        AuthUI.getInstance()
-                .signOut(this)
-                .addOnSuccessListener(this, startLogin_AfterSignOut());
-    }
-
-    private OnSuccessListener<Void> startLogin_AfterSignOut() {
-        return aVoid -> {
-            startSignInActivity();
-        };
-    }
 
     // On récupère la toolbar
     private void configureToolBar() {
@@ -319,6 +321,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
-
-
 }

@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/detail_main_picture"
-        android:layout_width="@dimen/picture_size"
-        android:layout_height="@dimen/picture_size"
+        android:layout_width="@dimen/picture_size_min"
+        android:layout_height="@dimen/picture_size_min"
         android:layout_margin="@dimen/margin_to_parent"
         android:contentDescription="@string/logo_user"
         app:layout_constraintBottom_toBottomOf="parent"
