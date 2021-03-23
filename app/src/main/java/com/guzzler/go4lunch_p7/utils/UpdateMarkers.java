@@ -11,7 +11,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.ui.MainActivity;
 
-import static android.content.ContentValues.TAG;
 
 public class UpdateMarkers {
 
@@ -41,7 +40,7 @@ public class UpdateMarkers {
             } else {
                 Toast.makeText(mMainActivity.getApplicationContext(), mMainActivity.getResources().getString(R.string.no_restaurant), Toast.LENGTH_SHORT).show();
             }
-            Log.e(TAG, "number of markers : " + mMainActivity.mLiveData.getValue().size());
+            Log.e(Constants.TAG, "number of markers : " + mMainActivity.mLiveData.getValue().size());
         }
 
     }

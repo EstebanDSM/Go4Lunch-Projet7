@@ -1,6 +1,5 @@
 package com.guzzler.go4lunch_p7.ui;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -52,7 +51,9 @@ import com.guzzler.go4lunch_p7.models.google_autocomplete_gson.AutoCompleteResul
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
 import com.guzzler.go4lunch_p7.ui.restaurant_details.Restaurant_Details;
+import com.guzzler.go4lunch_p7.ui.restaurants_list.RestaurantsList_RecyclerViewAdapter;
 import com.guzzler.go4lunch_p7.utils.DistanceTo;
+import com.guzzler.go4lunch_p7.utils.Permissions;
 import com.guzzler.go4lunch_p7.utils.notifications.NotificationHelper;
 import com.guzzler.go4lunch_p7.utils.notifications.UpdateNotificationsSettings;
 
@@ -64,12 +65,11 @@ import java.util.Objects;
 
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.BlurTransformation;
-import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AutoCompleteCalls.Callbacks, GooglePlaceSearchCalls.Callbacks, GooglePlaceDetailsCalls.Callbacks, LocationListener {
-    private final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
     public List<ResultDetails> mResultDetailsList = new ArrayList<>();
     //VIEWMODEL
     public SharedViewModel mShareViewModel;
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView nameUser;
     ImageView backgroundView;
     DrawerLayout drawerLayout;
+    private RestaurantsList_RecyclerViewAdapter mRestaurantsList_recyclerViewAdapter;
     private int resultSize;
 
     @Override
@@ -98,8 +99,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // delete past booking
         RestaurantsHelper.deleteNotTodayBooking(getTodayDate());
 
-        // Update Notifications
-        UpdateNotificationsSettings.updateNotifications(getBaseContext(), new NotificationHelper(getBaseContext()));
+        // Update Notifications if install in another device
+        UpdateNotificationsSettings.updateNotifications(new NotificationHelper(getBaseContext()));
 
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -114,11 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureDrawerLayout();
         this.configureNavigationView();
 
-
-//        if (!UserLogged()) {
-//            startSignInActivity();
-//        }
-        checkLocationPermission();
+        Permissions.checkLocationPermission(getApplicationContext());
 
         FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
@@ -137,10 +134,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
         return super.onCreateView(name, context, attrs);
 
-    }
-
-    protected Boolean UserLogged() {
-        return (getCurrentUser() != null);
     }
 
 
@@ -245,7 +238,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 emailUser.setVisibility(View.GONE);
             }
 
-
             //Chargement fond d'écran en haut navigation drawer
             Glide.with(this)
                     .load(R.drawable.background_nav_header)
@@ -282,7 +274,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
     @Override
     public void onFailure() {
         Toast.makeText(this.getApplicationContext(), getResources().getString(R.string.no_restaurant_found), Toast.LENGTH_SHORT).show();
@@ -295,10 +286,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mShareViewModel.updateCurrentUserPosition(new LatLng(currentLatitude, currentLongitude));
     }
 
-
-    public void checkLocationPermission() {
-        EasyPermissions.hasPermissions(getApplicationContext(), permissions);
-    }
 
     private void onComplete(Task<QuerySnapshot> bookingTask) {
 
@@ -331,6 +318,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
     private void AutoCompleteToDetails(AutoCompleteResult autoCompleteResult) {
         mResultDetailsList.clear();
         for (int i = 0; i < autoCompleteResult.getPredictions().size(); i++) {
@@ -350,9 +338,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void searchByCurrentPosition() {
-
         GooglePlaceSearchCalls.fetchNearbyRestaurants(this, mShareViewModel.getCurrentUserPositionFormatted());
     }
-
-
 }

@@ -2,7 +2,6 @@ package com.guzzler.go4lunch_p7.api.retrofit.google_autocomplete;
 
 import androidx.annotation.Nullable;
 
-import com.guzzler.go4lunch_p7.BuildConfig;
 import com.guzzler.go4lunch_p7.models.google_autocomplete_gson.AutoCompleteResult;
 
 import java.lang.ref.WeakReference;
@@ -11,12 +10,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.guzzler.go4lunch_p7.utils.Constants.APIKEY;
+import static com.guzzler.go4lunch_p7.utils.Constants.RADIUS;
+
 
 public class AutoCompleteCalls {
-    static String apiKey = BuildConfig.api_key;
-    static int radius = 6800;
-    static String types = "establishment";
-    static String language;
+    private static final String types = "establishment";
+    static String language = "fr";
 
     public static void fetchAutoCompleteResult(AutoCompleteCalls.Callbacks callbacks, String input, String location) {
 
@@ -24,7 +24,7 @@ public class AutoCompleteCalls {
 
         AutoCompleteService googleAutoComplete = AutoCompleteService.retrofit.create(AutoCompleteService.class);
 
-        Call<AutoCompleteResult> call = googleAutoComplete.getAutoComplete(input, types, language, location, radius, true, apiKey);
+        Call<AutoCompleteResult> call = googleAutoComplete.getAutoComplete(input, types, language, location, RADIUS, true, APIKEY);
         call.enqueue(new Callback<AutoCompleteResult>() {
 
             @Override

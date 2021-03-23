@@ -12,9 +12,8 @@ import com.guzzler.go4lunch_p7.models.Workmate;
 
 import java.util.List;
 
-
 public class Restaurant_Details_RecyclerViewAdapter extends RecyclerView.Adapter<Restaurant_Details_ViewHolder> {
-    private List<Workmate> mWorkmates;
+    private final List<Workmate> mWorkmates;
 
 
     public Restaurant_Details_RecyclerViewAdapter(List<Workmate> result) {

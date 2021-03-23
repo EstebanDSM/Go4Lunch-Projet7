@@ -1,4 +1,4 @@
-package com.guzzler.go4lunch_p7.ui.workmates;
+package com.guzzler.go4lunch_p7.ui.workmates_list;
 
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +34,7 @@ import static com.firebase.ui.auth.ui.email.EmailLinkFragment.TAG;
 import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
 
 public class Workmates_Fragment extends BaseFragment {
-    private List<Workmate> mWorkmates = new ArrayList<>();
+    private final List<Workmate> mWorkmates = new ArrayList<>();
     private Workmates_RecyclerViewAdapter mViewAdapter;
     private RecyclerView mRecyclerView;
 

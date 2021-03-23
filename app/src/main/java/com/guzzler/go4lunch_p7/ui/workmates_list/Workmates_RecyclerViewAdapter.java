@@ -1,4 +1,4 @@
-package com.guzzler.go4lunch_p7.ui.workmates;
+package com.guzzler.go4lunch_p7.ui.workmates_list;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +14,7 @@ import java.util.List;
 
 
 public class Workmates_RecyclerViewAdapter extends RecyclerView.Adapter<Workmates_ViewHolder> {
-    private List<Workmate> mWorkmates;
+    private final List<Workmate> mWorkmates;
 
 
     public Workmates_RecyclerViewAdapter(List<Workmate> items) {

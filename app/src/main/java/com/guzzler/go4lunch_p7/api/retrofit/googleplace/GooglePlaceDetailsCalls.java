@@ -2,7 +2,6 @@ package com.guzzler.go4lunch_p7.api.retrofit.googleplace;
 
 import androidx.annotation.Nullable;
 
-import com.guzzler.go4lunch_p7.BuildConfig;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.PlaceDetails;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 
@@ -12,9 +11,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.guzzler.go4lunch_p7.utils.Constants.APIKEY;
+
 // classe exécutant notre appel vers l'API googlePlaceDetailsService en arrière plan.
 public class GooglePlaceDetailsCalls {
-    static String apiKey = BuildConfig.api_key;
 
     // 2 - Public method to start fetching nearby restaurants
     public static void fetchPlaceDetails(Callbacks callbacks, String place_id) {
@@ -26,7 +26,7 @@ public class GooglePlaceDetailsCalls {
         GooglePlaceDetailsService googlePlaceDetailsService = GooglePlaceDetailsService.retrofit.create(GooglePlaceDetailsService.class);
 
         // 2.3 - Create the call on googlePlaceSearchService
-        Call<PlaceDetails> call = googlePlaceDetailsService.getDetails(place_id, apiKey);
+        Call<PlaceDetails> call = googlePlaceDetailsService.getDetails(place_id, APIKEY);
 
         // 2.4 - Start the call
         call.enqueue(new Callback<PlaceDetails>() {

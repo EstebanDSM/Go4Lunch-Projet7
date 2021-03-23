@@ -1,4 +1,4 @@
-package com.guzzler.go4lunch_p7.ui.workmates;
+package com.guzzler.go4lunch_p7.ui.workmates_list;
 
 import android.annotation.SuppressLint;
 import android.graphics.Typeface;

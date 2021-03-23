@@ -51,6 +51,7 @@ import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
 
 public class Restaurant_Details extends AppCompatActivity implements View.OnClickListener, GooglePlaceDetailsCalls.Callbacks {
 
+    private final List<Workmate> mWorkmates = new ArrayList<>();
     @Nullable
     @BindView(R.id.restaurant_name)
     TextView mRestaurantName;
@@ -78,8 +79,6 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     @Nullable
     @BindView(R.id.restaurantRecyclerView)
     RecyclerView mRestaurantRecyclerView;
-
-    private List<Workmate> mWorkmates = new ArrayList<>();
     private ResultDetails requestResult;
     private Restaurant_Details_RecyclerViewAdapter mAdapter;
 

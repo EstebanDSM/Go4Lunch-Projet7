@@ -15,7 +15,6 @@ import com.guzzler.go4lunch_p7.models.Workmate;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
 public class Restaurant_Details_ViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.detail_main_picture)
     ImageView mImageView;

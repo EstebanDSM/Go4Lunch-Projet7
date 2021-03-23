@@ -14,15 +14,16 @@ import com.guzzler.go4lunch_p7.models.Booking;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.guzzler.go4lunch_p7.utils.Constants.COLLECTION_BOOKING;
+import static com.guzzler.go4lunch_p7.utils.Constants.COLLECTION_LIKED_NAME;
+
 
 public class RestaurantsHelper {
-    private static final String COLLECTION_NAME = "booking";
-    private static final String COLLECTION_LIKED_NAME = "restaurantLiked";
 
     // --- COLLECTION REFERENCE ---
 
     public static CollectionReference getBookingCollection() {
-        return FirebaseFirestore.getInstance().collection(COLLECTION_NAME);
+        return FirebaseFirestore.getInstance().collection(COLLECTION_BOOKING);
     }
 
     public static CollectionReference getLikedCollection() {
@@ -90,6 +91,4 @@ public class RestaurantsHelper {
         });
         return true;
     }
-
-
 }

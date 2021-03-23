@@ -24,18 +24,16 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.guzzler.go4lunch_p7.utils.Constants.BASE_URL_PLACE_PHOTO;
+import static com.guzzler.go4lunch_p7.utils.Constants.CLOSED;
+import static com.guzzler.go4lunch_p7.utils.Constants.CLOSING_SOON;
+import static com.guzzler.go4lunch_p7.utils.Constants.MAX_HEIGHT;
+import static com.guzzler.go4lunch_p7.utils.Constants.MAX_WIDTH;
+import static com.guzzler.go4lunch_p7.utils.Constants.OPEN;
+import static com.guzzler.go4lunch_p7.utils.Constants.OPENING_HOURS_NOT_KNOW;
 import static com.guzzler.go4lunch_p7.utils.FormatTime.formatTime;
 
-
 public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
-    private static final String OPEN = "OPEN";
-    private static final String CLOSED = "CLOSED";
-    private static final String CLOSING_SOON = "CLOSING_SOON";
-    private static final String OPENING_HOURS_NOT_KNOW = "OPENING_HOURS_NOT_KNOW";
-    public final String BASE_URL = "https://maps.googleapis.com/maps/api/place/photo";
-    public final int MAX_WIDTH = 200;
-    public final int MAX_HEIGHT = 200;
-
 
     @BindView(R.id.name_restaurant)
     public TextView mNameRestaurant;
@@ -84,7 +82,7 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
         // PHOTO RESTAURANT
         if (!(resultDetails.getPhotos() == null)) {
             if (!(resultDetails.getPhotos().isEmpty())) {
-                glide.load(BASE_URL + "?maxwidth=" + MAX_WIDTH + "&maxheight=" + MAX_HEIGHT + "&photoreference=" + resultDetails.getPhotos().get(0)
+                glide.load(BASE_URL_PLACE_PHOTO + "?maxwidth=" + MAX_WIDTH + "&maxheight=" + MAX_HEIGHT + "&photoreference=" + resultDetails.getPhotos().get(0)
                         .getPhotoReference() + "&key=" + BuildConfig.api_key)
                         .apply(RequestOptions.centerCropTransform()).into(mAvatarRestaurant);
             }
@@ -159,6 +157,4 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
                 break;
         }
     }
-
-
 }

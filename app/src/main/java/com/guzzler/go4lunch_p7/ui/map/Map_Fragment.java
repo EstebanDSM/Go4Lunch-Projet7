@@ -41,16 +41,13 @@ import com.guzzler.go4lunch_p7.ui.restaurant_details.Restaurant_Details;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.content.ContentValues.TAG;
+import static com.guzzler.go4lunch_p7.utils.Constants.DEFAULT_ZOOM;
+import static com.guzzler.go4lunch_p7.utils.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.guzzler.go4lunch_p7.utils.UpdateMarkers.updateMarkers;
-
 
 public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, LocationListener {
 
-    private final String TAG = Map_Fragment.class.getSimpleName();
-    private final int DEFAULT_ZOOM = 13;
-    private final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    // A default location (Bordeaux, France) and default zoom to use when location permission is
-    // not granted.
     private LatLng defaultLocation = new LatLng(44.8333, -0.5667);
     private String mLocation;
     private GoogleMap map;
@@ -65,6 +62,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     // TODO : les marqueurs ne sont visibles que lorsqu'on clique sur un autre onglet et qu'on revient sur la carte
     // TODO : si pas de GPS on a une erreur */
 
+    @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.fragment_map_floating_action_btn)
     public void displayLocation() {
         getDeviceLocation();
@@ -108,7 +106,6 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
 
         requireActivity().setTitle(getString(R.string.Titre_Toolbar_hungry));
     }
-
 
     @Override
     public void onStart() {

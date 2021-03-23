@@ -8,13 +8,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.guzzler.go4lunch_p7.models.Workmate;
 
+import static com.guzzler.go4lunch_p7.utils.Constants.COLLECTION_WORKMATE;
+
 
 public class UserHelper {
-    private static final String COLLECTION_NAME = "Workmates";
 
     // --- COLLECTION REFERENCE ---
     public static CollectionReference getWorkmatesCollection() {
-        return FirebaseFirestore.getInstance().collection(COLLECTION_NAME);
+        return FirebaseFirestore.getInstance().collection(COLLECTION_WORKMATE);
     }
 
     // --- CREATE ---
