@@ -1,5 +1,6 @@
 package com.guzzler.go4lunch_p7.ui.restaurants_list;
 
+import android.annotation.SuppressLint;
 import android.graphics.Typeface;
 import android.view.View;
 import android.widget.ImageView;
@@ -35,18 +36,25 @@ import static com.guzzler.go4lunch_p7.utils.FormatTime.formatTime;
 
 public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
 
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.name_restaurant)
     public TextView mNameRestaurant;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.adress_restaurant)
     public TextView mAdressRestaurant;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.item_avatar_restaurant)
     public ImageView mAvatarRestaurant;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.distance_restaurant)
     public TextView mDistance;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.star_restaurant)
     public RatingBar mStar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.Open_hour)
     public TextView mOpenHour;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.workmate_on_restaurant)
     public TextView mWorkmateOn;
 
@@ -62,7 +70,6 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
         // NUMBER OF WORKMATES AT THIS RESTAURANT
         RestaurantsHelper.getTodayBooking(resultDetails.getPlaceId(), GetTodayDate.getTodayDate()).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-
                 mWorkmateOn.setText(itemView.getResources().getString(R.string.number_workmates, String.valueOf(task.getResult().size())));
             }
         });
@@ -131,7 +138,6 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
             }
         }
     }
-
 
     private void displayOpeningHour(String type, String hour) {
         switch (type) {

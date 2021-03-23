@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -17,7 +16,6 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.guzzler.go4lunch_p7.R;
@@ -29,11 +27,15 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.guzzler.go4lunch_p7.utils.ShowToastSnack.showSnackBar;
+import static com.guzzler.go4lunch_p7.utils.ShowToastSnack.showToast;
+
 public class LoginActivity extends Activity {
 
     //FOR DATA
     // 1 - Identifier for Sign-In Activity
     private final int RC_SIGN_IN = 123;
+
     boolean doubleBackToExitPressedOnce = false;
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.log_activity_coordinator_layout)
@@ -71,11 +73,9 @@ public class LoginActivity extends Activity {
                                 new AuthUI.IdpConfig.TwitterBuilder().build(), // SUPPORT TWITTER
                                 new AuthUI.IdpConfig.EmailBuilder().build(), // SUPPORT EMAIL
                                 new AuthUI.IdpConfig.FacebookBuilder().build())) // SUPPORT FACEBOOK
-
                         .setIsSmartLockEnabled(false, true)
                         .build(),
                 RC_SIGN_IN);
-
     }
 
     @Override
@@ -88,7 +88,7 @@ public class LoginActivity extends Activity {
         }
 
         this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to return to login", Toast.LENGTH_SHORT).show();
+        showToast(this, "Please click BACK again to return to login", 0);
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
@@ -98,7 +98,7 @@ public class LoginActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Handle SignIn Activity response on activity result
-        this.handleResponseAfterSignIn(requestCode, resultCode, data);
+        handleResponseAfterSignIn(requestCode, resultCode, data);
     }
 
     // Method that handles response after SignIn Activity close
@@ -106,26 +106,26 @@ public class LoginActivity extends Activity {
         IdpResponse response = IdpResponse.fromResultIntent(data);
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == RESULT_OK) { // SUCCESS
-                this.createWorkmate();
-                this.finish();
+                createWorkmate();
+                finish();
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             } else { // ERRORS
 
                 // Show Snack Bar with a message
                 if (response == null) {
-                    showSnackBar(this.coordinatorLayout, getString(R.string.error_authentication_canceled));
+                    showSnackBar(coordinatorLayout, getString(R.string.error_authentication_canceled), 0);
                 } else if (Objects.requireNonNull(response.getError()).getErrorCode() == ErrorCodes.NO_NETWORK) {
-                    showSnackBar(this.coordinatorLayout, getString(R.string.error_no_internet));
+                    showSnackBar(coordinatorLayout, getString(R.string.error_no_internet), 0);
                 } else if (response.getError().getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-                    showSnackBar(this.coordinatorLayout, getString(R.string.error_unknown_error));
+                    showSnackBar(coordinatorLayout, getString(R.string.error_unknown_error), 0);
                 }
             }
         }
     }
 
     protected OnFailureListener onFailureListener() {
-        return e -> Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show();
+        return e -> showToast(getApplicationContext(), getString(R.string.error_unknown_error), 1);
     }
 
     @Nullable
@@ -155,9 +155,5 @@ public class LoginActivity extends Activity {
                     }
             );
         }
-    }
-
-    private void showSnackBar(CoordinatorLayout coordinatorLayout, String message) {
-        Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_SHORT).show();
     }
 }

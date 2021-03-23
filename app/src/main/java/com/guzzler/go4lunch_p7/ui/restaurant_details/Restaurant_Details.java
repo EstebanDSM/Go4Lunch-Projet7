@@ -1,5 +1,6 @@
 package com.guzzler.go4lunch_p7.ui.restaurant_details;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -37,6 +38,8 @@ import com.guzzler.go4lunch_p7.api.firebase.UserHelper;
 import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceDetailsCalls;
 import com.guzzler.go4lunch_p7.models.Workmate;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
+import com.guzzler.go4lunch_p7.utils.Constants;
+import com.guzzler.go4lunch_p7.utils.LikeButton;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -45,40 +48,53 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.guzzler.go4lunch_p7.utils.Constants.MAX_HEIGHT_LARGE;
+import static com.guzzler.go4lunch_p7.utils.Constants.MAX_WIDTH_LARGE;
 import static com.guzzler.go4lunch_p7.utils.DisplayRating.displayRating;
 import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
+import static com.guzzler.go4lunch_p7.utils.ShowToastSnack.showToast;
 
 
 public class Restaurant_Details extends AppCompatActivity implements View.OnClickListener, GooglePlaceDetailsCalls.Callbacks {
 
     private final List<Workmate> mWorkmates = new ArrayList<>();
+    @SuppressLint("NonConstantResourceId")
     @Nullable
     @BindView(R.id.restaurant_name)
     TextView mRestaurantName;
+    @SuppressLint("NonConstantResourceId")
     @Nullable
     @BindView(R.id.restaurant_address)
     TextView mRestaurantAddress;
+    @SuppressLint("NonConstantResourceId")
     @Nullable
     @BindView(R.id.imageView)
     ImageView mImageView;
+    @SuppressLint("NonConstantResourceId")
     @Nullable
     @BindView(R.id.floatingActionButton)
     FloatingActionButton mFloatingActionButton;
+    @SuppressLint("NonConstantResourceId")
     @Nullable
     @BindView(R.id.restaurant_item_call)
     Button mButtonCall;
+    @SuppressLint("NonConstantResourceId")
     @Nullable
     @BindView(R.id.restaurant_item_like)
     Button mButtonLike;
+    @SuppressLint("NonConstantResourceId")
     @Nullable
     @BindView(R.id.restaurant_item_website)
     Button mButtonWebsite;
+    @SuppressLint("NonConstantResourceId")
     @Nullable
     @BindView(R.id.item_ratingBar)
     RatingBar mRatingBar;
+    @SuppressLint("NonConstantResourceId")
     @Nullable
     @BindView(R.id.restaurantRecyclerView)
     RecyclerView mRestaurantRecyclerView;
+
     private ResultDetails requestResult;
     private Restaurant_Details_RecyclerViewAdapter mAdapter;
 
@@ -119,13 +135,13 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
                             displayFloating((R.drawable.ic_clear_black_24dp), getResources().getColor(R.color.colorError));
                             if (tryingToBook) {
                                 Booking_Firebase(userId, restaurantId, restaurantName, restaurant.getId(), false, false, true);
-                                Toast.makeText(this, getResources().getString(R.string.cancel_booking), Toast.LENGTH_SHORT).show();
+                                showToast(this, getResources().getString(R.string.cancel_booking), Toast.LENGTH_SHORT);
                             }
                         } else {
                             displayFloating((R.drawable.ic_check_circle_black_24dp), getResources().getColor(R.color.colorGreen));
                             if (tryingToBook) {
                                 Booking_Firebase(userId, restaurantId, restaurantName, restaurant.getId(), false, true, false);
-                                Toast.makeText(this, getResources().getString(R.string.modify_booking), Toast.LENGTH_SHORT).show();
+                                showToast(this, getResources().getString(R.string.modify_booking), Toast.LENGTH_SHORT);
                             }
                         }
                     }
@@ -133,18 +149,13 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
                     displayFloating((R.drawable.ic_check_circle_black_24dp), getResources().getColor(R.color.colorGreen));
                     if (tryingToBook) {
                         Booking_Firebase(userId, restaurantId, restaurantName, null, true, false, false);
-                        Toast.makeText(this, getResources().getString(R.string.new_booking), Toast.LENGTH_SHORT).show();
+                        showToast(this, getResources().getString(R.string.new_booking), Toast.LENGTH_SHORT);
                     }
                 }
             }
         });
     }
 
-    private void displayFloating(int icon, int color) {
-        Drawable mDrawable = ContextCompat.getDrawable(getBaseContext(), icon).mutate();
-        mDrawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
-        mFloatingActionButton.setImageDrawable(mDrawable);
-    }
 
     // TODO : raffraichir le fragment workmates si modif de reservation dans detail resto et que l'on fait retour
     private void Booking_Firebase(String userId, String restaurantId, String restaurantName, @Nullable String bookingId, boolean toCreate, boolean toUpdate, boolean toDelete) {
@@ -195,14 +206,15 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
                     intent.setData(Uri.parse("tel:" + requestResult.getFormattedPhoneNumber()));
                     startActivity(intent);
                 } else {
-                    Toast.makeText(this, getResources().getString(R.string.no_phone), Toast.LENGTH_SHORT).show();
+                    showToast(this, getResources().getString(R.string.no_phone), Toast.LENGTH_SHORT);
                 }
                 break;
             case R.id.restaurant_item_like:
                 if (mButtonLike.getText().equals(getResources().getString(R.string.like))) {
-                    likeRestaurant();
+
+                    LikeButton.likeRestaurant(requestResult, this, mButtonLike, getResources().getString(R.string.unlike), getResources().getString(R.string.rest_like));
                 } else {
-                    dislikeRestaurant();
+                    LikeButton.dislikeRestaurant(requestResult, this, mButtonLike, getResources().getString(R.string.like), getResources().getString(R.string.rest_dislike), getResources().getString(R.string.rest_like));
                 }
                 break;
             case R.id.restaurant_item_website:
@@ -211,12 +223,11 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
                     intent.putExtra("Website", requestResult.getWebsite());
                     startActivity(intent);
                 } else {
-                    Toast.makeText(this, getResources().getString(R.string.no_website), Toast.LENGTH_SHORT).show();
+                    showToast(this, getResources().getString(R.string.no_website), Toast.LENGTH_SHORT);
                 }
                 break;
         }
     }
-
 
     private void configureRecyclerView() {
         this.mAdapter = new Restaurant_Details_RecyclerViewAdapter(mWorkmates);
@@ -231,13 +242,11 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
         GooglePlaceDetailsCalls.fetchPlaceDetails(this, result);
     }
 
-
     private void configureButtonClickListener() {
         mButtonCall.setOnClickListener(this);
         mButtonLike.setOnClickListener(this);
         mButtonWebsite.setOnClickListener(this);
     }
-
 
     private void updateUI(ResultDetails resultDetails) {
 
@@ -246,17 +255,13 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
             checkLiked();
         } else {
             mButtonLike.setText(R.string.like);
-            Toast.makeText(this, getResources().getString(R.string.restaurant_error), Toast.LENGTH_LONG).show();
+            showToast(this, getResources().getString(R.string.restaurant_error), Toast.LENGTH_LONG);
             displayFloating((R.drawable.ic_check_circle_black_24dp), getResources().getColor(R.color.colorGreen));
         }
 
         // Chargement de la photo dans le détail des restaus
         if (resultDetails.getPhotos() != null) {
-            String BASE_URL = "https://maps.googleapis.com/maps/api/place/photo";
-            int MAX_WIDTH = 400;
-            int MAX_HEIGHT = 400;
-
-            Picasso.get().load(BASE_URL + "?maxwidth=" + MAX_WIDTH + "&maxheight=" + MAX_HEIGHT + "&photoreference=" + resultDetails.getPhotos().get(0)
+            Picasso.get().load(Constants.BASE_URL_PLACE_PHOTO + "?maxwidth=" + MAX_WIDTH_LARGE + "&maxheight=" + MAX_HEIGHT_LARGE + "&photoreference=" + resultDetails.getPhotos().get(0)
                     .getPhotoReference() + "&key=" + BuildConfig.api_key).into(mImageView);
 
 
@@ -301,28 +306,10 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
         });
     }
 
-
-    private void likeRestaurant() {
-        if (requestResult != null && getCurrentUser() != null) {
-            RestaurantsHelper.createLike(requestResult.getPlaceId(), getCurrentUser().getUid()).addOnCompleteListener(likeTask -> {
-                if (likeTask.isSuccessful()) {
-                    Toast.makeText(this, getResources().getString(R.string.rest_like), Toast.LENGTH_SHORT).show();
-                    mButtonLike.setText(getResources().getString(R.string.unlike));
-                }
-            });
-        } else {
-            Toast.makeText(this, getResources().getString(R.string.rest_like), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void dislikeRestaurant() {
-        if (requestResult != null && getCurrentUser() != null) {
-            RestaurantsHelper.deleteLike(requestResult.getPlaceId(), getCurrentUser().getUid());
-            mButtonLike.setText(getResources().getString(R.string.like));
-            Toast.makeText(this, getResources().getString(R.string.rest_dislike), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, getResources().getString(R.string.rest_like), Toast.LENGTH_SHORT).show();
-        }
+    private void displayFloating(int icon, int color) {
+        Drawable mDrawable = ContextCompat.getDrawable(getBaseContext(), icon).mutate();
+        mDrawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+        mFloatingActionButton.setImageDrawable(mDrawable);
     }
 
     protected OnFailureListener onFailureListener() {
@@ -337,6 +324,6 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onFailure() {
-        Toast.makeText(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG).show();
+        showToast(getApplicationContext(), getString(R.string.error_unknown_error), Toast.LENGTH_LONG);
     }
 }

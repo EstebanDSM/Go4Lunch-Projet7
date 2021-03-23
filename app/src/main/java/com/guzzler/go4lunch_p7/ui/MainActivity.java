@@ -51,7 +51,6 @@ import com.guzzler.go4lunch_p7.models.google_autocomplete_gson.AutoCompleteResul
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
 import com.guzzler.go4lunch_p7.ui.restaurant_details.Restaurant_Details;
-import com.guzzler.go4lunch_p7.ui.restaurants_list.RestaurantsList_RecyclerViewAdapter;
 import com.guzzler.go4lunch_p7.utils.DistanceTo;
 import com.guzzler.go4lunch_p7.utils.Permissions;
 import com.guzzler.go4lunch_p7.utils.notifications.NotificationHelper;
@@ -67,23 +66,23 @@ import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
+import static com.guzzler.go4lunch_p7.utils.ShowToastSnack.showToast;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AutoCompleteCalls.Callbacks, GooglePlaceSearchCalls.Callbacks, GooglePlaceDetailsCalls.Callbacks, LocationListener {
 
-    public List<ResultDetails> mResultDetailsList = new ArrayList<>();
+    private final List<ResultDetails> mResultDetailsList = new ArrayList<>();
     //VIEWMODEL
     public SharedViewModel mShareViewModel;
     //LIVEDATA
     public MutableLiveData<List<ResultDetails>> mLiveData = new MutableLiveData<>();
     //FOR DESIGN
-    Toolbar toolbar;
-    NavigationView navigationView;
-    ImageView imageProfileView;
-    TextView emailUser;
-    TextView nameUser;
-    ImageView backgroundView;
-    DrawerLayout drawerLayout;
-    private RestaurantsList_RecyclerViewAdapter mRestaurantsList_recyclerViewAdapter;
+    private Toolbar toolbar;
+    private ImageView imageProfileView;
+    private TextView emailUser;
+    private TextView nameUser;
+    private ImageView backgroundView;
+    private DrawerLayout drawerLayout;
+
     private int resultSize;
 
     @Override
@@ -144,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void configureNavigationView() {
-        this.navigationView = findViewById(R.id.activity_main_nav_view);
+        NavigationView navigationView = findViewById(R.id.activity_main_nav_view);
         final View headerLayout = navigationView.getHeaderView(0);
         imageProfileView = headerLayout.findViewById(R.id.imageProfileView);
         emailUser = headerLayout.findViewById(R.id.emailUser);
@@ -304,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             startActivity(intent);
         } else {
-            Toast.makeText(this, getResources().getString(R.string.no_restaurant_booked), Toast.LENGTH_SHORT).show();
+            showToast(this, getResources().getString(R.string.no_restaurant_booked), 0);
         }
     }
 

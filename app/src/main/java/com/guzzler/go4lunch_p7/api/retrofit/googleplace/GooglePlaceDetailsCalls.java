@@ -11,7 +11,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.guzzler.go4lunch_p7.utils.Constants.APIKEY;
+import static com.guzzler.go4lunch_p7.utils.Constants.API_KEY;
 
 // classe exécutant notre appel vers l'API googlePlaceDetailsService en arrière plan.
 public class GooglePlaceDetailsCalls {
@@ -26,7 +26,7 @@ public class GooglePlaceDetailsCalls {
         GooglePlaceDetailsService googlePlaceDetailsService = GooglePlaceDetailsService.retrofit.create(GooglePlaceDetailsService.class);
 
         // 2.3 - Create the call on googlePlaceSearchService
-        Call<PlaceDetails> call = googlePlaceDetailsService.getDetails(place_id, APIKEY);
+        Call<PlaceDetails> call = googlePlaceDetailsService.getDetails(place_id, API_KEY);
 
         // 2.4 - Start the call
         call.enqueue(new Callback<PlaceDetails>() {

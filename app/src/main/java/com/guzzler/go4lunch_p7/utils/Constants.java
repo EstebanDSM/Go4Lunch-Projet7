@@ -9,8 +9,11 @@ import com.guzzler.go4lunch_p7.ui.map.Map_Fragment;
 public class Constants {
 
     // TODO on peut mettre la clef en public ?
-    public final static String APIKEY = BuildConfig.api_key;
+    public static final String API_KEY = BuildConfig.api_key;
 
+
+    public static final int EARTH_RADIUS_KM = 6371;
+    public static final int ALARM_TYPE_RTC = 100;
     public static final String[] PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     public static final String OPEN = "OPEN";
     public static final String CLOSED = "CLOSED";
@@ -29,6 +32,8 @@ public class Constants {
     public static final int RADIUS = 6800;
     public static final String NOTIFICATION_CHANNEL_ID = "10001";
     public static final String NOTIFICATION_CHANNEL_NAME = "Go4Lunch";
+    public static final int MAX_WIDTH_LARGE = 400;
+    public static final int MAX_HEIGHT_LARGE = 400;
 
 }
 

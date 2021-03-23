@@ -1,5 +1,6 @@
 package com.guzzler.go4lunch_p7.ui.restaurant_details;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,8 +17,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class Restaurant_Details_ViewHolder extends RecyclerView.ViewHolder {
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.detail_main_picture)
     ImageView mImageView;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.detail_textview_username)
     TextView mTextView;
 

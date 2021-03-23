@@ -67,19 +67,19 @@ public class RestaurantsList_Fragment extends BaseFragment {
 
         SearchManager searchManager = (SearchManager) requireContext().getSystemService(Context.SEARCH_SERVICE);
         MenuItem item = menu.findItem(R.id.menu_activity_main_search);
-        SearchView searchView = new SearchView(Objects.requireNonNull(((MainActivity) requireContext()).getSupportActionBar()).getThemedContext());
+        SearchView mSearchView = new SearchView(Objects.requireNonNull(((MainActivity) requireContext()).getSupportActionBar()).getThemedContext());
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        item.setActionView(searchView);
-        searchView.setQueryHint(getResources().getString(R.string.search_hint));
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(((MainActivity) requireContext()).getComponentName()));
-        searchView.setIconifiedByDefault(false);// Do not iconify the widget; expand it by default
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        item.setActionView(mSearchView);
+        mSearchView.setQueryHint(getResources().getString(R.string.search_hint));
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(((MainActivity) requireContext()).getComponentName()));
+        mSearchView.setIconifiedByDefault(false);// Do not iconify the widget; expand it by default
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 if (query.length() > 2) {
                     mMainActivity.googleAutoCompleteSearch(query);
                     mViewAdapter.notifyDataSetChanged();
-                    searchView.clearFocus();
+                    mSearchView.clearFocus();
                 } else {
                     Toast.makeText(getContext(), getResources().getString(R.string.search_too_short), Toast.LENGTH_LONG).show();
                 }
@@ -119,4 +119,6 @@ public class RestaurantsList_Fragment extends BaseFragment {
                     startActivity(intent);
                 });
     }
+
+
 }

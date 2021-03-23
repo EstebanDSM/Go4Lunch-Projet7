@@ -1,7 +1,6 @@
 package com.guzzler.go4lunch_p7.utils;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -10,6 +9,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.ui.MainActivity;
+
+import static com.guzzler.go4lunch_p7.utils.ShowToastSnack.showToast;
 
 
 public class UpdateMarkers {
@@ -38,7 +39,7 @@ public class UpdateMarkers {
 
                 }
             } else {
-                Toast.makeText(mMainActivity.getApplicationContext(), mMainActivity.getResources().getString(R.string.no_restaurant), Toast.LENGTH_SHORT).show();
+                showToast(mMainActivity.getApplicationContext(), mMainActivity.getResources().getString(R.string.no_restaurant), 1);
             }
             Log.e(Constants.TAG, "number of markers : " + mMainActivity.mLiveData.getValue().size());
         }

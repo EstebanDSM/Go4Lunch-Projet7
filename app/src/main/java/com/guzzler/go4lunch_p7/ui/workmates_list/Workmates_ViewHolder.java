@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.guzzler.go4lunch_p7.R;
@@ -39,12 +38,10 @@ public class Workmates_ViewHolder extends RecyclerView.ViewHolder {
 
 
     public void updateWithData(Workmate result) {
-
-        RequestManager glide = Glide.with(itemView);
         if (result.getUrlPicture() != null) {
-            glide.load(result.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(mWorkmateAvatar);
+            Glide.with(itemView).load(result.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(mWorkmateAvatar);
         } else {
-            glide.load(R.drawable.ic_anon_user_48dp).apply(RequestOptions.circleCropTransform()).into(mWorkmateAvatar);
+            Glide.with(itemView).load(R.drawable.ic_anon_user_48dp).apply(RequestOptions.circleCropTransform()).into(mWorkmateAvatar);
         }
         RestaurantsHelper.getBooking(result.getUid(), getTodayDate()).addOnCompleteListener(restaurantTask -> {
             if (restaurantTask.isSuccessful()) {

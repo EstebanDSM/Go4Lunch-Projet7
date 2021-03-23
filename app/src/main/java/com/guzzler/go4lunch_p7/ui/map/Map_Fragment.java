@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +43,7 @@ import butterknife.OnClick;
 import static android.content.ContentValues.TAG;
 import static com.guzzler.go4lunch_p7.utils.Constants.DEFAULT_ZOOM;
 import static com.guzzler.go4lunch_p7.utils.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
+import static com.guzzler.go4lunch_p7.utils.ShowToastSnack.showToast;
 import static com.guzzler.go4lunch_p7.utils.UpdateMarkers.updateMarkers;
 
 public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, LocationListener {
@@ -137,7 +137,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
                     mMainActivity.googleAutoCompleteSearch(query);
                     mSearchView.clearFocus();
                 } else {
-                    Toast.makeText(getContext(), getResources().getString(R.string.search_too_short), Toast.LENGTH_SHORT).show();
+                    showToast(getContext(), getResources().getString(R.string.search_too_short), 1);
                 }
                 return true;
             }
@@ -246,13 +246,10 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         locationPermissionGranted = false;
-        switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    locationPermissionGranted = true;
-                }
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                locationPermissionGranted = true;
             }
         }
     }

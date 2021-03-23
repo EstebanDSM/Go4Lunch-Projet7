@@ -1,5 +1,6 @@
 package com.guzzler.go4lunch_p7.ui;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -22,8 +23,10 @@ import butterknife.ButterKnife;
 
 public class SettingsActivity extends AppCompatActivity {
     protected SharedViewModel mSharedViewModel;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.activity_main_toolbar)
     Toolbar mToolbar;
+    @SuppressLint("NonConstantResourceId")
     @BindView(R.id.settings_switch)
     SwitchCompat mSwitch;
 

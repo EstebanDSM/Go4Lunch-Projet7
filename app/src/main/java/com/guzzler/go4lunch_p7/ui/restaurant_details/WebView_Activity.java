@@ -37,7 +37,6 @@ public class WebView_Activity extends AppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(this::displayWebView);
     }
 
-
     @SuppressLint("SetJavaScriptEnabled")
     private void displayWebView() {
         String url = getIntent().getStringExtra("Website");

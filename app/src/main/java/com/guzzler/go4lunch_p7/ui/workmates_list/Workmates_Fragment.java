@@ -32,6 +32,7 @@ import butterknife.ButterKnife;
 
 import static com.firebase.ui.auth.ui.email.EmailLinkFragment.TAG;
 import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
+import static com.guzzler.go4lunch_p7.utils.ShowToastSnack.showToast;
 
 public class Workmates_Fragment extends BaseFragment {
     private final List<Workmate> mWorkmates = new ArrayList<>();
@@ -109,7 +110,7 @@ public class Workmates_Fragment extends BaseFragment {
                         startRestaurantDetails(Objects.requireNonNull(booking.getData().get("restaurantId")).toString());
                     }
                 } else {
-                    Toast.makeText(getContext(), getResources().getString(R.string.hasnt_decided, workmate.getName()), Toast.LENGTH_SHORT).show();
+                    showToast(getContext(), getResources().getString(R.string.hasnt_decided, workmate.getName()), Toast.LENGTH_SHORT);
                 }
             }
         });

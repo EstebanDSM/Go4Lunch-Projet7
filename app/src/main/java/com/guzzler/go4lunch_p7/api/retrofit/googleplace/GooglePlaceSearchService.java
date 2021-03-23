@@ -33,6 +33,4 @@ public interface GooglePlaceSearchService {
                                            @Query("rankby") String distanceRanking,
                                            @Query("type") String type,
                                            @Query("key") String key);
-
-
 }

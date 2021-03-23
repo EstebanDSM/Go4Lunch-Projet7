@@ -11,9 +11,7 @@ import java.util.Objects;
 
 public class SharedViewModel extends ViewModel {
     public MutableLiveData<LatLng> currentUserPosition = new MutableLiveData<>();
-    public MutableLiveData<String> currentUserUID = new MutableLiveData<>();
     public MutableLiveData<List<ResultDetails>> mList = new MutableLiveData<>();
-
 
     public void updateCurrentUserPosition(LatLng latLng) {
         currentUserPosition.setValue(latLng);
@@ -31,5 +29,4 @@ public class SharedViewModel extends ViewModel {
         String location = Objects.requireNonNull(currentUserPosition.getValue()).toString().replace("lat/lng: (", "");
         return location.replace(")", "");
     }
-
 }

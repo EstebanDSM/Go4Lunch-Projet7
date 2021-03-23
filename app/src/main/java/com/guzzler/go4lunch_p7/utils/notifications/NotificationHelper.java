@@ -8,14 +8,13 @@ import android.content.Intent;
 import java.util.Calendar;
 
 import static android.content.Context.ALARM_SERVICE;
+import static com.guzzler.go4lunch_p7.utils.Constants.ALARM_TYPE_RTC;
 
 
 public class NotificationHelper {
-    public static int ALARM_TYPE_RTC = 100;
     private final Context mContext;
     private AlarmManager alarmManagerRTC;
     private PendingIntent alarmIntentRTC;
-
 
     public NotificationHelper(Context context) {
         mContext = context;

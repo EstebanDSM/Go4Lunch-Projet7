@@ -10,7 +10,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.guzzler.go4lunch_p7.utils.Constants.APIKEY;
+import static com.guzzler.go4lunch_p7.utils.Constants.API_KEY;
 import static com.guzzler.go4lunch_p7.utils.Constants.RADIUS;
 
 
@@ -24,7 +24,7 @@ public class AutoCompleteCalls {
 
         AutoCompleteService googleAutoComplete = AutoCompleteService.retrofit.create(AutoCompleteService.class);
 
-        Call<AutoCompleteResult> call = googleAutoComplete.getAutoComplete(input, types, language, location, RADIUS, true, APIKEY);
+        Call<AutoCompleteResult> call = googleAutoComplete.getAutoComplete(input, types, language, location, RADIUS, true, API_KEY);
         call.enqueue(new Callback<AutoCompleteResult>() {
 
             @Override
