@@ -46,4 +46,6 @@
     <string name="error_authentication_canceled">Authentification annulée</string>
     <string name="title_map">Carte</string>
     <string name="title_list">Liste</string>
+    <string name="search_hint">Recherche</string>
+    <string name="search_too_short">3 caractères au minimum</string>
 </resources>

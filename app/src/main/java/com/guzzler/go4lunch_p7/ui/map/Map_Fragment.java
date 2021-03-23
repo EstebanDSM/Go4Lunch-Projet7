@@ -1,6 +1,8 @@
 package com.guzzler.go4lunch_p7.ui.map;
 
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -13,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,7 +60,6 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     // location retrieved by the Fused Location Provider.
     private Location lastKnownLocation;
     private MainActivity mMainActivity;
-
 
     // TODO : la premiere fois qu'on lance l'appli on a un crash sur la liste des restaus
     // TODO : les marqueurs ne sont visibles que lorsqu'on clique sur un autre onglet et qu'on revient sur la carte
@@ -122,7 +125,36 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.activity_main_appbar, menu);
+        SearchView mSearchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
         MenuItem item = menu.findItem(R.id.menu_activity_main_search);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        item.setActionView(mSearchView);
+        mSearchView.setQueryHint(getResources().getString(R.string.search_hint));
+        SearchManager mSearchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
+        mSearchView.setSearchableInfo(mSearchManager.getSearchableInfo(((MainActivity) getContext()).getComponentName()));
+        mSearchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query.length() > 2) {
+                    mMainActivity.googleAutoCompleteSearch(query);
+                    mSearchView.clearFocus();
+                } else {
+                    Toast.makeText(getContext(), getResources().getString(R.string.search_too_short), Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                if (query.length() > 2) {
+                    mMainActivity.googleAutoCompleteSearch(query);
+                } else if (query.length() == 0) {
+                    mMainActivity.searchByCurrentPosition();
+                }
+                return false;
+            }
+        });
     }
 
 

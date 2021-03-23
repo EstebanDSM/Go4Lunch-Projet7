@@ -45,8 +45,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.api.firebase.RestaurantsHelper;
+import com.guzzler.go4lunch_p7.api.retrofit.google_autocomplete.AutoCompleteCalls;
 import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceDetailsCalls;
 import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceSearchCalls;
+import com.guzzler.go4lunch_p7.models.google_autocomplete_gson.AutoCompleteResult;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
 import com.guzzler.go4lunch_p7.ui.restaurant_details.Restaurant_Details;
@@ -66,16 +68,13 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, GooglePlaceSearchCalls.Callbacks, GooglePlaceDetailsCalls.Callbacks, LocationListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, AutoCompleteCalls.Callbacks, GooglePlaceSearchCalls.Callbacks, GooglePlaceDetailsCalls.Callbacks, LocationListener {
     private final String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     public List<ResultDetails> mResultDetailsList = new ArrayList<>();
-
     //VIEWMODEL
     public SharedViewModel mShareViewModel;
-
     //LIVEDATA
     public MutableLiveData<List<ResultDetails>> mLiveData = new MutableLiveData<>();
-
     //FOR DESIGN
     Toolbar toolbar;
     NavigationView navigationView;
@@ -84,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView nameUser;
     ImageView backgroundView;
     DrawerLayout drawerLayout;
+    private int resultSize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -264,15 +264,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             GooglePlaceDetailsCalls.fetchPlaceDetails(this, resultSearchList.get(i).getPlaceId());
         }
+        resultSize = resultSearchList.size();
     }
 
     @Override
     public void onResponse(@Nullable ResultDetails resultDetails) {
         int distance = (int) Math.round(DistanceTo.distanceTo(resultDetails, this));
         resultDetails.setDistance(distance);
-        mResultDetailsList.add(resultDetails);
-        mLiveData.setValue(mResultDetailsList);
+        if (resultDetails.getTypes().contains("restaurant")) {
+            mResultDetailsList.add(resultDetails);
+            mLiveData.setValue(mResultDetailsList);
+        } else {
+            resultSize--;
+        }
+        if (mResultDetailsList.size() == resultSize) {
+            mLiveData.setValue(mResultDetailsList);
+        }
     }
+
 
     @Override
     public void onFailure() {
@@ -321,4 +330,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
+
+    private void AutoCompleteToDetails(AutoCompleteResult autoCompleteResult) {
+        mResultDetailsList.clear();
+        for (int i = 0; i < autoCompleteResult.getPredictions().size(); i++) {
+            GooglePlaceDetailsCalls.fetchPlaceDetails(this, autoCompleteResult.getPredictions().get(i).getPlaceId());
+        }
+    }
+
+    public void googleAutoCompleteSearch(String query) {
+        AutoCompleteCalls.fetchAutoCompleteResult(this, query, mShareViewModel.getCurrentUserPositionFormatted());
+    }
+
+    @Override
+    public void onResponse(@Nullable AutoCompleteResult autoCompleteResult) {
+        resultSize = autoCompleteResult.getPredictions().size();
+        AutoCompleteToDetails(autoCompleteResult);
+
+    }
+
+    public void searchByCurrentPosition() {
+
+        GooglePlaceSearchCalls.fetchNearbyRestaurants(this, mShareViewModel.getCurrentUserPositionFormatted());
+    }
+
+
 }

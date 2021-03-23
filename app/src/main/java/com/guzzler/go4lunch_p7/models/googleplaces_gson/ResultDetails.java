@@ -27,6 +27,8 @@ public class ResultDetails implements Comparable<ResultDetails> {
     private String mPlaceId;
     @SerializedName("rating")
     private Double mRating;
+    @SerializedName("types")
+    private List<String> mTypes;
     @SerializedName("vicinity")
     private String mVicinity;
     @SerializedName("website")
@@ -100,6 +102,10 @@ public class ResultDetails implements Comparable<ResultDetails> {
 
     public String getWebsite() {
         return mWebsite;
+    }
+
+    public List<String> getTypes() {
+        return mTypes;
     }
 
 

@@ -73,6 +73,8 @@
     <string name="logo_user">logo of user</string>
     <string name="photo_restaurant_item">miniature of restaurant</string>
     <string name="error_no_internet">No internet ?</string>
-    <string name="number_workmates">(%1$s)</string>
+    <string name="number_workmates" translatable="false">(%1$s)</string>
+    <string name="search_hint">Search</string>
+    <string name="search_too_short">3 characters minimum</string>
 
 </resources>
