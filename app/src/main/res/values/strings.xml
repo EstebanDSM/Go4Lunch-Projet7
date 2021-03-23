@@ -5,42 +5,41 @@
     <string name="facebook_login_protocol_scheme" translatable="false">fb771168420494523</string>
 
 
-    <string name="app_name">Go4Lunch</string>
-    <string name="error_unknown_error">Une erreur inconnue s\'est produite</string>
-    <string name="error_no_internet">Pas de connexion internet ?</string>
-    <string name="error_authentication_canceled">Authentification annulée</string>
-    <string name="toolbar_title_login_activity">Login</string>
+    <string name="app_name" translatable="false">Go4Lunch</string>
+    <string name="error_unknown_error">An unknown error has occurred</string>
+    <string name="error_authentication_canceled">authentication canceled</string>
+    <string name="toolbar_title_login_activity" translatable="false">Login</string>
     <string name="connectWithSuccess">Connected</string>
     <string name="title_map">Map View</string>
     <string name="title_list">List View</string>
     <string name="title_workmate">Workmates</string>
     <string name="activity_main_menu_search">Search</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="menu_logout">LOGOUT</string>
     <string name="menu_settings">SETTINGS</string>
     <string name="menu_lunch">YOUR LUNCH</string>
     <string name="email_not_found">Email not found</string>
     <string name="username_not_found">Username not found</string>
-    <string name="simple_app_name">Go4Lunch</string>
+    <string name="simple_app_name" translatable="false">Go4Lunch</string>
     <string name="lunch">lunch with workmates</string>
-    <string name="Avatar">avatar</string>
-    <string name="notification_text">Notifications</string>
+    <string name="Avatar" translatable="false">avatar</string>
+    <string name="notification_text" translatable="false">Notifications</string>
     <string name="save_text">Save</string>
     <string name="save_ok">Settings Saved</string>
-    <string name="type">restaurant</string>
-    <string name="floating_button">floating button</string>
+    <string name="type" translatable="false">restaurant</string>
+    <string name="floating_button" translatable="false">floating button</string>
     <string name="no_restaurant">No restaurants found</string>
-    <string name="name_restaurant">NAME_RESTAURANT</string>
-    <string name="unit_distance">%1$sm</string>
-    <string name="restaurant_mates_number">(%1$d)</string>
+    <string name="name_restaurant" translatable="false">NAME_RESTAURANT</string>
+    <string name="unit_distance" translatable="false">%1$sm</string>
+    <string name="restaurant_mates_number" translatable="false">(%1$d)</string>
     <string name="restaurant_closed">Closed</string>
     <string name="restaurant_opening_not_know">Opening hours are not known</string>
     <string name="closing_soon">Closing soon (%1$s)</string>
     <string name="open_until">Open until %1$s</string>
     <string name="address">ADDRESS</string>
-    <string name="distance">DISTANCE</string>
-    <string name="opening_time">OPENING_TIME</string>
+    <string name="distance" translatable="false">DISTANCE</string>
+    <string name="opening_time" translatable="false">OPENING_TIME</string>
     <string name="Titre_Toolbar_hungry">I\'m Hungry</string>
     <string name="Titre_Toolbar_workmates">Available workmates</string>
     <string name="no_restaurant_found">No restautant found</string>
@@ -48,15 +47,15 @@
     <string name="settings_saved">Save</string>
     <string name="settings_toolbar">Settings</string>
     <string name="call">CALL</string>
-    <string name="like">LIKE</string>
-    <string name="likE">LIKE</string>
+    <string name="like" translatable="false">LIKE</string>
+    <string name="likE" translatable="false">LIKE</string>
     <string name="website">WEBSITE</string>
-    <string name="todo">TODO</string>
-    <string name="unlike">UNLIKE</string>
+    <string name="todo" translatable="false">TODO</string>
+    <string name="unlike" translatable="false">UNLIKE</string>
     <string name="no_phone">No phone number</string>
     <string name="restaurant_error">Unable to retrieve information</string>
-    <string name="rest_like">LIKED</string>
-    <string name="rest_dislike">DISLIKED</string>
+    <string name="rest_like" translatable="false">LIKED</string>
+    <string name="rest_dislike" translatable="false">DISLIKED</string>
     <string name="Image_restaurant">Image of restaurant selected</string>
     <string name="cancel_booking">You cancelled the booking for this place</string>
     <string name="modify_booking">You have chosen a new place for lunch</string>
@@ -68,10 +67,11 @@
     <string name="no_restaurant_booked">No lunch today ?</string>
     <string name="notification_no_workmates">None</string>
     <string name="notification_message">Here is a reminder of your choice for today : %1$s. Workmates participating : %2$s</string>
-    <string name="notification">Go4Lunch</string>
+    <string name="notification" translatable="false">Go4Lunch</string>
     <string name="searching">Loading…</string>
-    <string name="logo">logo</string>
+    <string name="logo" translatable="false">logo</string>
     <string name="logo_user">logo of user</string>
     <string name="photo_restaurant_item">miniature of restaurant</string>
+    <string name="error_no_internet">No internet ?</string>
 
 </resources>
