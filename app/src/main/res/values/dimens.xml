@@ -13,4 +13,6 @@
     <dimen name="spacing_words">4dp</dimen>
     <dimen name="text_size_email_not_found">12sp</dimen>
     <dimen name="picture_size_min">60dp</dimen>
+    <dimen name="mates_picture_size">20dp</dimen>
+    <dimen name="space_between_word">4dp</dimen>
 </resources>

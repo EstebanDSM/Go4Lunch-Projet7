@@ -14,8 +14,10 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.guzzler.go4lunch_p7.BuildConfig;
 import com.guzzler.go4lunch_p7.R;
+import com.guzzler.go4lunch_p7.api.firebase.RestaurantsHelper;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.guzzler.go4lunch_p7.utils.DisplayRating;
+import com.guzzler.go4lunch_p7.utils.GetTodayDate;
 
 import java.util.Calendar;
 
@@ -34,6 +36,7 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
     public final int MAX_WIDTH = 200;
     public final int MAX_HEIGHT = 200;
 
+
     @BindView(R.id.name_restaurant)
     public TextView mNameRestaurant;
     @BindView(R.id.adress_restaurant)
@@ -46,6 +49,8 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
     public RatingBar mStar;
     @BindView(R.id.Open_hour)
     public TextView mOpenHour;
+    @BindView(R.id.workmate_on_restaurant)
+    public TextView mWorkmateOn;
 
 
     public RestaurantsList_ViewHolder(@NonNull View itemView) {
@@ -55,6 +60,14 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
 
     public void updateWithData(ResultDetails resultDetails, String mLocation) {
         RequestManager glide = Glide.with(itemView);
+
+        // NUMBER OF WORKMATES AT THIS RESTAURANT
+        RestaurantsHelper.getTodayBooking(resultDetails.getPlaceId(), GetTodayDate.getTodayDate()).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+
+                mWorkmateOn.setText(itemView.getResources().getString(R.string.number_workmates, String.valueOf(task.getResult().size())));
+            }
+        });
 
         // NAME
         mNameRestaurant.setText(resultDetails.getName());
