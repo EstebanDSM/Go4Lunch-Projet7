@@ -61,9 +61,6 @@ public class Workmates_ViewHolder extends RecyclerView.ViewHolder {
                     mWorkmateName.setTypeface(mWorkmateName.getTypeface(), Typeface.ITALIC);
                 }
             }
-
-            // delete past booking
-            RestaurantsHelper.deleteNotTodayBooking(getTodayDate());
         });
     }
 }

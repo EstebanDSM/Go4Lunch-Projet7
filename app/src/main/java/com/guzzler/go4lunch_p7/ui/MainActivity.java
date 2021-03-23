@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // delete past booking
+        RestaurantsHelper.deleteNotTodayBooking(getTodayDate());
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -165,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
 
         //Gestion de la navigation au click sur la Navigation Drawer
         int id = item.getItemId();

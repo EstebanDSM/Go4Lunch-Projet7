@@ -91,9 +91,6 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
         } else {
             displayOpeningHour(OPENING_HOURS_NOT_KNOW, null);
         }
-
-        // delete past booking
-        RestaurantsHelper.deleteNotTodayBooking(getTodayDate());
     }
 
 
