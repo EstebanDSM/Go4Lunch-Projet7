@@ -64,10 +64,10 @@ public class SettingsActivity extends AppCompatActivity {
             if (documentSnapshot != null && documentSnapshot.exists()) {
                 Log.e("TAG", "Current data: " + documentSnapshot.getData());
                 mSwitch.setChecked(documentSnapshot.getData().get("notification").equals(true));
-                mNotificationHelper.scheduleRepeatingNotification();
+
             } else {
                 Log.e("TAG", "Current data: null");
-                mNotificationHelper.cancelAlarmRTC();
+
             }
         });
     }

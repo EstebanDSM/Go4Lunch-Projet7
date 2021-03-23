@@ -6,6 +6,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.guzzler.go4lunch_p7.models.Booking;
@@ -71,6 +72,20 @@ public class RestaurantsHelper {
                 Map<String, Object> update = new HashMap<>();
                 update.put(userId, FieldValue.delete());
                 RestaurantsHelper.getLikedCollection().document(restaurantId).update(update);
+            }
+        });
+        return true;
+    }
+
+    public static Boolean deleteNotTodayBooking(String date) {
+        FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
+        CollectionReference itemsRef = rootRef.collection("booking");
+        Query query = itemsRef.whereNotEqualTo("bookingDate", date);
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (DocumentSnapshot document : task.getResult()) {
+                    itemsRef.document(document.getId()).delete();
+                }
             }
         });
         return true;
