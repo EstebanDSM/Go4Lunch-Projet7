@@ -8,6 +8,8 @@
     android:layout_height="match_parent"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="16dp"
+    android:paddingTop="@dimen/padding_App_bar_height"
+    android:paddingBottom="@dimen/padding_App_bar_height"
     app:layoutManager="LinearLayoutManager"
     tools:context=".ui.MainActivity"
     tools:listitem="@layout/fragment_workmate_item" />
