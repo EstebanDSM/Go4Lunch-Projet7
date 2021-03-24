@@ -10,7 +10,7 @@
     <string name="no_restaurant">Pas de restaurants trouvés</string>
     <string name="no_restaurant_booked">Pas de restaurant aujourd\'hui ?</string>
     <string name="notification_no_workmates">Aucun</string>
-    <string name="notification_message">Ceci est le rappel de vos choix pour aujourd\'hui : %1$s. Collègues présents : %2$s</string>
+    <string name="notification_message">Votre déjeuner  aujourd\'hui : %1$s. Collègues présents : %2$s</string>
     <string name="searching">Chargement…</string>
     <string name="logo_user">logo de l\'utilisateur</string>
     <string name="photo_restaurant_item">miniature du restaurant</string>

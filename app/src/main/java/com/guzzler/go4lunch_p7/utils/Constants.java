@@ -8,7 +8,7 @@ import com.guzzler.go4lunch_p7.ui.map.Map_Fragment;
 
 public class Constants {
 
-    // TODO on peut mettre la clef en public ?
+    // TODO : on peut mettre la clef en public ?
     public static final String API_KEY = BuildConfig.api_key;
 
 
@@ -34,6 +34,8 @@ public class Constants {
     public static final String NOTIFICATION_CHANNEL_NAME = "Go4Lunch";
     public static final int MAX_WIDTH_LARGE = 400;
     public static final int MAX_HEIGHT_LARGE = 400;
+    public static final int RC_CAMERA_PERM = 123;
+
 
 }
 

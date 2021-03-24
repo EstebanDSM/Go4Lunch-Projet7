@@ -65,7 +65,7 @@ public class Workmates_Fragment extends BaseFragment {
     }
 
 
-    // TODO : pas d'update des booking quand je me connecte sur un nouvel appareil
+    // TODO : pas d'update des booking quand je me connecte sur un nouvel appareil dans une autre langue / a corriger ?
     private void initList() {
         UserHelper.getWorkmatesCollection()
                 .get()

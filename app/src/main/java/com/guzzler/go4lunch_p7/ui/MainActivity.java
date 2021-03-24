@@ -50,10 +50,8 @@ import com.guzzler.go4lunch_p7.models.google_autocomplete_gson.AutoCompleteResul
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
 import com.guzzler.go4lunch_p7.ui.restaurant_details.Restaurant_Details;
+import com.guzzler.go4lunch_p7.utils.Constants;
 import com.guzzler.go4lunch_p7.utils.DistanceTo;
-import com.guzzler.go4lunch_p7.utils.Permissions;
-import com.guzzler.go4lunch_p7.utils.notifications.NotificationHelper;
-import com.guzzler.go4lunch_p7.utils.notifications.UpdateNotificationsSettings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +61,7 @@ import java.util.Objects;
 
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
 import static com.guzzler.go4lunch_p7.utils.ShowToastSnack.showToast;
@@ -84,9 +83,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private int resultSize;
 
+    public static void checkLocationPermission(Context context) {
+        EasyPermissions.hasPermissions(context, Constants.PERMISSIONS);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ButterKnife.bind(this);
+
+        checkLocationPermission(getApplicationContext());
 
         // VIEWMODEL
         mShareViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
@@ -94,11 +99,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // delete past booking
-        RestaurantsHelper.deleteNotTodayBooking(getTodayDate());
 
-        // Update Notifications if install in another device
-        UpdateNotificationsSettings.updateNotifications(new NotificationHelper(getBaseContext()));
+        // TODO : comment verifier au démarrage de l'application si les notifications doivent être activées (si nouveau device par exemple)
+
+
+        // TODO delete past booking NECESSARY ?
+        // RestaurantsHelper.deleteNotTodayBooking(getTodayDate());
 
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -113,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureDrawerLayout();
         this.configureNavigationView();
 
-        Permissions.checkLocationPermission(getApplicationContext());
 
         FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
@@ -213,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void updateView() {
+
         //Chargement infos user dans Navigation Drawer
         if (getCurrentUser() != null) {
             if (getCurrentUser().getPhotoUrl() != null) {
@@ -244,10 +250,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onResponse(@Nullable List<ResultSearch> resultSearchList) {
+
         mResultDetailsList.clear();
 
-        // TODO : pour limiter les requêtes google place à un seul élément
-//        for (int i = 0; i < resultSearchList.size(); i++) {
+        // POUR LIMITER LES REQUETES ET PAS EPUISER LE CREDIT GOOGLE
+        // for (int i = 0; i < resultSearchList.size(); i++) {
         for (int i = 0; i < 1; i++) {
 
             GooglePlaceDetailsCalls.fetchPlaceDetails(this, resultSearchList.get(i).getPlaceId());

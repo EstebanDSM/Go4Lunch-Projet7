@@ -54,13 +54,11 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     private FusedLocationProviderClient fusedLocationProviderClient;
     private boolean locationPermissionGranted;
     // The geographical location where the device is currently located. That is, the last-known
-    // location retrieved by the Fused Location Provider.
+    // location retrieved by the Fused Location Provider
     private Location lastKnownLocation;
     private MainActivity mMainActivity;
 
-    // TODO : la premiere fois qu'on lance l'appli on a un crash sur la liste des restaus
-    // TODO : les marqueurs ne sont visibles que lorsqu'on clique sur un autre onglet et qu'on revient sur la carte
-    // TODO : si pas de GPS on a une erreur */
+    // TODO : il faut corriger les demandes de permissions, la premiere fois la carte n'est pas a jour et ça entraines des bugs dans la suite
 
     @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.fragment_map_floating_action_btn)
@@ -85,7 +83,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         ButterKnife.bind(this, view);
 
-        // LIVADATA
+        // LIVEDATA
         mMainActivity.mLiveData.observe(getViewLifecycleOwner(), resultDetails -> getDeviceLocation());
 
         return view;
@@ -95,63 +93,16 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Construct a FusedLocationProviderClient.
+        // Construct a FusedLocationProviderClient
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity());
 
-        // Build the map.
+        // Build the map
         SupportMapFragment mMapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         assert mMapFragment != null;
         mMapFragment.getMapAsync(this);
 
         requireActivity().setTitle(getString(R.string.Titre_Toolbar_hungry));
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.activity_main_appbar, menu);
-        SearchView mSearchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
-        MenuItem item = menu.findItem(R.id.menu_activity_main_search);
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        item.setActionView(mSearchView);
-        mSearchView.setQueryHint(getResources().getString(R.string.search_hint));
-        SearchManager mSearchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
-        mSearchView.setSearchableInfo(mSearchManager.getSearchableInfo(((MainActivity) getContext()).getComponentName()));
-        mSearchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if (query.length() > 2) {
-                    mMainActivity.googleAutoCompleteSearch(query);
-                    mSearchView.clearFocus();
-                } else {
-                    showToast(getContext(), getResources().getString(R.string.search_too_short), 1);
-                }
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                if (query.length() > 2) {
-                    mMainActivity.googleAutoCompleteSearch(query);
-                } else if (query.length() == 0) {
-                    mMainActivity.searchByCurrentPosition();
-                }
-                return false;
-            }
-        });
     }
 
 
@@ -202,44 +153,6 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         }
     }
 
-    private boolean onClickMarker(Marker marker) {
-        if (marker.getTag() != null) {
-            Log.e(TAG, "onClickMarker: " + marker.getTag());
-            Intent intent = new Intent(getActivity(), Restaurant_Details.class);
-            intent.putExtra("PlaceDetailResult", marker.getTag().toString());
-            startActivity(intent);
-            return true;
-        } else {
-            Log.e(TAG, "onClickMarker: ERROR NO TAG");
-            return false;
-        }
-    }
-
-
-    @SuppressLint("PotentialBehaviorOverride")
-    private void updateLocationUI() {
-        if (map == null) {
-            return;
-        }
-        try {
-            if (locationPermissionGranted) {
-                map.setMyLocationEnabled(true);
-                map.getUiSettings().setMyLocationButtonEnabled(false);
-                map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireActivity().getApplicationContext(), R.raw.style_json));
-                map.getUiSettings().setMapToolbarEnabled(false);
-                map.setOnMarkerClickListener(this::onClickMarker);
-
-            } else {
-                map.setMyLocationEnabled(false);
-                map.getUiSettings().setMyLocationButtonEnabled(false);
-                lastKnownLocation = null;
-                getLocationPermission();
-            }
-        } catch (SecurityException e) {
-            Log.e("Exception: %s", e.getMessage());
-        }
-    }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -271,6 +184,43 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         }
     }
 
+    private boolean onClickMarker(Marker marker) {
+        if (marker.getTag() != null) {
+            Log.e(TAG, "onClickMarker: " + marker.getTag());
+            Intent intent = new Intent(getActivity(), Restaurant_Details.class);
+            intent.putExtra("PlaceDetailResult", marker.getTag().toString());
+            startActivity(intent);
+            return true;
+        } else {
+            Log.e(TAG, "onClickMarker: ERROR NO TAG");
+            return false;
+        }
+    }
+
+    @SuppressLint("PotentialBehaviorOverride")
+    private void updateLocationUI() {
+        if (map == null) {
+            return;
+        }
+        try {
+            if (locationPermissionGranted) {
+                map.setMyLocationEnabled(true);
+                map.getUiSettings().setMyLocationButtonEnabled(false);
+                map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireActivity().getApplicationContext(), R.raw.style_json));
+                map.getUiSettings().setMapToolbarEnabled(false);
+                map.setOnMarkerClickListener(this::onClickMarker);
+
+            } else {
+                map.setMyLocationEnabled(false);
+                map.getUiSettings().setMyLocationButtonEnabled(false);
+                lastKnownLocation = null;
+                getLocationPermission();
+            }
+        } catch (SecurityException e) {
+            Log.e("Exception: %s", e.getMessage());
+        }
+    }
+
     @Override
     public void onMapReady(GoogleMap map) {
         this.map = map;
@@ -286,5 +236,53 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         double currentLatitude = location.getLatitude();
         double currentLongitude = location.getLongitude();
         mMainActivity.mShareViewModel.updateCurrentUserPosition(new LatLng(currentLatitude, currentLongitude));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.activity_main_appbar, menu);
+        SearchView mSearchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
+        MenuItem item = menu.findItem(R.id.menu_activity_main_search);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        item.setActionView(mSearchView);
+        mSearchView.setQueryHint(getResources().getString(R.string.search_hint));
+        SearchManager mSearchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
+        mSearchView.setSearchableInfo(mSearchManager.getSearchableInfo(((MainActivity) getContext()).getComponentName()));
+        mSearchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (query.length() > 2) {
+                    mMainActivity.googleAutoCompleteSearch(query);
+                    mSearchView.clearFocus();
+                } else {
+                    showToast(getContext(), getResources().getString(R.string.search_too_short), 1);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                if (query.length() > 2) {
+                    mMainActivity.googleAutoCompleteSearch(query);
+                } else if (query.length() == 0) {
+                    mMainActivity.searchByCurrentPosition();
+                }
+                return false;
+            }
+        });
     }
 }
