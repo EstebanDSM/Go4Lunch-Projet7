@@ -254,9 +254,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mResultDetailsList.clear();
 
         // POUR LIMITER LES REQUETES ET PAS EPUISER LE CREDIT GOOGLE
-        // for (int i = 0; i < resultSearchList.size(); i++) {
         for (int i = 0; i < 1; i++) {
 
+            // for (int i = 0; i < resultSearchList.size(); i++) {
             GooglePlaceDetailsCalls.fetchPlaceDetails(this, resultSearchList.get(i).getPlaceId());
         }
         resultSize = resultSearchList.size();

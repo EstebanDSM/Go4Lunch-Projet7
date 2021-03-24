@@ -8,7 +8,7 @@ public class GetTodayDate {
 
     public static String getTodayDate() {
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat sfDate = new SimpleDateFormat("d MMM yyyy", Locale.getDefault());
+        SimpleDateFormat sfDate = new SimpleDateFormat("dd-MM-yy", Locale.getDefault());
         return sfDate.format(c.getTime());
     }
 }
