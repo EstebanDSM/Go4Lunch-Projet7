@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         // TODO delete past booking NECESSARY ?
-        // RestaurantsHelper.deleteNotTodayBooking(getTodayDate());
+        RestaurantsHelper.deleteNotTodayBooking(getTodayDate());
 
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -113,11 +113,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         // Configure Toolbar
-        this.configureToolBar();
+        configureToolBar();
 
         // Configure Navigation Drawer
-        this.configureDrawerLayout();
-        this.configureNavigationView();
+        configureDrawerLayout();
+        configureNavigationView();
 
 
         FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        this.updateView();
+        updateView();
     }
 
     private void configureNavigationView() {
@@ -192,20 +192,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
-        this.drawerLayout.closeDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
 
     // On récupère la toolbar
     private void configureToolBar() {
-        this.toolbar = findViewById(R.id.activity_main_toolbar);
+        toolbar = findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
     }
 
     // On récupère le DrawerLayout, avec lui et la toolbar on créé le menu hamburger
     private void configureDrawerLayout() {
-        this.drawerLayout = findViewById(R.id.main_drawer_layout);
+        drawerLayout = findViewById(R.id.main_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onFailure() {
-        showToast(this.getApplicationContext(), getResources().getString(R.string.no_restaurant_found), 1);
+        showToast(getApplicationContext(), getResources().getString(R.string.no_restaurant_found), 1);
     }
 
     @Override
@@ -314,8 +314,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         // Handle back click to close menu
-        if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            this.drawerLayout.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }

@@ -34,8 +34,6 @@ public class Constants {
     public static final String NOTIFICATION_CHANNEL_NAME = "Go4Lunch";
     public static final int MAX_WIDTH_LARGE = 400;
     public static final int MAX_HEIGHT_LARGE = 400;
-    public static final int RC_CAMERA_PERM = 123;
-
 
 }
 
