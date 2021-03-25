@@ -129,7 +129,11 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
                                             lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                             Log.e("TAG", "DeviceLocation " + mLocation);
                         } else {
-                            defaultLocation = mMainActivity.mShareViewModel.getCurrentUserPosition();
+                            if (mMainActivity.mShareViewModel.getCurrentUserPosition() != null) {
+                                defaultLocation = mMainActivity.mShareViewModel.getCurrentUserPosition();
+                            }
+
+
                             Log.e(TAG, "LastLocation is null. Using current from mShareViewmodel.");
                             Log.e(TAG, "Exception: %s", task.getException());
                             map.moveCamera(CameraUpdateFactory
