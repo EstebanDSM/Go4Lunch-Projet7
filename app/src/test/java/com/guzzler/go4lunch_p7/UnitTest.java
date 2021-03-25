@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -26,19 +27,50 @@ public class UnitTest {
     }
 
     @Test
-    public void testUserData() {
+    public void testGetWorkmatesData() {
         assertEquals("123456789", workmate.getUid());
         assertEquals("esteban", workmate.getName());
         assertEquals("photoURL", workmate.getUrlPicture());
         assertFalse(workmate.isNotification());
+
+
     }
 
     @Test
-    public void testBookingData() {
+    public void testGetBookingData() {
         assertEquals("22-03-21", booking.getBookingDate());
         assertEquals("123456789", booking.getUserId());
         assertEquals("000000", booking.getRestaurantId());
         assertEquals("rialto", booking.getRestaurantName());
+    }
+
+    @Test
+    public void testSetBookingData() {
+
+        booking.setBookingDate("11-11-11");
+        booking.setRestaurantId("123456");
+        booking.setRestaurantName("la grange");
+        booking.setUserId("111111");
+
+        assertEquals("11-11-11", booking.getBookingDate());
+        assertEquals("111111", booking.getUserId());
+        assertEquals("123456", booking.getRestaurantId());
+        assertEquals("la grange", booking.getRestaurantName());
+
+    }
+
+    @Test
+    public void testSetWorkmateData() {
+        workmate.setName("pascal");
+        workmate.setNotification(true);
+        workmate.setUid("666666");
+        workmate.setUrlPicture("photo.com");
+
+        assertEquals("pascal", workmate.getName());
+        assertTrue(workmate.isNotification());
+        assertEquals("666666", workmate.getUid());
+        assertEquals("photo.com", workmate.getUrlPicture());
+
     }
 
 }
