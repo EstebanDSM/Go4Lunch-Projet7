@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class UnitTest {
+public class ModelsTest {
 
     private Workmate workmate;
     private Booking booking;
@@ -62,14 +62,14 @@ public class UnitTest {
     @Test
     public void testSetWorkmateData() {
         workmate.setName("pascal");
-        workmate.setNotification(true);
         workmate.setUid("666666");
         workmate.setUrlPicture("photo.com");
+        workmate.setNotification(true);
 
         assertEquals("pascal", workmate.getName());
-        assertTrue(workmate.isNotification());
         assertEquals("666666", workmate.getUid());
         assertEquals("photo.com", workmate.getUrlPicture());
+        assertTrue(workmate.isNotification());
 
     }
 

@@ -31,6 +31,7 @@ import java.util.List;
 import static com.guzzler.go4lunch_p7.utils.Constants.NOTIFICATION_CHANNEL_ID;
 import static com.guzzler.go4lunch_p7.utils.Constants.NOTIFICATION_CHANNEL_NAME;
 import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
+import static com.guzzler.go4lunch_p7.utils.notifications.MakeMessage.makeMessage;
 
 
 public class AlarmReceiver extends BroadcastReceiver implements GooglePlaceDetailsCalls.Callbacks {
@@ -100,19 +101,11 @@ public class AlarmReceiver extends BroadcastReceiver implements GooglePlaceDetai
         String restaurantName = resultDetails.getName();
         // Si au moins un utilisateur a choisi le même restau
         if (workmatesList.size() > 0) {
-            StringBuilder mStringBuilder = new StringBuilder();
-            for (int i = 0; i < workmatesList.size(); i++) {
-                mStringBuilder.append(workmatesList.get(i));
-                // tant qu'on est pas au dernier membre de la liste
-                if (!(i == workmatesList.size() - 1)) {
-                    mStringBuilder.append(", ");
-                }
-            }
             sendNotification(mContext.getResources().getString(
                     R.string.notification_message,
                     restaurantName,
-                    mStringBuilder));
-            //Aucun utilisateur a choisi le même restau
+                    makeMessage(workmatesList)));
+
         } else {
             sendNotification(mContext.getResources().getString(
                     R.string.notification_message,
