@@ -100,9 +100,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
 
-        // TODO : comment verifier au démarrage de l'application si les notifications doivent être activées (si nouveau device par exemple)
-
-
         // TODO delete past booking NECESSARY ?
         RestaurantsHelper.deleteNotTodayBooking(getTodayDate());
 

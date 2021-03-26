@@ -37,6 +37,8 @@ import com.guzzler.go4lunch_p7.ui.BaseFragment;
 import com.guzzler.go4lunch_p7.ui.MainActivity;
 import com.guzzler.go4lunch_p7.ui.restaurant_details.Restaurant_Details;
 
+import java.util.Objects;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -258,12 +260,12 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.activity_main_appbar, menu);
-        SearchView mSearchView = new SearchView(((MainActivity) getContext()).getSupportActionBar().getThemedContext());
+        SearchView mSearchView = new SearchView(Objects.requireNonNull(((MainActivity) requireContext()).getSupportActionBar()).getThemedContext());
         MenuItem item = menu.findItem(R.id.menu_activity_main_search);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         item.setActionView(mSearchView);
         mSearchView.setQueryHint(getResources().getString(R.string.search_hint));
-        SearchManager mSearchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
+        SearchManager mSearchManager = (SearchManager) requireContext().getSystemService(Context.SEARCH_SERVICE);
         mSearchView.setSearchableInfo(mSearchManager.getSearchableInfo(((MainActivity) getContext()).getComponentName()));
         mSearchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

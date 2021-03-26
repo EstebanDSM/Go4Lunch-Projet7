@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class ModelsTest {
+public class ModelsUnitTest {
 
     private Workmate workmate;
     private Booking booking;

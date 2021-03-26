@@ -1,6 +1,5 @@
 package com.guzzler.go4lunch_p7.ui.restaurant_details;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -9,24 +8,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,6 +29,7 @@ import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.api.firebase.RestaurantsHelper;
 import com.guzzler.go4lunch_p7.api.firebase.UserHelper;
 import com.guzzler.go4lunch_p7.api.retrofit.googleplace.GooglePlaceDetailsCalls;
+import com.guzzler.go4lunch_p7.databinding.ActivityRestaurantDetailsBinding;
 import com.guzzler.go4lunch_p7.models.Workmate;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.guzzler.go4lunch_p7.utils.Constants;
@@ -44,9 +38,6 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.guzzler.go4lunch_p7.utils.Constants.MAX_HEIGHT_LARGE;
 import static com.guzzler.go4lunch_p7.utils.Constants.MAX_WIDTH_LARGE;
@@ -58,52 +49,18 @@ import static com.guzzler.go4lunch_p7.utils.ShowToastSnack.showToast;
 public class Restaurant_Details extends AppCompatActivity implements View.OnClickListener, GooglePlaceDetailsCalls.Callbacks {
 
     private final List<Workmate> mWorkmates = new ArrayList<>();
-    @SuppressLint("NonConstantResourceId")
-    @Nullable
-    @BindView(R.id.restaurant_name)
-    TextView mRestaurantName;
-    @SuppressLint("NonConstantResourceId")
-    @Nullable
-    @BindView(R.id.restaurant_address)
-    TextView mRestaurantAddress;
-    @SuppressLint("NonConstantResourceId")
-    @Nullable
-    @BindView(R.id.imageView)
-    ImageView mImageView;
-    @SuppressLint("NonConstantResourceId")
-    @Nullable
-    @BindView(R.id.floatingActionButton)
-    FloatingActionButton mFloatingActionButton;
-    @SuppressLint("NonConstantResourceId")
-    @Nullable
-    @BindView(R.id.restaurant_item_call)
-    Button mButtonCall;
-    @SuppressLint("NonConstantResourceId")
-    @Nullable
-    @BindView(R.id.restaurant_item_like)
-    Button mButtonLike;
-    @SuppressLint("NonConstantResourceId")
-    @Nullable
-    @BindView(R.id.restaurant_item_website)
-    Button mButtonWebsite;
-    @SuppressLint("NonConstantResourceId")
-    @Nullable
-    @BindView(R.id.item_ratingBar)
-    RatingBar mRatingBar;
-    @SuppressLint("NonConstantResourceId")
-    @Nullable
-    @BindView(R.id.restaurantRecyclerView)
-    RecyclerView mRestaurantRecyclerView;
 
     private ResultDetails requestResult;
     private Restaurant_Details_RecyclerViewAdapter mAdapter;
 
+    private ActivityRestaurantDetailsBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurant_details);
-        ButterKnife.bind(this);
-
+        binding = ActivityRestaurantDetailsBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
         configureButtonClickListener();
         configureRecyclerView();
         requestRetrofit();
@@ -111,7 +68,7 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     }
 
     private void setFloatingListener() {
-        mFloatingActionButton.setOnClickListener(view -> bookThisRestaurant());
+        binding.floatingActionButton.setOnClickListener(view -> bookThisRestaurant());
     }
 
     @Nullable
@@ -182,14 +139,14 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
             if (task.isSuccessful()) {
                 Log.e("TAG", "checkIfLiked: " + task.getResult().getDocuments());
                 if (task.getResult().isEmpty()) {
-                    mButtonLike.setText(getResources().getString(R.string.like));
+                    binding.restaurantItemLike.setText(getResources().getString(R.string.like));
                 } else {
                     for (DocumentSnapshot restaurant : task.getResult()) {
                         if (restaurant.getId().equals(requestResult.getPlaceId())) {
-                            mButtonLike.setText(getResources().getString(R.string.unlike));
+                            binding.restaurantItemLike.setText(getResources().getString(R.string.unlike));
                             break;
                         } else {
-                            mButtonLike.setText(getResources().getString(R.string.like));
+                            binding.restaurantItemLike.setText(getResources().getString(R.string.like));
                         }
                     }
                 }
@@ -210,11 +167,11 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
                 }
                 break;
             case R.id.restaurant_item_like:
-                if (mButtonLike.getText().equals(getResources().getString(R.string.like))) {
+                if (binding.restaurantItemLike.getText().equals(getResources().getString(R.string.like))) {
 
-                    LikeButton.likeRestaurant(requestResult, this, mButtonLike, getResources().getString(R.string.unlike), getResources().getString(R.string.rest_like));
+                    LikeButton.likeRestaurant(requestResult, this, binding.restaurantItemLike, getResources().getString(R.string.unlike), getResources().getString(R.string.rest_like));
                 } else {
-                    LikeButton.dislikeRestaurant(requestResult, this, mButtonLike, getResources().getString(R.string.like), getResources().getString(R.string.rest_dislike), getResources().getString(R.string.rest_like));
+                    LikeButton.dislikeRestaurant(requestResult, this, binding.restaurantItemLike, getResources().getString(R.string.like), getResources().getString(R.string.rest_dislike), getResources().getString(R.string.rest_like));
                 }
                 break;
             case R.id.restaurant_item_website:
@@ -231,8 +188,8 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
 
     private void configureRecyclerView() {
         this.mAdapter = new Restaurant_Details_RecyclerViewAdapter(mWorkmates);
-        this.mRestaurantRecyclerView.setAdapter(mAdapter);
-        this.mRestaurantRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        this.binding.restaurantRecyclerView.setAdapter(mAdapter);
+        this.binding.restaurantRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
 
@@ -243,9 +200,9 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     }
 
     private void configureButtonClickListener() {
-        mButtonCall.setOnClickListener(this);
-        mButtonLike.setOnClickListener(this);
-        mButtonWebsite.setOnClickListener(this);
+        binding.restaurantItemCall.setOnClickListener(this);
+        binding.restaurantItemLike.setOnClickListener(this);
+        binding.restaurantItemWebsite.setOnClickListener(this);
     }
 
     private void updateUI(ResultDetails resultDetails) {
@@ -254,7 +211,7 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
             checkBooked(getCurrentUser().getUid(), requestResult.getPlaceId(), requestResult.getName(), false);
             checkLiked();
         } else {
-            mButtonLike.setText(R.string.like);
+            binding.restaurantItemLike.setText(R.string.like);
             showToast(this, getResources().getString(R.string.restaurant_error), Toast.LENGTH_LONG);
             displayFloating((R.drawable.ic_check_circle_black_24dp), getResources().getColor(R.color.colorGreen));
         }
@@ -262,23 +219,23 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
         // Chargement de la photo dans le détail des restaus
         if (resultDetails.getPhotos() != null) {
             Picasso.get().load(Constants.BASE_URL_PLACE_PHOTO + "?maxwidth=" + MAX_WIDTH_LARGE + "&maxheight=" + MAX_HEIGHT_LARGE + "&photoreference=" + resultDetails.getPhotos().get(0)
-                    .getPhotoReference() + "&key=" + BuildConfig.api_key).into(mImageView);
+                    .getPhotoReference() + "&key=" + BuildConfig.api_key).into(binding.imageView);
 
 
         } else {
-            Glide.with(mImageView).load(R.drawable.ic_no_image_available)
+            Glide.with(binding.imageView).load(R.drawable.ic_no_image_available)
                     .apply(new RequestOptions()
 
                             .format(DecodeFormat.PREFER_ARGB_8888)
                             .override(Target.SIZE_ORIGINAL))
-                    .into(mImageView);
+                    .into(binding.imageView);
         }
 
 
-        mRestaurantName.setText(resultDetails.getName());
-        mRestaurantAddress.setText(resultDetails.getVicinity());
+        binding.restaurantName.setText(resultDetails.getName());
+        binding.restaurantAddress.setText(resultDetails.getVicinity());
         Update_Booking_RecyclerView(requestResult.getPlaceId());
-        displayRating(resultDetails, mRatingBar);
+        displayRating(resultDetails, binding.itemRatingBar);
 
     }
 
@@ -309,7 +266,7 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     private void displayFloating(int icon, int color) {
         Drawable mDrawable = ContextCompat.getDrawable(getBaseContext(), icon).mutate();
         mDrawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
-        mFloatingActionButton.setImageDrawable(mDrawable);
+        binding.floatingActionButton.setImageDrawable(mDrawable);
     }
 
     protected OnFailureListener onFailureListener() {

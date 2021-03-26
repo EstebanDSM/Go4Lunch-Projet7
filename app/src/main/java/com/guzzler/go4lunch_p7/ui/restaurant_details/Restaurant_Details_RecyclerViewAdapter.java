@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.models.Workmate;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public class Restaurant_Details_RecyclerViewAdapter extends RecyclerView.Adapter<Restaurant_Details_ViewHolder> {
@@ -20,6 +22,7 @@ public class Restaurant_Details_RecyclerViewAdapter extends RecyclerView.Adapter
         this.mWorkmates = result;
     }
 
+    @NotNull
     @Override
     public Restaurant_Details_ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
