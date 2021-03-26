@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -20,6 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.api.firebase.UserHelper;
+import com.guzzler.go4lunch_p7.databinding.ActivityLoginBinding;
+import com.guzzler.go4lunch_p7.databinding.ActivityRestaurantDetailsBinding;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -37,20 +40,20 @@ public class LoginActivity extends Activity {
     private final int RC_SIGN_IN = 123;
 
     boolean doubleBackToExitPressedOnce = false;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.log_activity_coordinator_layout)
 
-    // Un CoordinatorLayout est une fonctionnalité super cool de Material Design qui aide à créer des mises en page attrayantes et harmonisées.
-            CoordinatorLayout coordinatorLayout;
+    private ActivityLoginBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.activity_login);
+
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
-        ButterKnife.bind(this);
 
         // 3 - Launch Sign-In Activity
         this.startSignInActivity();
@@ -114,11 +117,11 @@ public class LoginActivity extends Activity {
 
                 // Show Snack Bar with a message
                 if (response == null) {
-                    showSnackBar(coordinatorLayout, getString(R.string.error_authentication_canceled), 0);
+                    showSnackBar(binding.logActivityCoordinatorLayout, getString(R.string.error_authentication_canceled), 0);
                 } else if (Objects.requireNonNull(response.getError()).getErrorCode() == ErrorCodes.NO_NETWORK) {
-                    showSnackBar(coordinatorLayout, getString(R.string.error_no_internet), 0);
+                    showSnackBar(binding.logActivityCoordinatorLayout, getString(R.string.error_no_internet), 0);
                 } else if (response.getError().getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-                    showSnackBar(coordinatorLayout, getString(R.string.error_unknown_error), 0);
+                    showSnackBar(binding.logActivityCoordinatorLayout, getString(R.string.error_unknown_error), 0);
                 }
             }
         }

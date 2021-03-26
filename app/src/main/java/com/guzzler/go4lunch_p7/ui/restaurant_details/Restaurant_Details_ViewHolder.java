@@ -11,6 +11,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.guzzler.go4lunch_p7.R;
+import com.guzzler.go4lunch_p7.databinding.ActivityRestaurantDetailsBinding;
+import com.guzzler.go4lunch_p7.databinding.ActivityRestaurantDetailsItemBinding;
 import com.guzzler.go4lunch_p7.models.Workmate;
 
 import butterknife.BindView;
@@ -23,6 +25,7 @@ public class Restaurant_Details_ViewHolder extends RecyclerView.ViewHolder {
     @SuppressLint("NonConstantResourceId")
     @BindView(R.id.detail_textview_username)
     TextView mTextView;
+
 
     public Restaurant_Details_ViewHolder(View itemView) {
         super(itemView);

@@ -58,9 +58,11 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityRestaurantDetailsBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
         configureButtonClickListener();
         configureRecyclerView();
         requestRetrofit();
