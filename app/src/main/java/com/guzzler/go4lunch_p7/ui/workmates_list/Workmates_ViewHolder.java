@@ -13,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.api.firebase.RestaurantsHelper;
+import com.guzzler.go4lunch_p7.databinding.ActivityWebViewBinding;
 import com.guzzler.go4lunch_p7.models.Workmate;
 import com.guzzler.go4lunch_p7.utils.ChangeColorWorkmate;
 

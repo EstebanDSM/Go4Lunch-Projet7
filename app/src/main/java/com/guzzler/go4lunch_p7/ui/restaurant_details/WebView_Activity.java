@@ -2,50 +2,43 @@ package com.guzzler.go4lunch_p7.ui.restaurant_details;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.webkit.WebView;
+import android.view.View;
 import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.guzzler.go4lunch_p7.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.guzzler.go4lunch_p7.databinding.ActivityWebViewBinding;
 
 
 public class WebView_Activity extends AppCompatActivity {
 
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.webView_swipe_refresh)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.webView)
-    WebView mWebView;
-
+    private ActivityWebViewBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_web_view);
-        ButterKnife.bind(this);
+
+        binding = ActivityWebViewBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
         this.displayWebView();
         this.configureSwipeRefreshLayout();
     }
 
     private void configureSwipeRefreshLayout() {
-        mSwipeRefreshLayout.setOnRefreshListener(this::displayWebView);
+        binding.webViewSwipeRefresh.setOnRefreshListener(this::displayWebView);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private void displayWebView() {
         String url = getIntent().getStringExtra("Website");
         if (url != null) {
-            mWebView.getSettings().setJavaScriptEnabled(true);
-            mWebView.getSettings().setLoadsImagesAutomatically(true);
-            mWebView.loadUrl(url);
-            mWebView.setWebViewClient(new WebViewClient());
+            binding.webView.getSettings().setJavaScriptEnabled(true);
+            binding.webView.getSettings().setLoadsImagesAutomatically(true);
+            binding.webView.loadUrl(url);
+            binding.webView.setWebViewClient(new WebViewClient());
         }
-        mSwipeRefreshLayout.setRefreshing(false);
+        binding.webViewSwipeRefresh.setRefreshing(false);
     }
 }
