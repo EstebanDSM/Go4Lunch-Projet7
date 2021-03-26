@@ -60,12 +60,12 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     private Location lastKnownLocation;
     private MainActivity mMainActivity;
 
-    // TODO : il faut corriger les demandes de permissions, la premiere fois la carte n'est pas a jour et ça entraines des bugs dans la suite
-
     @SuppressLint("NonConstantResourceId")
     @OnClick(R.id.fragment_map_floating_action_btn)
     public void displayLocation() {
-        getDeviceLocation();
+        if (getLocationPermission()) {
+            getDeviceLocation();
+        }
     }
 
 
@@ -114,7 +114,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
          * cases when a location is not available.
          */
         try {
-            if (locationPermissionGranted) {
+            if (getLocationPermission()) {
                 Task<Location> locationResult = fusedLocationProviderClient.getLastLocation();
                 locationResult.addOnCompleteListener(requireActivity(), task -> {
                     if (task.isSuccessful()) {
@@ -164,16 +164,17 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        locationPermissionGranted = false;
+
         if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
             if (grantResults.length > 0
                     && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                locationPermissionGranted = true;
+                getDeviceLocation();
+                updateLocationUI();
             }
         }
     }
 
-    private void getLocationPermission() {
+    private boolean getLocationPermission() {
 
 //         * Request location permission, so that we can get the location of the
 //         * device. The result of the permission request is handled by a callback,
@@ -182,11 +183,12 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         if (ContextCompat.checkSelfPermission(requireActivity(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            locationPermissionGranted = true;
+            return true;
         } else {
             ActivityCompat.requestPermissions(requireActivity(),
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+            return false;
         }
     }
 
@@ -209,7 +211,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
             return;
         }
         try {
-            if (locationPermissionGranted) {
+            if (getLocationPermission()) {
                 map.setMyLocationEnabled(true);
                 map.getUiSettings().setMyLocationButtonEnabled(false);
                 map.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireActivity().getApplicationContext(), R.raw.style_json));
@@ -230,10 +232,12 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     @Override
     public void onMapReady(GoogleMap map) {
         this.map = map;
-        getLocationPermission();
-        getDeviceLocation();
-        updateLocationUI();
-        Log.e("test_onMapReady", "onMapReady");
+        if (getLocationPermission()) {
+            getDeviceLocation();
+            updateLocationUI();
+            Log.e("test_onMapReady", "onMapReady");
+        }
+
 
     }
 

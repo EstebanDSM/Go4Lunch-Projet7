@@ -1,7 +1,9 @@
 package com.guzzler.go4lunch_p7.ui;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.MutableLiveData;
@@ -50,7 +53,6 @@ import com.guzzler.go4lunch_p7.models.google_autocomplete_gson.AutoCompleteResul
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
 import com.guzzler.go4lunch_p7.ui.restaurant_details.Restaurant_Details;
-import com.guzzler.go4lunch_p7.utils.Constants;
 import com.guzzler.go4lunch_p7.utils.DistanceTo;
 
 import java.util.ArrayList;
@@ -61,8 +63,8 @@ import java.util.Objects;
 
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.BlurTransformation;
-import pub.devrel.easypermissions.EasyPermissions;
 
+import static com.guzzler.go4lunch_p7.utils.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
 import static com.guzzler.go4lunch_p7.utils.ShowToastSnack.showToast;
 
@@ -83,15 +85,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private int resultSize;
 
-    public static void checkLocationPermission(Context context) {
-        EasyPermissions.hasPermissions(context, Constants.PERMISSIONS);
-    }
+//    public static void checkLocationPermission(Context context) {
+//        EasyPermissions.hasPermissions(context, Constants.PERMISSIONS);
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ButterKnife.bind(this);
 
-        checkLocationPermission(getApplicationContext());
+//        checkLocationPermission(getApplicationContext());
 
         // VIEWMODEL
         mShareViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
@@ -100,8 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
 
-        // TODO delete past booking NECESSARY ?
-        RestaurantsHelper.deleteNotTodayBooking(getTodayDate());
+//        RestaurantsHelper.deleteNotTodayBooking(getTodayDate());
 
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -118,15 +119,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
-            if (location != null) {
-                double currentLatitude = location.getLatitude();
-                double currentLongitude = location.getLongitude();
-                mShareViewModel.updateCurrentUserPosition(new LatLng(currentLatitude, currentLongitude));
-                GooglePlaceSearchCalls.fetchNearbyRestaurants(this, mShareViewModel.getCurrentUserPositionFormatted());
-            }
-        });
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+
+        } else {
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
+                if (location != null) {
+                    double currentLatitude = location.getLatitude();
+                    double currentLongitude = location.getLongitude();
+                    mShareViewModel.updateCurrentUserPosition(new LatLng(currentLatitude, currentLongitude));
+                    GooglePlaceSearchCalls.fetchNearbyRestaurants(this, mShareViewModel.getCurrentUserPositionFormatted());
+                }
+            });
+        }
+
         this.updateView();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {// If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
+
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                    return;
+                }
+                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
+                    if (location != null) {
+                        double currentLatitude = location.getLatitude();
+                        double currentLongitude = location.getLongitude();
+                        mShareViewModel.updateCurrentUserPosition(new LatLng(currentLatitude, currentLongitude));
+                        GooglePlaceSearchCalls.fetchNearbyRestaurants(this, mShareViewModel.getCurrentUserPositionFormatted());
+                    }
+                });
+
+            }
+        }
     }
 
     @Nullable
@@ -253,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // POUR LIMITER LES REQUETES ET PAS EPUISER LE CREDIT GOOGLE
         for (int i = 0; i < 1; i++) {
 
-            // for (int i = 0; i < resultSearchList.size(); i++) {
+//             for (int i = 0; i < resultSearchList.size(); i++) {
             GooglePlaceDetailsCalls.fetchPlaceDetails(this, resultSearchList.get(i).getPlaceId());
         }
         resultSize = resultSearchList.size();

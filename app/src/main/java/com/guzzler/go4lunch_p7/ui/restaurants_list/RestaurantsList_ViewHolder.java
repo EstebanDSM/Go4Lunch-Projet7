@@ -1,11 +1,6 @@
 package com.guzzler.go4lunch_p7.ui.restaurants_list;
 
-import android.annotation.SuppressLint;
 import android.graphics.Typeface;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,14 +11,12 @@ import com.bumptech.glide.request.RequestOptions;
 import com.guzzler.go4lunch_p7.BuildConfig;
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.api.firebase.RestaurantsHelper;
+import com.guzzler.go4lunch_p7.databinding.FragmentRestaurantItemBinding;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 import com.guzzler.go4lunch_p7.utils.DisplayRating;
 import com.guzzler.go4lunch_p7.utils.GetTodayDate;
 
 import java.util.Calendar;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.guzzler.go4lunch_p7.utils.Constants.BASE_URL_PLACE_PHOTO;
 import static com.guzzler.go4lunch_p7.utils.Constants.CLOSED;
@@ -36,32 +29,12 @@ import static com.guzzler.go4lunch_p7.utils.FormatTime.formatTime;
 
 public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
 
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.name_restaurant)
-    public TextView mNameRestaurant;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.adress_restaurant)
-    public TextView mAdressRestaurant;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.item_avatar_restaurant)
-    public ImageView mAvatarRestaurant;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.distance_restaurant)
-    public TextView mDistance;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.star_restaurant)
-    public RatingBar mStar;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.Open_hour)
-    public TextView mOpenHour;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.workmate_on_restaurant)
-    public TextView mWorkmateOn;
+    FragmentRestaurantItemBinding binding;
 
 
-    public RestaurantsList_ViewHolder(@NonNull View itemView) {
-        super(itemView);
-        ButterKnife.bind(this, itemView);
+    public RestaurantsList_ViewHolder(@NonNull FragmentRestaurantItemBinding itemView) {
+        super(itemView.getRoot());
+        binding = itemView;
     }
 
     public void updateWithData(ResultDetails resultDetails, String mLocation) {
@@ -70,31 +43,31 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
         // NUMBER OF WORKMATES AT THIS RESTAURANT
         RestaurantsHelper.getTodayBooking(resultDetails.getPlaceId(), GetTodayDate.getTodayDate()).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                mWorkmateOn.setText(itemView.getResources().getString(R.string.number_workmates, String.valueOf(task.getResult().size())));
+                binding.workmateOnRestaurant.setText(itemView.getResources().getString(R.string.number_workmates, String.valueOf(task.getResult().size())));
             }
         });
 
         // NAME
-        mNameRestaurant.setText(resultDetails.getName());
+        binding.nameRestaurant.setText(resultDetails.getName());
 
         // ADDRESS
-        mAdressRestaurant.setText(resultDetails.getFormattedAddress());
+        binding.adressRestaurant.setText(resultDetails.getFormattedAddress());
 
         // DISTANCE
-        mDistance.setText(itemView.getResources().getString(R.string.unit_distance, String.valueOf(resultDetails.getDistance())));
+        binding.distanceRestaurant.setText(itemView.getResources().getString(R.string.unit_distance, String.valueOf(resultDetails.getDistance())));
 
         // RATING
-        DisplayRating.displayRating(resultDetails, mStar);
+        DisplayRating.displayRating(resultDetails, binding.starRestaurant);
 
         // PHOTO RESTAURANT
         if (!(resultDetails.getPhotos() == null)) {
             if (!(resultDetails.getPhotos().isEmpty())) {
                 glide.load(BASE_URL_PLACE_PHOTO + "?maxwidth=" + MAX_WIDTH + "&maxheight=" + MAX_HEIGHT + "&photoreference=" + resultDetails.getPhotos().get(0)
                         .getPhotoReference() + "&key=" + BuildConfig.api_key)
-                        .apply(RequestOptions.centerCropTransform()).into(mAvatarRestaurant);
+                        .apply(RequestOptions.centerCropTransform()).into(binding.itemAvatarRestaurant);
             }
         } else {
-            glide.load(R.drawable.ic_no_image_available).apply(RequestOptions.centerCropTransform()).into(mAvatarRestaurant);
+            glide.load(R.drawable.ic_no_image_available).apply(RequestOptions.centerCropTransform()).into(binding.itemAvatarRestaurant);
         }
 
         // OPENING HOURS
@@ -142,24 +115,24 @@ public class RestaurantsList_ViewHolder extends RecyclerView.ViewHolder {
     private void displayOpeningHour(String type, String hour) {
         switch (type) {
             case OPEN:
-                this.mOpenHour.setText(itemView.getResources().getString(R.string.open_until, formatTime(itemView.getContext(), hour)));
-                this.mOpenHour.setTextColor(itemView.getContext().getResources().getColor(R.color.colorGreen));
-                this.mOpenHour.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                binding.OpenHour.setText(itemView.getResources().getString(R.string.open_until, formatTime(itemView.getContext(), hour)));
+                binding.OpenHour.setTextColor(itemView.getContext().getResources().getColor(R.color.colorGreen));
+                binding.OpenHour.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
                 break;
             case CLOSED:
-                this.mOpenHour.setText(R.string.restaurant_closed);
-                this.mOpenHour.setTextColor(itemView.getContext().getResources().getColor(R.color.colorError));
-                this.mOpenHour.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                binding.OpenHour.setText(R.string.restaurant_closed);
+                binding.OpenHour.setTextColor(itemView.getContext().getResources().getColor(R.color.colorError));
+                binding.OpenHour.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                 break;
             case CLOSING_SOON:
-                this.mOpenHour.setText(itemView.getResources().getString(R.string.closing_soon, formatTime(itemView.getContext(), hour)));
-                this.mOpenHour.setTextColor(itemView.getContext().getResources().getColor(R.color.colorCloseSoon));
-                this.mOpenHour.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                binding.OpenHour.setText(itemView.getResources().getString(R.string.closing_soon, formatTime(itemView.getContext(), hour)));
+                binding.OpenHour.setTextColor(itemView.getContext().getResources().getColor(R.color.colorCloseSoon));
+                binding.OpenHour.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
                 break;
             case OPENING_HOURS_NOT_KNOW:
-                this.mOpenHour.setText(R.string.restaurant_opening_not_know);
-                this.mOpenHour.setTextColor(itemView.getContext().getResources().getColor(R.color.colorCloseSoon));
-                this.mOpenHour.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                binding.OpenHour.setText(R.string.restaurant_opening_not_know);
+                binding.OpenHour.setTextColor(itemView.getContext().getResources().getColor(R.color.colorCloseSoon));
+                binding.OpenHour.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
                 break;
         }
     }

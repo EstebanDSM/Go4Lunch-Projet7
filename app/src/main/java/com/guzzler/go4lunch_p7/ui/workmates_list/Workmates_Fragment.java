@@ -62,7 +62,7 @@ public class Workmates_Fragment extends BaseFragment {
         ButterKnife.bind(this, view);
         Context context = view.getContext();
         setHasOptionsMenu(true);
-        initList();
+//        initList();
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
@@ -93,6 +93,12 @@ public class Workmates_Fragment extends BaseFragment {
                     });
                     mRecyclerView.setAdapter(new Workmates_RecyclerViewAdapter(mWorkmates));
                 });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initList();
     }
 
     private void configureOnClickRecyclerView() {

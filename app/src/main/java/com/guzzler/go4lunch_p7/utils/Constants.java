@@ -8,7 +8,6 @@ import com.guzzler.go4lunch_p7.ui.map.Map_Fragment;
 
 public class Constants {
 
-    // TODO : on peut mettre la clef en public ?
     public static final String API_KEY = BuildConfig.api_key;
 
 

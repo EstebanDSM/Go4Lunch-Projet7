@@ -11,8 +11,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.guzzler.go4lunch_p7.R;
-import com.guzzler.go4lunch_p7.databinding.ActivityRestaurantDetailsBinding;
-import com.guzzler.go4lunch_p7.databinding.ActivityRestaurantDetailsItemBinding;
 import com.guzzler.go4lunch_p7.models.Workmate;
 
 import butterknife.BindView;

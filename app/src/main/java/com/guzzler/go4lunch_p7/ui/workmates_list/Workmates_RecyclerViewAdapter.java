@@ -1,13 +1,12 @@
 package com.guzzler.go4lunch_p7.ui.workmates_list;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.guzzler.go4lunch_p7.R;
+import com.guzzler.go4lunch_p7.databinding.FragmentWorkmateItemBinding;
 import com.guzzler.go4lunch_p7.models.Workmate;
 
 import java.util.List;
@@ -24,8 +23,10 @@ public class Workmates_RecyclerViewAdapter extends RecyclerView.Adapter<Workmate
 
     @Override
     public Workmates_ViewHolder onCreateViewHolder(ViewGroup parent, int viewtype) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_workmate_item, parent, false);
+
+
+        FragmentWorkmateItemBinding view = FragmentWorkmateItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
         return new Workmates_ViewHolder(view);
     }
 

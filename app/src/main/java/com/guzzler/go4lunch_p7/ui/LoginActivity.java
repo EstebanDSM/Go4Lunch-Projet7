@@ -1,6 +1,5 @@
 package com.guzzler.go4lunch_p7.ui;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.os.Looper;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -22,13 +20,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.guzzler.go4lunch_p7.R;
 import com.guzzler.go4lunch_p7.api.firebase.UserHelper;
 import com.guzzler.go4lunch_p7.databinding.ActivityLoginBinding;
-import com.guzzler.go4lunch_p7.databinding.ActivityRestaurantDetailsBinding;
 
 import java.util.Arrays;
 import java.util.Objects;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 import static com.guzzler.go4lunch_p7.utils.ShowToastSnack.showSnackBar;
 import static com.guzzler.go4lunch_p7.utils.ShowToastSnack.showToast;

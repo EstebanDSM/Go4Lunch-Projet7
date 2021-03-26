@@ -100,6 +100,12 @@ public class RestaurantsList_Fragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        configureRecyclerView();
+    }
+
     private void configureRecyclerView() {
         this.mViewAdapter = new RestaurantsList_RecyclerViewAdapter(mMainActivity.mLiveData.getValue(), mMainActivity.mShareViewModel.getCurrentUserPositionFormatted());
         List<ResultDetails> mResult = mMainActivity.mLiveData.getValue();

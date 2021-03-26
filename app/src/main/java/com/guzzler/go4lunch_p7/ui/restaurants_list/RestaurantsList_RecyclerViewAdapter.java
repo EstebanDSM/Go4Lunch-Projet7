@@ -1,13 +1,12 @@
 package com.guzzler.go4lunch_p7.ui.restaurants_list;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.guzzler.go4lunch_p7.R;
+import com.guzzler.go4lunch_p7.databinding.FragmentRestaurantItemBinding;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,8 +27,11 @@ public class RestaurantsList_RecyclerViewAdapter extends RecyclerView.Adapter<Re
     @NotNull
     @Override
     public RestaurantsList_ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_restaurant_item, parent, false);
+//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_restaurant_item, parent, false);
+//
+//        return new RestaurantsList_ViewHolder(view);
+
+        FragmentRestaurantItemBinding view = FragmentRestaurantItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
 
         return new RestaurantsList_ViewHolder(view);
     }
