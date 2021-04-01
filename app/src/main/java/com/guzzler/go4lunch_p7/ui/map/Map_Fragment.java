@@ -33,14 +33,14 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.Task;
 import com.guzzler.go4lunch_p7.R;
+import com.guzzler.go4lunch_p7.databinding.FragmentMapBinding;
 import com.guzzler.go4lunch_p7.ui.BaseFragment;
 import com.guzzler.go4lunch_p7.ui.MainActivity;
 import com.guzzler.go4lunch_p7.ui.restaurant_details.Restaurant_Details;
 
-import java.util.Objects;
+import org.jetbrains.annotations.NotNull;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+import java.util.Objects;
 
 import static android.content.ContentValues.TAG;
 import static com.guzzler.go4lunch_p7.utils.Constants.DEFAULT_ZOOM;
@@ -60,30 +60,33 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     private Location lastKnownLocation;
     private MainActivity mMainActivity;
 
-    @SuppressLint("NonConstantResourceId")
-    @OnClick(R.id.fragment_map_floating_action_btn)
-    public void displayLocation() {
-        if (getLocationPermission()) {
-            getDeviceLocation();
-        }
-    }
+    private FragmentMapBinding binding;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = FragmentMapBinding.inflate(getLayoutInflater());
+
         mMainActivity = (MainActivity) getActivity();
     }
 
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
+    public View onCreateView(@NotNull @NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
-        ButterKnife.bind(this, view);
+
+        View view = binding.getRoot();
+
+
+        binding.fragmentMapFloatingActionBtn.setOnClickListener(v -> {
+            if (getLocationPermission()) {
+                getDeviceLocation();
+            }
+        });
 
         // LIVEDATA
         mMainActivity.mLiveData.observe(getViewLifecycleOwner(), resultDetails -> getDeviceLocation());
@@ -237,8 +240,6 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
             updateLocationUI();
             Log.e("test_onMapReady", "onMapReady");
         }
-
-
     }
 
     @Override
@@ -270,7 +271,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
         item.setActionView(mSearchView);
         mSearchView.setQueryHint(getResources().getString(R.string.search_hint));
         SearchManager mSearchManager = (SearchManager) requireContext().getSystemService(Context.SEARCH_SERVICE);
-        mSearchView.setSearchableInfo(mSearchManager.getSearchableInfo(((MainActivity) getContext()).getComponentName()));
+        mSearchView.setSearchableInfo(mSearchManager.getSearchableInfo(((MainActivity) requireContext()).getComponentName()));
         mSearchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

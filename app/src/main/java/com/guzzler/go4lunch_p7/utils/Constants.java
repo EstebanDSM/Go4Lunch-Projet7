@@ -1,7 +1,5 @@
 package com.guzzler.go4lunch_p7.utils;
 
-import android.Manifest;
-
 import com.guzzler.go4lunch_p7.BuildConfig;
 import com.guzzler.go4lunch_p7.ui.map.Map_Fragment;
 
@@ -10,10 +8,9 @@ public class Constants {
 
     public static final String API_KEY = BuildConfig.api_key;
 
-
     public static final int EARTH_RADIUS_KM = 6371;
     public static final int ALARM_TYPE_RTC = 100;
-    public static final String[] PERMISSIONS = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
     public static final String OPEN = "OPEN";
     public static final String CLOSED = "CLOSED";
     public static final String CLOSING_SOON = "CLOSING_SOON";

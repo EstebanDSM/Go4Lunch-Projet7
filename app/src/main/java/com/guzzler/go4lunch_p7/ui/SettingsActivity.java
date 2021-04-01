@@ -78,13 +78,13 @@ public class SettingsActivity extends AppCompatActivity {
     private void setListenerAndFilters() {
         binding.settingsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (buttonView.isPressed() && buttonView.isChecked()) {
-                UserHelper.updateUserSettings(getCurrentUser().getUid(), true);
+                UserHelper.updateUserSettings(Objects.requireNonNull(getCurrentUser()).getUid(), true);
                 Toast.makeText(getApplication(), "NOTIFICATIONS ON", Toast.LENGTH_SHORT).show();
                 mNotificationHelper.scheduleRepeatingNotification();
 
 
             } else if (!buttonView.isChecked()) {
-                UserHelper.updateUserSettings(getCurrentUser().getUid(), false);
+                UserHelper.updateUserSettings(Objects.requireNonNull(getCurrentUser()).getUid(), false);
                 Toast.makeText(getApplication(), "NOTIFICATIONS OFF", Toast.LENGTH_SHORT).show();
                 mNotificationHelper.cancelAlarmRTC();
             }

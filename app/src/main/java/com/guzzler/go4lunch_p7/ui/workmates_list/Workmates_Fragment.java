@@ -25,13 +25,13 @@ import com.guzzler.go4lunch_p7.ui.BaseFragment;
 import com.guzzler.go4lunch_p7.ui.restaurant_details.Restaurant_Details;
 import com.guzzler.go4lunch_p7.utils.ItemClickSupport;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-
-import butterknife.ButterKnife;
 
 import static com.firebase.ui.auth.ui.email.EmailLinkFragment.TAG;
 import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
@@ -56,20 +56,20 @@ public class Workmates_Fragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_workmates_list, container, false);
-        ButterKnife.bind(this, view);
         Context context = view.getContext();
         setHasOptionsMenu(true);
-//        initList();
+
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
         configureOnClickRecyclerView();
         this.mViewAdapter = new Workmates_RecyclerViewAdapter(this.mWorkmates);
         this.mRecyclerView.setAdapter(this.mViewAdapter);
-        getActivity().setTitle(getString(R.string.Titre_Toolbar_workmates));
+        requireActivity().setTitle(getString(R.string.Titre_Toolbar_workmates));
         return view;
     }
 

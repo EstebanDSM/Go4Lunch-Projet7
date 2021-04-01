@@ -1,48 +1,37 @@
 package com.guzzler.go4lunch_p7.ui.restaurant_details;
 
-import android.annotation.SuppressLint;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.guzzler.go4lunch_p7.R;
+import com.guzzler.go4lunch_p7.databinding.ActivityRestaurantDetailsItemBinding;
 import com.guzzler.go4lunch_p7.models.Workmate;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class Restaurant_Details_ViewHolder extends RecyclerView.ViewHolder {
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.detail_main_picture)
-    ImageView mImageView;
-    @SuppressLint("NonConstantResourceId")
-    @BindView(R.id.detail_textview_username)
-    TextView mTextView;
 
+    ActivityRestaurantDetailsItemBinding binding;
 
-    public Restaurant_Details_ViewHolder(View itemView) {
-        super(itemView);
-        ButterKnife.bind(this, itemView);
+    public Restaurant_Details_ViewHolder(ActivityRestaurantDetailsItemBinding itemView) {
+        super(itemView.getRoot());
+        binding = itemView;
     }
 
     public void updateWithData(Workmate results) {
         RequestManager glide = Glide.with(itemView);
         if (!(results.getUrlPicture() == null)) {
-            glide.load(results.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(mImageView);
+            glide.load(results.getUrlPicture()).apply(RequestOptions.circleCropTransform()).into(binding.detailMainPicture);
         } else {
-            glide.load(R.drawable.ic_anon_user_48dp).apply(RequestOptions.circleCropTransform()).into(mImageView);
+            glide.load(R.drawable.ic_anon_user_48dp).apply(RequestOptions.circleCropTransform()).into(binding.detailMainPicture);
         }
-        this.mTextView.setText(itemView.getResources().getString(R.string.restaurant_recyclerview, results.getName()));
-        this.changeTextColor();
+        binding.detailTextviewUsername.setText(itemView.getResources().getString(R.string.restaurant_recyclerview, results.getName()));
+        changeTextColor();
     }
 
     private void changeTextColor() {
         int mColor = itemView.getContext().getResources().getColor(R.color.colorBlack);
-        this.mTextView.setTextColor(mColor);
+        binding.detailTextviewUsername.setTextColor(mColor);
     }
 }

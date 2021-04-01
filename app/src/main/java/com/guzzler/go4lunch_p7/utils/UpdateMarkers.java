@@ -43,7 +43,5 @@ public class UpdateMarkers {
             }
             Log.e(Constants.TAG, "number of markers : " + mMainActivity.mLiveData.getValue().size());
         }
-
     }
-
 }

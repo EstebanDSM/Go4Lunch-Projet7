@@ -4,6 +4,8 @@ import androidx.annotation.Nullable;
 
 import com.guzzler.go4lunch_p7.models.google_autocomplete_gson.AutoCompleteResult;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.ref.WeakReference;
 
 import retrofit2.Call;
@@ -28,13 +30,13 @@ public class AutoCompleteCalls {
         call.enqueue(new Callback<AutoCompleteResult>() {
 
             @Override
-            public void onResponse(Call<AutoCompleteResult> call, Response<AutoCompleteResult> response) {
+            public void onResponse(@NotNull Call<AutoCompleteResult> call, @NotNull Response<AutoCompleteResult> response) {
                 if (callbacksWeakReference.get() != null)
                     callbacksWeakReference.get().onResponse(response.body());
             }
 
             @Override
-            public void onFailure(Call<AutoCompleteResult> call, Throwable t) {
+            public void onFailure(@NotNull Call<AutoCompleteResult> call, @NotNull Throwable t) {
                 if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onFailure();
             }
         });

@@ -6,6 +6,8 @@ import com.guzzler.go4lunch_p7.BuildConfig;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultSearch;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.SearchPlace;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.ref.WeakReference;
 import java.util.List;
 
@@ -33,17 +35,18 @@ public class GooglePlaceSearchCalls {
         call.enqueue(new Callback<SearchPlace>() {
 
             @Override
-            public void onResponse(Call<SearchPlace> call, Response<SearchPlace> response) {
+            public void onResponse(@NotNull Call<SearchPlace> call, @NotNull Response<SearchPlace> response) {
                 // 2.5 - Call the proper callback used in controller
                 if (callbacksWeakReference.get() != null) {
                     SearchPlace searchPlace = response.body();
+                    assert searchPlace != null;
                     List<ResultSearch> resultSearchList = searchPlace.getResultSearches();
                     callbacksWeakReference.get().onResponse(resultSearchList);
                 }
             }
 
             @Override
-            public void onFailure(Call<SearchPlace> call, Throwable t) {
+            public void onFailure(@NotNull Call<SearchPlace> call, @NotNull Throwable t) {
                 System.out.println(t.toString());
                 // 2.5 - Call the proper callback used in controller
                 if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onFailure();

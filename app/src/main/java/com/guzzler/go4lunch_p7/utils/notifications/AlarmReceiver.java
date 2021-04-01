@@ -27,6 +27,7 @@ import com.guzzler.go4lunch_p7.utils.ShowToastSnack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.guzzler.go4lunch_p7.utils.Constants.NOTIFICATION_CHANNEL_ID;
 import static com.guzzler.go4lunch_p7.utils.Constants.NOTIFICATION_CHANNEL_NAME;
@@ -57,27 +58,27 @@ public class AlarmReceiver extends BroadcastReceiver implements GooglePlaceDetai
                         // Dans le résultat de la tâche precédente
                         for (DocumentSnapshot restaurant : restaurantTask.getResult()) {
                             // Dans toutes les réservations, on recherche celles dans le même restau que l'utilisateur actuel
-                            RestaurantsHelper.getTodayBooking(restaurant.getData().get("restaurantId").toString(), getTodayDate()).addOnCompleteListener(bookingTask -> {
+                            RestaurantsHelper.getTodayBooking(Objects.requireNonNull(Objects.requireNonNull(restaurant.getData()).get("restaurantId")).toString(), getTodayDate()).addOnCompleteListener(bookingTask -> {
                                 // Si la requête est terminée
                                 if (bookingTask.isSuccessful()) {
                                     // Dans le résultat de cette requête
                                     for (QueryDocumentSnapshot booking : bookingTask.getResult()) {
                                         // On recherche Les utilisateurs correspondants (grâce aux uid récupérés dans bookingTask)
-                                        UserHelper.getWorkmate(booking.getData().get("userId").toString()).addOnCompleteListener(userTask -> {
+                                        UserHelper.getWorkmate(Objects.requireNonNull(booking.getData().get("userId")).toString()).addOnCompleteListener(userTask -> {
                                             // Si la requête est terminée
                                             if (userTask.isSuccessful()) {
                                                 // Si l'uid ne correspond PAS à celui de l'utilisateur actuel
-                                                if (!(userTask.getResult().getData().get("uid").toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))) {
+                                                if (!(Objects.requireNonNull(Objects.requireNonNull(userTask.getResult().getData()).get("uid")).toString().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))) {
                                                     Log.e("TAG", "ALARM_RECEIVER | User : " + userTask.getResult().getData().get("name"));
                                                     // On rajoute son nom dans la liste
-                                                    String username = userTask.getResult().getData().get("name").toString();
+                                                    String username = Objects.requireNonNull(userTask.getResult().getData().get("name")).toString();
                                                     workmatesList.add(username);
                                                 }
                                             }
                                             // Lorsque tous les utilisateurs ayant réservé le même restau sont ajoutés à la liste (moins l'utilisateur actuel)
                                             if (workmatesList.size() == bookingTask.getResult().size() - 1) {
                                                 // On lance une requête web sur les détails de ce restau
-                                                GooglePlaceDetailsCalls.fetchPlaceDetails(this, restaurant.getData().get("restaurantId").toString());
+                                                GooglePlaceDetailsCalls.fetchPlaceDetails(this, Objects.requireNonNull(restaurant.getData().get("restaurantId")).toString());
                                             }
                                         });
                                     }
@@ -97,8 +98,8 @@ public class AlarmReceiver extends BroadcastReceiver implements GooglePlaceDetai
 
     @Override
     public void onResponse(@Nullable ResultDetails resultDetails) {
+        assert resultDetails != null;
         restaurantName = resultDetails.getName();
-        // Si au moins un utilisateur a choisi le même restau
         sendNotification(textMessage());
     }
 

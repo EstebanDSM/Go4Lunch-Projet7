@@ -15,9 +15,11 @@ public class FormatTime {
             Date date1 = new SimpleDateFormat("HH:mm", Locale.getDefault()).parse(date);
             if (android.text.format.DateFormat.is24HourFormat(context)) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                assert date1 != null;
                 return dateFormat.format(date1);
             } else {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("h.mm a", Locale.getDefault());
+                assert date1 != null;
                 return dateFormat.format(date1);
             }
         } catch (ParseException e) {

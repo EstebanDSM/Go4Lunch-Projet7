@@ -38,6 +38,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.guzzler.go4lunch_p7.utils.Constants.MAX_HEIGHT_LARGE;
 import static com.guzzler.go4lunch_p7.utils.Constants.MAX_WIDTH_LARGE;
@@ -79,7 +80,7 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     }
 
     private void bookThisRestaurant() {
-        String userId = getCurrentUser().getUid();
+        String userId = Objects.requireNonNull(getCurrentUser()).getUid();
         String restaurantId = requestResult.getPlaceId();
         String restaurantName = requestResult.getName();
         checkBooked(userId, restaurantId, restaurantName, true);
@@ -90,7 +91,7 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
             if (restaurantTask.isSuccessful()) {
                 if (restaurantTask.getResult().size() == 1) {
                     for (QueryDocumentSnapshot restaurant : restaurantTask.getResult()) {
-                        if (restaurant.getData().get("restaurantName").equals(restaurantName)) {
+                        if (Objects.equals(restaurant.getData().get("restaurantName"), restaurantName)) {
                             displayFloating((R.drawable.ic_clear_black_24dp), getResources().getColor(R.color.colorError));
                             if (tryingToBook) {
                                 Booking_Firebase(userId, restaurantId, restaurantName, restaurant.getId(), false, false, true);
@@ -135,7 +136,7 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
 
 
     private void checkLiked() {
-        RestaurantsHelper.getAllLikeByUserId(getCurrentUser().getUid()).addOnCompleteListener(task -> {
+        RestaurantsHelper.getAllLikeByUserId(Objects.requireNonNull(getCurrentUser()).getUid()).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Log.e("TAG", "checkIfLiked: " + task.getResult().getDocuments());
                 if (task.getResult().isEmpty()) {
@@ -156,33 +157,31 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.restaurant_item_call:
-                if (requestResult.getFormattedPhoneNumber() != null) {
-                    Intent intent = new Intent(Intent.ACTION_DIAL);
-                    intent.setData(Uri.parse("tel:" + requestResult.getFormattedPhoneNumber()));
-                    startActivity(intent);
-                } else {
-                    showToast(this, getResources().getString(R.string.no_phone), Toast.LENGTH_SHORT);
-                }
-                break;
-            case R.id.restaurant_item_like:
-                if (binding.restaurantItemLike.getText().equals(getResources().getString(R.string.like))) {
+        int id = v.getId();
 
-                    LikeButton.likeRestaurant(requestResult, this, binding.restaurantItemLike, getResources().getString(R.string.unlike), getResources().getString(R.string.rest_like));
-                } else {
-                    LikeButton.dislikeRestaurant(requestResult, this, binding.restaurantItemLike, getResources().getString(R.string.like), getResources().getString(R.string.rest_dislike), getResources().getString(R.string.rest_like));
-                }
-                break;
-            case R.id.restaurant_item_website:
-                if (requestResult.getWebsite() != null) {
-                    Intent intent = new Intent(this, WebView_Activity.class);
-                    intent.putExtra("Website", requestResult.getWebsite());
-                    startActivity(intent);
-                } else {
-                    showToast(this, getResources().getString(R.string.no_website), Toast.LENGTH_SHORT);
-                }
-                break;
+        if (id == R.id.restaurant_item_call) {
+            if (requestResult.getFormattedPhoneNumber() != null) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + requestResult.getFormattedPhoneNumber()));
+                startActivity(intent);
+            } else {
+                showToast(this, getResources().getString(R.string.no_phone), Toast.LENGTH_SHORT);
+            }
+        } else if (id == R.id.restaurant_item_like) {
+            if (binding.restaurantItemLike.getText().equals(getResources().getString(R.string.like))) {
+
+                LikeButton.likeRestaurant(requestResult, this, binding.restaurantItemLike, getResources().getString(R.string.unlike), getResources().getString(R.string.rest_like));
+            } else {
+                LikeButton.dislikeRestaurant(requestResult, this, binding.restaurantItemLike, getResources().getString(R.string.like), getResources().getString(R.string.rest_dislike), getResources().getString(R.string.rest_like));
+            }
+        } else if (id == R.id.restaurant_item_website) {
+            if (requestResult.getWebsite() != null) {
+                Intent intent = new Intent(this, WebView_Activity.class);
+                intent.putExtra("Website", requestResult.getWebsite());
+                startActivity(intent);
+            } else {
+                showToast(this, getResources().getString(R.string.no_website), Toast.LENGTH_SHORT);
+            }
         }
     }
 
@@ -247,11 +246,11 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
                     mAdapter.notifyDataSetChanged();
                 } else {
                     for (QueryDocumentSnapshot restaurant : restaurantTask.getResult()) {
-                        UserHelper.getWorkmate(restaurant.getData().get("userId").toString()).addOnCompleteListener(workmateTask -> {
+                        UserHelper.getWorkmate(Objects.requireNonNull(restaurant.getData().get("userId")).toString()).addOnCompleteListener(workmateTask -> {
                             if (workmateTask.isSuccessful()) {
-                                String name = workmateTask.getResult().getData().get("name").toString();
-                                String uid = workmateTask.getResult().getData().get("uid").toString();
-                                String urlPicture = workmateTask.getResult().getData().get("urlPicture").toString();
+                                String name = Objects.requireNonNull(Objects.requireNonNull(workmateTask.getResult().getData()).get("name")).toString();
+                                String uid = Objects.requireNonNull(workmateTask.getResult().getData().get("uid")).toString();
+                                String urlPicture = Objects.requireNonNull(workmateTask.getResult().getData().get("urlPicture")).toString();
                                 Workmate workmateToAdd = new Workmate(uid, urlPicture, name);
                                 mWorkmates.add(workmateToAdd);
                             }
@@ -264,7 +263,7 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
     }
 
     private void displayFloating(int icon, int color) {
-        Drawable mDrawable = ContextCompat.getDrawable(getBaseContext(), icon).mutate();
+        Drawable mDrawable = Objects.requireNonNull(ContextCompat.getDrawable(getBaseContext(), icon)).mutate();
         mDrawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
         binding.floatingActionButton.setImageDrawable(mDrawable);
     }

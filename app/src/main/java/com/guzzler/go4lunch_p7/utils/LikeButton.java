@@ -24,7 +24,7 @@ public class LikeButton {
     }
 
     public static void dislikeRestaurant(ResultDetails result, Context context, TextView textView, String like, String disliked, String liked) {
-        if (result != null && FirebaseAuth.getInstance() != null) {
+        if (result != null) {
             RestaurantsHelper.deleteLike(result.getPlaceId(), FirebaseAuth.getInstance().getUid());
             textView.setText(like);
             Toast.makeText(context, disliked, Toast.LENGTH_SHORT).show();

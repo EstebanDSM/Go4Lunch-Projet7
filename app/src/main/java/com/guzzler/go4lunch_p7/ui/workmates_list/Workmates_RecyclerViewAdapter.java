@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.guzzler.go4lunch_p7.databinding.FragmentWorkmateItemBinding;
 import com.guzzler.go4lunch_p7.models.Workmate;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 
@@ -21,8 +23,9 @@ public class Workmates_RecyclerViewAdapter extends RecyclerView.Adapter<Workmate
     }
 
 
+    @NotNull
     @Override
-    public Workmates_ViewHolder onCreateViewHolder(ViewGroup parent, int viewtype) {
+    public Workmates_ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewtype) {
 
 
         FragmentWorkmateItemBinding view = FragmentWorkmateItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);

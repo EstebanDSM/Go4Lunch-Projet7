@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.PlaceDetails;
 import com.guzzler.go4lunch_p7.models.googleplaces_gson.ResultDetails;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.ref.WeakReference;
 
 import retrofit2.Call;
@@ -32,18 +34,19 @@ public class GooglePlaceDetailsCalls {
         call.enqueue(new Callback<PlaceDetails>() {
 
             @Override
-            public void onResponse(Call<PlaceDetails> call, Response<PlaceDetails> response) {
+            public void onResponse(@NotNull Call<PlaceDetails> call, @NotNull Response<PlaceDetails> response) {
 
                 // 2.5 - Call the proper callback used in controller
                 if (callbacksWeakReference.get() != null) {
                     PlaceDetails placeDetails = response.body();
+                    assert placeDetails != null;
                     ResultDetails resultDetails = placeDetails.getResultDetails();
                     callbacksWeakReference.get().onResponse(resultDetails);
                 }
             }
 
             @Override
-            public void onFailure(Call<PlaceDetails> call, Throwable t) {
+            public void onFailure(@NotNull Call<PlaceDetails> call, @NotNull Throwable t) {
 
                 // 2.5 - Call the proper callback used in controller
                 if (callbacksWeakReference.get() != null) callbacksWeakReference.get().onFailure();

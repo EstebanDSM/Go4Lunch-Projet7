@@ -61,7 +61,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static com.guzzler.go4lunch_p7.utils.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
@@ -91,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ButterKnife.bind(this);
+
 
 //        checkLocationPermission(getApplicationContext());
 
@@ -210,20 +209,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Gestion de la navigation au click sur la Navigation Drawer
         int id = item.getItemId();
-        switch (id) {
-            case R.id.nav_logout:
-                signOutFirebase();
-            default:
-                break;
-            case R.id.nav_lunch:
-                RestaurantsHelper.getBooking(getCurrentUser().getUid(), getTodayDate()).addOnCompleteListener(this::onComplete);
-                break;
-            case R.id.nav_settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
-                break;
-        }
 
+        if (id == R.id.nav_logout)
+            signOutFirebase();
+
+        else if (id == R.id.nav_lunch) {
+            RestaurantsHelper.getBooking(Objects.requireNonNull(getCurrentUser()).getUid(), getTodayDate()).addOnCompleteListener(this::onComplete);
+
+        } else if (id == R.id.nav_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -286,9 +282,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mResultDetailsList.clear();
 
         // POUR LIMITER LES REQUETES ET PAS EPUISER LE CREDIT GOOGLE
-        for (int i = 0; i < 1; i++) {
+//        for (int i = 0; i < 1; i++) {
 
-//             for (int i = 0; i < resultSearchList.size(); i++) {
+        for (int i = 0; i < Objects.requireNonNull(resultSearchList).size(); i++) {
             GooglePlaceDetailsCalls.fetchPlaceDetails(this, resultSearchList.get(i).getPlaceId());
         }
         resultSize = resultSearchList.size();
@@ -296,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onResponse(@Nullable ResultDetails resultDetails) {
+        assert resultDetails != null;
         int distance = (int) Math.round(DistanceTo.distanceTo(resultDetails, this));
         resultDetails.setDistance(distance);
         if (resultDetails.getTypes().contains("restaurant")) {
@@ -367,6 +364,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onResponse(@Nullable AutoCompleteResult autoCompleteResult) {
+        assert autoCompleteResult != null;
         resultSize = autoCompleteResult.getPredictions().size();
         AutoCompleteToDetails(autoCompleteResult);
 
