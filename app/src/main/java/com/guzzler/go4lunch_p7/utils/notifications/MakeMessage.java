@@ -11,6 +11,8 @@ public class MakeMessage {
             // tant qu'on est pas au dernier membre de la liste on rajoute la virgule
             if (!(i == workmatesList.size() - 1)) {
                 mStringBuilder.append(", ");
+            } else {
+                mStringBuilder.append(".");
             }
         }
         return mStringBuilder;

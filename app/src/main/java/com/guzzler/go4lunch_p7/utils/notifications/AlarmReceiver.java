@@ -36,10 +36,10 @@ import static com.guzzler.go4lunch_p7.utils.notifications.MakeMessage.makeMessag
 
 public class AlarmReceiver extends BroadcastReceiver implements GooglePlaceDetailsCalls.Callbacks {
 
+    String restaurantName;
     private NotificationCompat.Builder mBuilder;
     private List<String> workmatesList;
     private Context mContext;
-
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -95,23 +95,11 @@ public class AlarmReceiver extends BroadcastReceiver implements GooglePlaceDetai
     }
 
 
-    // TODO : on voit le %1$s dans la notification sur le téléphone lorsqu'on a pas agrandit la notification
     @Override
     public void onResponse(@Nullable ResultDetails resultDetails) {
-        String restaurantName = resultDetails.getName();
+        restaurantName = resultDetails.getName();
         // Si au moins un utilisateur a choisi le même restau
-        if (workmatesList.size() > 0) {
-            sendNotification(mContext.getResources().getString(
-                    R.string.notification_message,
-                    restaurantName,
-                    makeMessage(workmatesList)));
-
-        } else {
-            sendNotification(mContext.getResources().getString(
-                    R.string.notification_message,
-                    restaurantName,
-                    mContext.getResources().getString(R.string.notification_no_workmates)));
-        }
+        sendNotification(textMessage());
     }
 
 
@@ -139,7 +127,7 @@ public class AlarmReceiver extends BroadcastReceiver implements GooglePlaceDetai
         mBuilder = new NotificationCompat.Builder(mContext, NOTIFICATION_CHANNEL_ID);
         mBuilder.setSmallIcon(R.drawable.bowl);
         mBuilder.setContentTitle(mContext.getResources().getString(R.string.notification))
-                .setContentText(mContext.getResources().getString(R.string.notification_message))
+                .setContentText(textMessage())
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setStyle(new NotificationCompat.BigTextStyle()
@@ -148,6 +136,14 @@ public class AlarmReceiver extends BroadcastReceiver implements GooglePlaceDetai
         return mBuilder;
     }
 
+    private String textMessage() {
+        return workmatesList.size() > 0 ? mContext.getResources().getString(
+                R.string.notif1) + " " + restaurantName + ". " + mContext.getResources().getString(
+                R.string.notif2) + " " + makeMessage(workmatesList) : mContext.getResources().getString(
+                R.string.notif1) + " " + restaurantName + ". " + mContext.getResources().getString(
+                R.string.notif2) + " " + mContext.getResources().getString(
+                R.string.notification_no_workmates);
+    }
 
     @Override
     public void onFailure() {

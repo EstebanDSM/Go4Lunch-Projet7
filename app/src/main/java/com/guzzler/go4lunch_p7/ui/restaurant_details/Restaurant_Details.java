@@ -115,8 +115,6 @@ public class Restaurant_Details extends AppCompatActivity implements View.OnClic
         });
     }
 
-
-    // TODO : raffraichir le fragment workmates si modif de reservation dans detail resto et que l'on fait retour
     private void Booking_Firebase(String userId, String restaurantId, String restaurantName, @Nullable String bookingId, boolean toCreate, boolean toUpdate, boolean toDelete) {
         if (toUpdate) {
             RestaurantsHelper.deleteBooking(bookingId);
