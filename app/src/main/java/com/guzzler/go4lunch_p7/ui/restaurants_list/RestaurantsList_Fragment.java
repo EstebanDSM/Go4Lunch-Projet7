@@ -109,8 +109,9 @@ public class RestaurantsList_Fragment extends BaseFragment {
     private void configureRecyclerView() {
         this.mViewAdapter = new RestaurantsList_RecyclerViewAdapter(mMainActivity.mLiveData.getValue(), mMainActivity.mShareViewModel.getCurrentUserPositionFormatted());
         List<ResultDetails> mResult = mMainActivity.mLiveData.getValue();
-        assert mResult != null;
-        Collections.sort(mResult);
+        if (mResult != null) {
+            Collections.sort(mResult);
+        }
         RestaurantsList_RecyclerViewAdapter mViewAdapter = new RestaurantsList_RecyclerViewAdapter(mResult, mMainActivity.mShareViewModel.getCurrentUserPositionFormatted());
         this.mRecyclerView.setAdapter(mViewAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

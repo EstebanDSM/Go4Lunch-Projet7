@@ -58,21 +58,23 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void retrieveUserSettings() {
-        UserHelper.getWorkmatesCollection().document(Objects.requireNonNull(getCurrentUser()).getUid()).addSnapshotListener((documentSnapshot, e) -> {
-            if (e != null) {
-                Log.e("TAG", "Listen failed.", e);
-                return;
-            }
-            if (documentSnapshot != null && documentSnapshot.exists()) {
-                Log.e("TAG", "Current data: " + documentSnapshot.getData());
-                binding.settingsSwitch.setChecked(Objects.equals(Objects.requireNonNull(documentSnapshot.getData()).get("notification"), true));
-                if (Objects.equals(documentSnapshot.getData().get("notification"), true)) {
-                    mNotificationHelper.scheduleRepeatingNotification();
+        if (getCurrentUser() != null) {
+            UserHelper.getWorkmatesCollection().document(getCurrentUser().getUid()).addSnapshotListener((documentSnapshot, e) -> {
+                if (e != null) {
+                    Log.e("TAG", "Listen failed.", e);
+                    return;
                 }
-            } else {
-                Log.e("TAG", "Current data: null");
-            }
-        });
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    Log.e("TAG", "Current data: " + documentSnapshot.getData());
+                    binding.settingsSwitch.setChecked(Objects.equals(Objects.requireNonNull(documentSnapshot.getData()).get("notification"), true));
+                    if (Objects.equals(documentSnapshot.getData().get("notification"), true)) {
+                        mNotificationHelper.scheduleRepeatingNotification();
+                    }
+                } else {
+                    Log.e("TAG", "Current data: null");
+                }
+            });
+        }
     }
 
     private void setListenerAndFilters() {

@@ -32,7 +32,6 @@ import java.util.Objects;
 import static com.guzzler.go4lunch_p7.utils.Constants.NOTIFICATION_CHANNEL_ID;
 import static com.guzzler.go4lunch_p7.utils.Constants.NOTIFICATION_CHANNEL_NAME;
 import static com.guzzler.go4lunch_p7.utils.GetTodayDate.getTodayDate;
-import static com.guzzler.go4lunch_p7.utils.notifications.MakeMessage.makeMessage;
 
 
 public class AlarmReceiver extends BroadcastReceiver implements GooglePlaceDetailsCalls.Callbacks {
@@ -100,7 +99,7 @@ public class AlarmReceiver extends BroadcastReceiver implements GooglePlaceDetai
     public void onResponse(@Nullable ResultDetails resultDetails) {
         assert resultDetails != null;
         restaurantName = resultDetails.getName();
-        sendNotification(textMessage());
+        sendNotification(MakeMessage.textMessage(workmatesList, mContext, restaurantName));
     }
 
 
@@ -128,7 +127,7 @@ public class AlarmReceiver extends BroadcastReceiver implements GooglePlaceDetai
         mBuilder = new NotificationCompat.Builder(mContext, NOTIFICATION_CHANNEL_ID);
         mBuilder.setSmallIcon(R.drawable.bowl);
         mBuilder.setContentTitle(mContext.getResources().getString(R.string.notification))
-                .setContentText(textMessage())
+                .setContentText(MakeMessage.textMessage(workmatesList, mContext, restaurantName))
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setStyle(new NotificationCompat.BigTextStyle()
@@ -137,14 +136,6 @@ public class AlarmReceiver extends BroadcastReceiver implements GooglePlaceDetai
         return mBuilder;
     }
 
-    private String textMessage() {
-        return workmatesList.size() > 0 ? mContext.getResources().getString(
-                R.string.notif1) + " " + restaurantName + ". " + mContext.getResources().getString(
-                R.string.notif2) + " " + makeMessage(workmatesList) : mContext.getResources().getString(
-                R.string.notif1) + " " + restaurantName + ". " + mContext.getResources().getString(
-                R.string.notif2) + " " + mContext.getResources().getString(
-                R.string.notification_no_workmates);
-    }
 
     @Override
     public void onFailure() {

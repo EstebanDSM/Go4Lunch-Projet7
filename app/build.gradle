@@ -23,7 +23,6 @@ android {
     }
 
     buildTypes {
-
         buildTypes.each {
             it.buildConfigField 'String', 'api_key', api_key
             it.resValue 'string', 'api_key', (project.findProperty("api_key") ?: "0")

@@ -1,5 +1,9 @@
 package com.guzzler.go4lunch_p7.utils.notifications;
 
+import android.content.Context;
+
+import com.guzzler.go4lunch_p7.R;
+
 import java.util.List;
 
 public class MakeMessage {
@@ -16,5 +20,16 @@ public class MakeMessage {
             }
         }
         return mStringBuilder;
+    }
+
+    public static String textMessage(List<String> workmatesList, Context mContext, String restaurantName) {
+
+        return workmatesList.size() > 0 ? mContext.getResources().getString(
+                R.string.notif1) + " " + restaurantName + ". " + mContext.getResources().getString(
+                R.string.notif2) + " " + makeMessage(workmatesList) : mContext.getResources().getString(
+                R.string.notif1) + " " + restaurantName + ". " + mContext.getResources().getString(
+                R.string.notif2) + " " + mContext.getResources().getString(
+                R.string.notification_no_workmates);
+
     }
 }
