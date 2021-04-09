@@ -54,9 +54,7 @@ public class Map_Fragment extends BaseFragment implements OnMapReadyCallback, Lo
     private String mLocation;
     private GoogleMap map;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    //    private boolean locationPermissionGranted;
-    // The geographical location where the device is currently located. That is, the last-known
-    // location retrieved by the Fused Location Provider
+
     private Location lastKnownLocation;
     private MainActivity mMainActivity;
 
