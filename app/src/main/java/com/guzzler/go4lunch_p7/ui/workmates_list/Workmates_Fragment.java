@@ -88,7 +88,7 @@ public class Workmates_Fragment extends BaseFragment {
                     }
                     Collections.sort(mWorkmates, new Comparator<Workmate>() {
                         public int compare(Workmate obj1, Workmate obj2) {
-                            return obj1.getUid().compareToIgnoreCase(obj2.getUid());
+                            return obj1.getName().compareToIgnoreCase(obj2.getName());
                         }
                     });
                     mRecyclerView.setAdapter(new Workmates_RecyclerViewAdapter(mWorkmates));
