@@ -1,4 +1,6 @@
-# Go4Lunch-Projet7
+# Go4Lunch
+
+## Projet 7 - Parcours développeur d'application Android OPENCLASSROOMS
 
 L’application Go4Lunch est une application collaborative utilisée par tous les employés d'une même entreprise  
 Elle permet de rechercher un restaurant dans les environs, d’en sélectionner un  
