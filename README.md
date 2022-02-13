@@ -1,4 +1,4 @@
-# Go4Lunch
+# __Go4Lunch__
 
 ## Projet 7 - Parcours développeur d'application Android OPENCLASSROOMS
 
